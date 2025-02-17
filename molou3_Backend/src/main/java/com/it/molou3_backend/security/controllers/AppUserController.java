@@ -1,6 +1,10 @@
 package com.it.molou3_backend.security.controllers;
 
 
+import com.it.molou3_backend.models.dtos.Association.CreateAssociationDTO;
+import com.it.molou3_backend.models.dtos.Association.ResponseAssociationDTO;
+import com.it.molou3_backend.models.dtos.Colombophile.CreateColombophileDTO;
+import com.it.molou3_backend.models.dtos.Colombophile.ResponseColombophileDTO;
 import com.it.molou3_backend.security.dtos.AppUserDTO.CreateAppUserDTO;
 import com.it.molou3_backend.security.dtos.AppUserDTO.ResponseAppUserDTO;
 import com.it.molou3_backend.security.dtos.AppUserDTO.UpdateAppUserDTO;
@@ -8,6 +12,8 @@ import com.it.molou3_backend.security.dtos.AuthDTO.RequestLoginDTO;
 import com.it.molou3_backend.security.dtos.AuthDTO.ResponseLoginDTO;
 import com.it.molou3_backend.security.dtos.PasswordDTO.ChangePasswordDTO;
 import com.it.molou3_backend.security.services.interfaces.IAppUserService;
+import com.it.molou3_backend.services.interfaces.IAssociationService;
+import com.it.molou3_backend.services.interfaces.IColombophileService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -26,11 +32,27 @@ public class AppUserController {
 
     @Autowired
     private IAppUserService appUserService;
+    @Autowired
+    private IColombophileService colombophileService;
+    @Autowired
+    private IAssociationService associationService;
 
     @PostMapping("/public/register")
     public ResponseEntity<ResponseAppUserDTO> createAppUser(@Valid @RequestBody CreateAppUserDTO createAppUserDTO) {
         ResponseAppUserDTO appUser = appUserService.create(createAppUserDTO);
         return new ResponseEntity<>(appUser, HttpStatus.OK);
+    }
+
+    @PostMapping("/public/colombophile/register")
+    public ResponseEntity<ResponseColombophileDTO> createColombophile(@Valid @RequestBody CreateColombophileDTO createColombophileDTO) {
+        ResponseColombophileDTO colombophile = colombophileService.create(createColombophileDTO);
+        return new ResponseEntity<>(colombophile, HttpStatus.OK);
+    }
+
+    @PostMapping("/public/association/register")
+    public ResponseEntity<ResponseAssociationDTO> createAssociation(@Valid @RequestBody CreateAssociationDTO createAssociationDTO) {
+        ResponseAssociationDTO association = associationService.create(createAssociationDTO);
+        return new ResponseEntity<>(association, HttpStatus.OK);
     }
 
     @PostMapping("/public/login")

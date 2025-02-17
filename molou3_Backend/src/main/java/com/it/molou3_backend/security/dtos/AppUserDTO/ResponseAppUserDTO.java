@@ -12,8 +12,6 @@ public class ResponseAppUserDTO {
 
     private String id;
 
-    private String username;
-
     private String email;
 
     private EmbeddableAppRoleDTO role;

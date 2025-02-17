@@ -43,9 +43,9 @@ public class AppUserService implements IAppUserService {
 
     @Override
     public ResponseAppUserDTO create(CreateAppUserDTO createAppUserDTO) {
-        if (appUserRepository.findByUsername(createAppUserDTO.getUsername()).isPresent()) {
-            throw new IllegalArgumentException("Ce nom d'utilisateur existe déjà.");
-        }
+//        if (appUserRepository.findByUsername(createAppUserDTO.getUsername()).isPresent()) {
+//            throw new IllegalArgumentException("Ce nom d'utilisateur existe déjà.");
+//        }
         if (appUserRepository.findByEmail(createAppUserDTO.getEmail()).isPresent()) {
             throw new IllegalArgumentException("Cette email existe déjà.");
         }
@@ -79,17 +79,17 @@ public class AppUserService implements IAppUserService {
         List<AppUser> users = appUserRepository.findAll();
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userAuth = authentication.getName();
-        List<AppUser> newUsers = users.stream().filter(user -> !user.getUsername().equals(userAuth)).toList();
+        List<AppUser> newUsers = users.stream().filter(user -> !user.getEmail().equals(userAuth)).toList();
         return newUsers.stream().map(appUserMapper::toDTO).toList();
     }
 
     @Override
-    public void deleteUser(String username){
-        AppUser user = appUserRepository.findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException("Utilisateur non trouvé avec le nom d'utilisateur : " + username));
+    public void deleteUser(String email){
+        AppUser user = appUserRepository.findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException("Utilisateur non trouvé avec l'email : " + email));
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userAuth = authentication.getName();
-        if(userAuth.equals(username)) {
+        if(userAuth.equals(email)) {
             throw new IllegalArgumentException("Vous ne pouvez pas supprimer votre propre compte.");
         }
         appUserRepository.delete(user);
@@ -97,14 +97,14 @@ public class AppUserService implements IAppUserService {
     }
 
     @Override
-    public ResponseAppUserDTO updateUser(String username ,UpdateAppUserDTO updateAppUserDTO) {
-        AppUser user = appUserRepository.findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException("Utilisateur non trouvé avec le nom d'utilisateur : " + username));
+    public ResponseAppUserDTO updateUser(String email ,UpdateAppUserDTO updateAppUserDTO) {
+        AppUser user = appUserRepository.findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException("Utilisateur non trouvé avec l'email : " + email));
         AppRole role = appRoleRepository.findById(updateAppUserDTO.getRoleId())
                 .orElseThrow(() -> new IllegalArgumentException("Ce rôle n'existe pas."));
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userAuth = authentication.getName();
-        if(userAuth.equals(username)) {
+        if(userAuth.equals(email)) {
             throw new IllegalArgumentException("Vous ne pouvez pas modifier votre propre rôle.");
         }
         AppUser updatedAppUser = appUserMapper.updateEntityFromDTO(updateAppUserDTO, user);
@@ -114,9 +114,9 @@ public class AppUserService implements IAppUserService {
 
 
     @Override
-    public ResponseAppUserDTO getByUsername(String username) {
-        AppUser user = appUserRepository.findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException("Utilisateur non trouvé avec le nom d'utilisateur : " + username));
+    public ResponseAppUserDTO getByUsername(String email) {
+        AppUser user = appUserRepository.findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException("Utilisateur non trouvé avec l'email : " + email));
 
         return appUserMapper.toDTO(user);
     }
@@ -128,7 +128,7 @@ public class AppUserService implements IAppUserService {
         }
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userAuth = authentication.getName();
-        AppUser user = appUserRepository.findByUsername(userAuth)
+        AppUser user = appUserRepository.findByEmail(userAuth)
                 .orElseThrow(() -> new UsernameNotFoundException("Utilisateur non trouvé"));
         if (!passwordEncoder.matches(changePasswordDTO.getOldPassword(), user.getPassword())) {
             throw new BadCredentialsException("Ancien mot de passe incorrect");
