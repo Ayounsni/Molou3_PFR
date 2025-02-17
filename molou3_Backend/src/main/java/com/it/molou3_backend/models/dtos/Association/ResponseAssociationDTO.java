@@ -18,6 +18,16 @@ public class ResponseAssociationDTO {
 
     private EmbeddableAppRoleDTO role;
 
+    private String photoUrl;
+
+    private String ville ;
+
+    private String adresse;
+
+    private String telephone;
+
+    private String description;
+
     private String nomAssociation;
 
     private String responsable;

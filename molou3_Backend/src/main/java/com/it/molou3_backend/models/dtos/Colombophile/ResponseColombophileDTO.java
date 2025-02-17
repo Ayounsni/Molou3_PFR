@@ -19,6 +19,8 @@ public class ResponseColombophileDTO {
 
     private EmbeddableAppRoleDTO role;
 
+    private String photoUrl;
+
     private String ville ;
 
     private String adresse;
