@@ -25,5 +25,5 @@ public class CreatePlateDTO {
 
     @NotNull
     @Exists(entity = Category.class, message = "Cette categorie n'existe pas.")
-    private Long categoryId; // ID de la catégorie associée
+    private Long categoryId;
 }
