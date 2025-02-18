@@ -1,7 +1,6 @@
 package com.it.molou3_backend.models.dtos.Annonce;
 
 import com.it.molou3_backend.models.entities.Association;
-import com.it.molou3_backend.models.entities.Category;
 import com.it.molou3_backend.validation.annotations.Exists;
 import jakarta.persistence.Column;
 import jakarta.persistence.ManyToOne;

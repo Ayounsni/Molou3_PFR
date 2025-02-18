@@ -1,5 +1,7 @@
 package com.it.molou3_backend.models.dtos.Association;
 
+import com.it.molou3_backend.models.dtos.Annonce.EmbeddableAnnonceDTO;
+import com.it.molou3_backend.models.dtos.ProgrammeEdition.EmbeddableProgrammeEditionDTO;
 import com.it.molou3_backend.models.enums.StatusInscription;
 import com.it.molou3_backend.security.dtos.AppRoleDTO.EmbeddableAppRoleDTO;
 import lombok.AllArgsConstructor;
@@ -7,6 +9,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -37,6 +40,10 @@ public class ResponseAssociationDTO {
     private StatusInscription statusInscription;
 
     private String preuveLegalePath;
+
+    private List<EmbeddableAnnonceDTO> annonces;
+
+    private List<EmbeddableProgrammeEditionDTO> programmeEditions;
 
 
 }

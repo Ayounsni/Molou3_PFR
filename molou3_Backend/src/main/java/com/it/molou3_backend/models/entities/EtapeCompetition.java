@@ -25,12 +25,6 @@ public class EtapeCompetition {
     @NotNull
     private TypeEtape typeEtape;
 
-    @NotNull
-    private Double valeurMin;
-
-    @NotNull
-    private Double valeurMax;
-
     private String pdfClassement;
 
     @ManyToOne
