@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class EmbeddableEtapeCompetitionDTO {
+
     private Long id;
 
     private TypeEtape typeEtape;
