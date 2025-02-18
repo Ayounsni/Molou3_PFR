@@ -82,4 +82,6 @@ public class GenericService<Entity, CreateDTO, UpdateDTO, ResponseDTO> implement
         updatedEntity = repository.save(updatedEntity);
         return mapper.toDTO(updatedEntity);
     }
+
+
 }
