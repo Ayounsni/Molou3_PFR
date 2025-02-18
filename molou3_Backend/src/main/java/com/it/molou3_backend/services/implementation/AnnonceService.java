@@ -12,8 +12,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class AnnonceService extends GenericService<Annonce,CreateAnnonceDTO,UpdateAnnonceDTO,ResponseAnnonceDTO> implements IAnnonceService {
 
-    public AnnonceService(AnnonceRepository plateRepository, AnnonceMapper plateMapper) {
-        super(plateRepository, plateMapper);
+    public AnnonceService(AnnonceRepository annonceRepository, AnnonceMapper annonceMapper) {
+        super(annonceRepository, annonceMapper);
     }
 
 }

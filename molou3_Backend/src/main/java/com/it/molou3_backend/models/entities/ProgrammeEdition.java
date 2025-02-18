@@ -26,7 +26,6 @@ public class ProgrammeEdition {
     private Integer annee;
 
     @Column(columnDefinition = "TEXT")
-    @NotBlank
     private String description;
 
     @ManyToOne

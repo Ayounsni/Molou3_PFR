@@ -24,8 +24,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class AssociationService extends GenericService<Association,CreateAssociationDTO,UpdateAssociationDTO,ResponseAssociationDTO> implements IAssociationService {
 
-    public AssociationService(AssociationRepository plateRepository, AssociationMapper plateMapper) {
-        super(plateRepository, plateMapper);
+    public AssociationService(AssociationRepository associationRepository, AssociationMapper associationMapper) {
+        super(associationRepository, associationMapper);
     }
     @Autowired
     public  AssociationRepository associationRepository;

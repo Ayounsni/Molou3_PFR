@@ -15,8 +15,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class ColombophileService extends GenericService<Colombophile,CreateColombophileDTO,UpdateColombophileDTO,ResponseColombophileDTO> implements IColombophileService {
 
-    public ColombophileService(ColombophileRepository categoryRepository, ColombophileMapper categoryMapper) {
-        super(categoryRepository, categoryMapper);
+    public ColombophileService(ColombophileRepository colombophileRepository, ColombophileMapper colombophileMapper) {
+        super(colombophileRepository, colombophileMapper);
     }
 
     @Autowired
