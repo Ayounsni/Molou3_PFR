@@ -1,7 +1,6 @@
 package com.it.molou3_backend.models.dtos.ProgrammeEdition;
 
 import com.it.molou3_backend.models.dtos.Association.EmbeddableAssociationDTO;
-import com.it.molou3_backend.models.dtos.EtapeCompetition.EmbeddableEtapeCompetitionDTO;
 import com.it.molou3_backend.models.dtos.EtapeCompetition.ProgrammeEtapeCompetitionDTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
