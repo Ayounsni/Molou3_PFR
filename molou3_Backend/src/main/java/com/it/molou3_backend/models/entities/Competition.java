@@ -32,6 +32,9 @@ public class Competition {
     private Double distance;
 
     @NotNull
+    private LocalDate competitionDate;
+
+    @NotNull
     private LocalDate reunionDate;  // Date du rassemblement des pigeons
 
 

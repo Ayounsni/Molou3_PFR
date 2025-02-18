@@ -1,9 +1,12 @@
 package com.it.molou3_backend.models.dtos.ProgrammeEdition;
 
 import com.it.molou3_backend.models.dtos.Association.EmbeddableAssociationDTO;
+import com.it.molou3_backend.models.dtos.EtapeCompetition.EmbeddableEtapeCompetitionDTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -17,4 +20,6 @@ public class ResponseProgrammeEditionDTO {
     private String description;
 
     private EmbeddableAssociationDTO association;
+
+    private List<EmbeddableEtapeCompetitionDTO> etapeCompetitions;
 }
