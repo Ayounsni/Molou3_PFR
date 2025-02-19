@@ -1,5 +1,7 @@
 package com.it.molou3_backend.models.dtos.Colombophile;
 
+import com.it.molou3_backend.models.dtos.Pigeon.EmbeddablePigeonDTO;
+import com.it.molou3_backend.models.dtos.ProgrammeEdition.EmbeddableProgrammeEditionDTO;
 import com.it.molou3_backend.models.enums.NiveauExperience;
 import com.it.molou3_backend.security.dtos.AppRoleDTO.EmbeddableAppRoleDTO;
 import jakarta.validation.constraints.NotBlank;
@@ -8,6 +10,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -34,4 +37,6 @@ public class ResponseColombophileDTO {
     private NiveauExperience niveauExperience;
 
     private LocalDate dateNaissance;
+
+    private List<EmbeddablePigeonDTO> pigeons;
 }
