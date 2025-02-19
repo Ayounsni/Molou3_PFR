@@ -1,6 +1,7 @@
 package com.it.molou3_backend.models.dtos.Pigeon;
 
 import com.it.molou3_backend.models.dtos.Colombophile.EmbeddableColombophileDTO;
+import com.it.molou3_backend.models.dtos.Marketplace.EmbeddableMarketplaceDTO;
 import com.it.molou3_backend.models.enums.Sexe;
 import com.it.molou3_backend.models.enums.StatusPigeon;
 import lombok.AllArgsConstructor;
@@ -29,4 +30,6 @@ public class ResponsePigeonDTO {
     private Boolean estFavori = false;
 
     private EmbeddableColombophileDTO colombophile;
+
+    private EmbeddableMarketplaceDTO Marketplace;
 }

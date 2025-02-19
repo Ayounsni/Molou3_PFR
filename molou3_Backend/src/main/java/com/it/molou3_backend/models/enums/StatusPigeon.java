@@ -4,5 +4,6 @@ public enum StatusPigeon {
     DISPONIBLE,
     VENDU,
     PERDU,
-    MALADE
+    MALADE,
+    A_VENDRE
 }
