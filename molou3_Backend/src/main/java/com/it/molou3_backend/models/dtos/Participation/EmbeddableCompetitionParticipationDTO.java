@@ -13,9 +13,8 @@ import java.time.LocalDate;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class EmbeddableParticipationDTO {
-    private EmbeddableCompetitionDTO competition;
-
+public class EmbeddableCompetitionParticipationDTO {
+    private EmbeddablePigeonDTO pigeon;
 
     private Integer classement;
 
