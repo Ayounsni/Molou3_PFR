@@ -1,5 +1,6 @@
 package com.it.molou3_backend.models.dtos.Colombophile;
 
+import com.it.molou3_backend.models.dtos.AgendaEvent.EmbeddableAgendaEventDTO;
 import com.it.molou3_backend.models.dtos.Pigeon.EmbeddablePigeonDTO;
 import com.it.molou3_backend.models.dtos.ProgrammeEdition.EmbeddableProgrammeEditionDTO;
 import com.it.molou3_backend.models.enums.NiveauExperience;
@@ -39,4 +40,6 @@ public class ResponseColombophileDTO {
     private LocalDate dateNaissance;
 
     private List<EmbeddablePigeonDTO> pigeons;
+
+    private List<EmbeddableAgendaEventDTO> agendaEvents;
 }

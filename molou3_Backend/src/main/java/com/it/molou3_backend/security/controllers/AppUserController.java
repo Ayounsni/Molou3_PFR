@@ -62,19 +62,19 @@ public class AppUserController {
     }
 
 
-    @GetMapping("/admin/users/{username}")
+    @GetMapping("/public/users/{username}")
     public ResponseEntity<ResponseAppUserDTO> getAppUserByUsername( @PathVariable("username") String username) {
         ResponseAppUserDTO user = appUserService.getByUsername(username);
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
-    @GetMapping("/admin/users")
+    @GetMapping("public/users")
     public ResponseEntity<List<ResponseAppUserDTO>> getAllUsers() {
         List<ResponseAppUserDTO> users = appUserService.getAllUsers();
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
-    @DeleteMapping("/admin/users/{username}")
+    @DeleteMapping("/public/users/{username}")
     public ResponseEntity<String> deleteUser(@PathVariable("username") String username) {
         appUserService.deleteUser(username);
         return new ResponseEntity<>("Utilisateur est supprimé avec succès", HttpStatus.OK);
