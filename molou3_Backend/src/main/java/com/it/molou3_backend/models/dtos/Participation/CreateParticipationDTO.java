@@ -4,6 +4,7 @@ import com.it.molou3_backend.models.embeddableId.ParticipationId;
 import com.it.molou3_backend.models.entities.Competition;
 import com.it.molou3_backend.models.entities.Pigeon;
 import com.it.molou3_backend.models.enums.StatusParticipation;
+import com.it.molou3_backend.validation.annotations.Exists;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.ManyToOne;
@@ -22,9 +23,11 @@ import java.time.LocalDate;
 public class CreateParticipationDTO {
 
     @NotNull
+    @Exists(entity = Competition.class, message = "Cette competition n'existe pas.")
     private Long competitionId;
 
     @NotNull
+    @Exists(entity = Pigeon.class, message = "Ce pigeon n'existe pas.")
     private Long pigeonId;
 
     private LocalDate dateParticipation = LocalDate.now();
