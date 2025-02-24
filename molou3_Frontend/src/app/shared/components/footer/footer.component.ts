@@ -8,5 +8,6 @@ import { Component } from '@angular/core';
 })
 export class FooterComponent {
   imagepath = 'assets/pigeon.png';
+  logo = 'assets/logoo.png'; 
 
 }

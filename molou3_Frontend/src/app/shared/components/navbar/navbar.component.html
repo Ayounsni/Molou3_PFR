@@ -1,17 +1,40 @@
-<nav class="w-full flex justify-between items-center pr-5 py-3 bg-black text-white">
-    <img 
-    [attr.src]="imagepath" 
-    alt="Logo" 
-    class="w-40"
-    >
-    <div class="flex justify-end pt-2  gap-20 w-full  " >
-        <a href="">hhhhh</a>
-        <a href="">hhhhhh</a>
-        <a href="">hhhhhh</a>
-    </div>
-    <div class="flex justify-end pt-2  w-full">
-        <a href="">hhhhh</a>
-        <a href="">hhhhhh</a>
+<nav class="w-full flex justify-between items-center pr-5 py-2 bg-black text-white text-[15px] shadow ">
+    <div>
+        <img [attr.src]="imagepath" alt="Logo" class="w-40">
     </div>
 
+    <div class="flex justify-between gap-32">
+        <div class="flex justify-end pt-1 gap-16 relative">
+            <a href="" class="px-2.5 py-1.5 rounded-2xl hover:bg-[#282828]">Associations</a>
+            
+            <!-- Météo avec Dropdown -->
+            <div class="relative">
+                <button (click)="toggleDropdown()" class="dropdown-menu px-2.5 py-1.5 rounded-2xl hover:bg-[#282828] flex items-center">
+                    Météo
+                    <span class="ml-1.5 transition-transform" [class.rotate-180]="isDropdownOpen">⮟ </span>
+                </button>
+
+                <div *ngIf="isDropdownOpen" class=" dropdown-menu absolute left-0 mt-[14.5px] w-52 bg-white text-black shadow-xl shadow-gray-300 rounded-b-xl  py-2 ">
+                    <ul class="space-y-2 text-[#959595]">
+                        <li><a href="#" class="block px-4 py-2 hover:bg-gray-100 hover:text-black">Prévisions</a></li>
+                        <li><a href="#" class="block px-4 py-2 hover:bg-gray-100 hover:text-black">Alertes météo</a></li>
+                        <li><a href="#" class="block px-4 py-2  hover:bg-gray-100 hover:text-black">Tendances</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <a href="" class="px-2.5 py-1.5 rounded-2xl hover:bg-[#282828]">Marketplace</a>
+            <a href="" class="px-2.5 py-1.5 rounded-2xl hover:bg-[#282828]">Contact</a>
+        </div>
+
+        <div class="flex justify-end pt-1 gap-4">
+            <a href="" class="px-2.5 py-1.5 rounded-2xl hover:bg-[#282828]">Connexion</a>
+            <a href="" class="px-2.5 py-1.5 rounded-2xl bg-white text-black hover:bg-[#E8E8E8]">S'inscrire</a>
+        </div>
+    </div>
 </nav>
+<div class="flex">
+    <img [attr.src]="image" alt="Logo" class="w-7/12">
+    <p>hahahaah</p>
+
+</div>
