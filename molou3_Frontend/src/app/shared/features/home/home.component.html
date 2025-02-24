@@ -1,0 +1,40 @@
+<div class="flex flex-row-reverse relative" style="z-index: 1">
+    <img [attr.src]="image" alt="Logo" class="w-[855px] ">
+    <div class=" absolute pl-16 top-0 bottom-0 flex items-center w-full ">
+        <div class="max-w-2xl">
+          <h1 class="text-6xl font-bold mb-6 leading-tight">
+            La communauté des passionnés de 
+            <span class="text-blue-300">pigeons voyageurs</span>
+          </h1>
+          <div class="flex gap-4">
+            <button 
+            class="group relative flex items-center gap-2 px-7 py-3 rounded-full 
+                   bg-gradient-to-br from-blue-300/90 to-blue-400/80 
+                   hover:from-blue-300 hover:to-blue-400 hover:scale-[1.02]
+                   text-black font-semibold 
+                   transition-all duration-300 
+                   shadow-lg shadow-blue-300/20 
+                   hover:shadow-blue-300/30">
+            <svg class="w-5 h-5 transition-transform group-hover:rotate-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
+            </svg>
+            Découvrir les compétitions
+          </button>
+          <button 
+            class="group relative flex items-center gap-2 px-7 py-3 rounded-full 
+                   border-2 border-blue-400/40 bg-blue-300/5 
+                   hover:border-blue-400/60 hover:bg-blue-300/10 
+                   text-blue-400 
+                   transition-all duration-300 
+                   shadow-lg shadow-blue-300/10 
+                   hover:shadow-blue-300/20">
+            <svg class="w-5 h-5 text-blue-400 transition-transform group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/>
+            </svg>
+            Voir la marketplace
+          </button>
+          </div>
+        </div>
+      </div>
+</div>
+<app-footer></app-footer>
