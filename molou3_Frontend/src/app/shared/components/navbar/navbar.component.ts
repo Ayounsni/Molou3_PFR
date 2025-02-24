@@ -9,7 +9,7 @@ import { Component, HostListener } from '@angular/core';
 })
 export class NavbarComponent {
   imagepath = 'assets/logo.png'; 
-  image = 'assets/pingo.png'; 
+  image = 'assets/ciel.png'; 
   isDropdownOpen = false;
 
   toggleDropdown() {
@@ -28,6 +28,15 @@ export class NavbarComponent {
         this.isDropdownOpen = false;
       }
     }
+  }
+
+  activateHoverEffect(event: MouseEvent) {
+    const button = event.currentTarget as HTMLElement;
+    const rect = button.getBoundingClientRect();
+    const x = event.clientX - rect.left;
+    const y = event.clientY - rect.top;
+    button.style.setProperty('--x', `${x}px`);
+    button.style.setProperty('--y', `${y}px`);
   }
   
 }

@@ -1,0 +1,23 @@
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-20px); }
+  }
+  
+  .animate-float {
+    animation: float 8s ease-in-out infinite;
+  }
+  
+  .text-gradient {
+    background-size: 200% auto;
+    animation: textShine 5s ease-in-out infinite alternate;
+  }
+  
+  @keyframes textShine {
+    to {
+      background-position: 200% center;
+    }
+  }
+  
+  .hover\:shadow-glow:hover {
+    box-shadow: 0 0 30px 5px rgba(158, 202, 241, 0.3);
+  }
