@@ -1,7 +1,23 @@
 /* You can add global styles to this file, and also import other style files */
 @import "tailwindcss";
-* {
+/* .a {
     font-family: "Fira Sans", serif;
+    font-style: normal;
+  } */
+
+  /* .b {
+    font-family: "Poppins", serif;
+    font-style: normal;
+  } */
+  /* * {
+    font-family: "Montserrat", serif;
+    font-optical-sizing: auto;
+    font-style: normal;
+  } */
+
+  * {
+    font-family: "Raleway", serif;
+    font-optical-sizing: auto;
     font-style: normal;
   }
 

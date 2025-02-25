@@ -9,5 +9,6 @@ import { FooterComponent } from '../../components/footer/footer.component';
 })
 export class HomeComponent {
   image = 'assets/bird.png'; 
+  logo= 'assets/molo.png';
 
 }
