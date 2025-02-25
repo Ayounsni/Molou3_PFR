@@ -10,5 +10,9 @@ import { FooterComponent } from '../../components/footer/footer.component';
 export class HomeComponent {
   image = 'assets/bird.png'; 
   logo= 'assets/molo.png';
+  meteo= 'assets/meteo2.png';
+  rank= 'assets/rank2.png';
+  plan= 'assets/plan1.jpg';
+  market= 'assets/market1.png';
 
 }
