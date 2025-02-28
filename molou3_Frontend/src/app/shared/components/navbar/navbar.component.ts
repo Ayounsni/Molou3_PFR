@@ -8,7 +8,7 @@ import { Component, HostListener } from '@angular/core';
   styleUrl: './navbar.component.css'
 })
 export class NavbarComponent {
-  imagepath = 'assets/logo.png'; 
+  imagepath = 'assets/logo1.png'; 
   isDropdownOpen = false;
 
   toggleDropdown() {

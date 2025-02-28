@@ -7,7 +7,7 @@ import { Component } from '@angular/core';
   styleUrl: './footer.component.css'
 })
 export class FooterComponent {
-  imagepath = 'assets/pigeon.png';
-  logo = 'assets/logoo.png'; 
+  imagepath = 'assets/tree.png';
+  logo = 'assets/ma.png'; 
 
 }

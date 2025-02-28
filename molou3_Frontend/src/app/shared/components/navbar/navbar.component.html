@@ -1,34 +1,34 @@
-<nav class="w-full flex justify-between items-center pr-5 py-2.5 bg-gray-800 text-white text-[15px] shadow font-semibold ">
+<nav class="w-full flex justify-between items-center px-5 py-2.5 bg-gray-800 text-white text-[15px] shadow font-semibold ">
     <div>
         <img [attr.src]="imagepath" alt="Logo" class="w-40">
     </div>
 
     <div class="flex justify-between gap-32">
         <div class="flex justify-end pt-1 gap-16 relative">
-            <a href="" class="px-2.5 py-1.5 rounded-sm  hover:bg-[#282828]">Associations</a>
+            <a href="" class="px-2.5 py-1.5 rounded-sm  hover:bg-gray-700">Associations</a>
             
             <!-- Météo avec Dropdown -->
             <div class="relative">
-                <button (click)="toggleDropdown()" class="dropdown-menu  px-2.5 py-1.5 rounded-sm hover:bg-[#282828] flex items-center">
+                <button (click)="toggleDropdown()" class="dropdown-menu  px-2.5 py-1.5 rounded-sm hover:bg-gray-700 flex items-center">
                     Météo
                     <span class="ml-1.5 transition-transform text-sm" [class.rotate-180]="isDropdownOpen">⮟ </span>
                 </button>
 
-                <div *ngIf="isDropdownOpen" class=" dropdown-menu absolute left-0 mt-[16.5px] w-52 bg-white text-black shadow-xl shadow-gray-300 rounded-b-xl  py-2 z-50">
+                <div *ngIf="isDropdownOpen" class=" dropdown-menu absolute left-0 mt-[19px] w-52 bg-white text-black shadow-xl shadow-gray-300 rounded-b-xl  py-2 z-50">
                     <ul class="space-y-2 text-[#959595]">
-                        <li><a href="#" class="block px-4 py-2 hover:bg-gray-100 hover:text-black">Prévisions</a></li>
-                        <li><a href="#" class="block px-4 py-2 hover:bg-gray-100 hover:text-black">Alertes météo</a></li>
-                        <li><a href="#" class="block px-4 py-2  hover:bg-gray-100 hover:text-black">Tendances</a></li>
+                        <li><a href="#" class="block px-4 py-2 hover:bg-gray-100 hover:text-gray-800">Prévisions</a></li>
+                        <li><a href="#" class="block px-4 py-2 hover:bg-gray-100 hover:text-gray-800">Alertes météo</a></li>
+                        <li><a href="#" class="block px-4 py-2  hover:bg-gray-100 hover:text-gray-800">Tendances</a></li>
                     </ul>
                 </div>
             </div>
 
-            <a href="" class="px-2.5 py-1.5 rounded-sm  hover:bg-[#282828]">Marketplace</a>
-            <a href="" class="px-2.5 py-1.5 rounded-sm hover:bg-[#282828]">Contact</a>
+            <a href="" class="px-2.5 py-1.5 rounded-sm  hover:bg-gray-700">Marketplace</a>
+            <a href="" class="px-2.5 py-1.5 rounded-sm hover:bg-gray-700">Contact</a>
         </div>
 
         <div class="flex justify-end pt-1 gap-4">
-            <a href="" class="px-2.5 py-1.5 rounded-sm border-[0.5px] border-white hover:bg-[#282828]">Connexion</a>
+            <a href="" class="px-2.5 py-1.5 rounded-sm border-[0.5px] border-white hover:bg-gray-700">Connexion</a>
             <a href="" class="px-2.5 py-1.5 rounded-sm bg-gradient-to-br from-blue-300/90 to-blue-400/80  text-white hover:bg-blue-400">S'inscrire gratuitement</a>
         </div>
     </div>
@@ -55,7 +55,7 @@
             <button class="px-8 py-3 rounded-full bg-white text-black hover:bg-[#E8E8E8] transition-all duration-300">
               Découvrir les compétitions
             </button>
-            <button class="px-8 py-3 rounded-full border-2 border-white hover:bg-[#282828] transition-all duration-300">
+            <button class="px-8 py-3 rounded-full border-2 border-white hover:bg-gray-700 transition-all duration-300">
               Voir la marketplace
             </button>
           </div>
@@ -73,7 +73,7 @@
             <span>Marrakesh</span>
           </div>
           <h3 class="text-xl font-semibold mb-4">sudtze zeug zuevduoze zUFDHVaeoudf uoHAfdv dfvd</h3>
-          <button class="w-full py-2 rounded-lg bg-[#282828] hover:bg-[#383838]">
+          <button class="w-full py-2 rounded-lg bg-gray-700 hover:bg-[#383838]">
             Voir le classement
           </button>
         </div>

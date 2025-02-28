@@ -12,7 +12,7 @@
             class="group relative flex items-center gap-2 px-5 py-3 rounded-sm
                    bg-gradient-to-br from-blue-300/90 to-blue-400/80 
                    hover:from-blue-300 hover:to-blue-400 hover:scale-[1.02]
-                   text-black font-semibold 
+                   text-gray-800 font-semibold 
                    transition-all duration-300 
                    shadow-lg shadow-blue-300/20 
                    hover:shadow-blue-300/30">
@@ -38,7 +38,7 @@
         </div>
       </div>
 </div>
-<div class="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 z-20  flex items-center justify-between bg-gray-800 text-white px-4 py-5 rounded-full shadow-xl w-9/12 mx-auto  transition-all duration-300">
+<div class="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 z-20  flex items-center justify-between bg-gray-800 text-white px-4 py-4 rounded-full shadow-xl w-9/12 mx-auto  transition-all duration-300">
     <div class="flex-1 text-center group">
         <span class="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-300 to-blue-400">120+</span>
         <p class=" text-gray-300 mt-1 group-hover:text-blue-300 transition-colors">Associations</p>
@@ -70,9 +70,9 @@
 
 <section class="bg-white pb-16 pt-24 px-4">
     <div class="text-center max-w-4xl mx-auto mb-6">
-        <h1 class="text-5xl font-extrabold leading-tight text-gray-900">Suivez. Organisez. Progressez.</h1>
-        <h2 class="text-5xl font-extrabold text-blue-400 mt-2">Tout cela sur une seule plateforme.</h2>
-        <p class="text-gray-600  font-medium mt-6">
+        <h1 class="text-4xl font-extrabold leading-tight text-gray-900">Suivez. Organisez. Progressez.</h1>
+        <h2 class="text-4xl font-extrabold text-blue-400 mt-2">Tout cela sur une seule plateforme.</h2>
+        <p class="text-gray-600 text-sm px-32  font-medium mt-4">
             <span class="text-blue-500">Distances</span>, <span class="text-blue-500">performances</span>, 
             <span class="text-blue-500">suivi</span> en temps réel… Rejoignez 
             <span class="text-blue-500">une communauté</span> passionnée ! 
@@ -171,16 +171,15 @@
 </section>
 
 
-<div class="bg-black text-white py-10">
+<div class="bg-gray-800 text-white py-10">
     <h2 class="text-center text-3xl font-semibold">Associations les plus actives</h2>
     <p class="text-center text-gray-300 mt-2 ">
         Découvrez les associations de compétition de pigeons voyageurs les plus actives. Consultez leurs annonces, <br>
          découvrez leurs programmes annuels et suivez les classements des compétitions.
     </p>
-  
     <div class="overflow-x-auto whitespace-nowrap px-4 py-6">
       <div class="flex justify-center gap-12">
-        <div *ngFor="let cyclist of cyclists" class="bg-gray-800 relative py-6 px-3 rounded-sm flex flex-col justify-center items-center">
+        <div *ngFor="let cyclist of cyclists" class="bg-gray-900 relative py-6 px-3 rounded-sm flex flex-col justify-center items-center">
           <div class="">
             <img [src]="cyclist.image" alt="{{ cyclist.image }}" class="rounded-full w-40 h-40 ">
             <div class="absolute top-0 right-0  pl-20 rounded-full">
@@ -203,6 +202,19 @@
         </button>
     </div>
   </div>
+    <h2 class="text-4xl text-center font-extrabold leading-tight text-black mb-4 mt-8 ">Découvrez l’univers fascinant des<span class="text-blue-400"> pigeons voyageurs</span> </h2>
+  <div class="flex justify-between flex-row flex-wrap w-full  px-28">
+    <div *ngFor="let video of videoUrls" class=" mt-6 flex flex-col justify-center items-center gap-2">
+      <iframe
+        [src]="video.safeUrl"
+        class="rounded-xl w-96 h-56"
+        frameborder="0"
+        allowfullscreen>
+      </iframe>
+      <p class="text-center font-bold  text-gray-800">{{ video.title}}</p>
+    </div>
+  </div>
+
 
 
 <app-footer></app-footer>
