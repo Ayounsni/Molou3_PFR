@@ -31,8 +31,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ParticipationService implements IParticipationService {
 
-
-
     public final ParticipationRepository participationRepository;
     public final ParticipationMapper participationMapper;
     public final PigeonRepository pigeonRepository;
