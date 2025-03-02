@@ -171,7 +171,7 @@
 </section>
 
 
-<div class="bg-gray-800 text-white py-10">
+<div class="bg-gray-800 text-white py-10 ">
     <h2 class="text-center text-3xl font-semibold">Associations les plus actives</h2>
     <p class="text-center text-gray-300 mt-2 ">
         Découvrez les associations de compétition de pigeons voyageurs les plus actives. Consultez leurs annonces, <br>
@@ -203,17 +203,31 @@
     </div>
   </div>
     <h2 class="text-4xl text-center font-extrabold leading-tight text-black mb-4 mt-8 ">Découvrez l’univers fascinant des<span class="text-blue-400"> pigeons voyageurs</span> </h2>
-  <div class="flex justify-between flex-row flex-wrap w-full  px-28">
+  <div class="flex justify-between flex-row flex-wrap w-full mb-20  px-28">
     <div *ngFor="let video of videoUrls" class=" mt-6 flex flex-col justify-center items-center gap-2">
       <iframe
         [src]="video.safeUrl"
-        class="rounded-xl w-96 h-56"
+        class="rounded-xl w-96 h-56 "
         frameborder="0"
         allowfullscreen>
       </iframe>
       <p class="text-center font-bold  text-gray-800">{{ video.title}}</p>
     </div>
   </div>
+
+
+
+
+
+
+
+  
+
+  
+
+
+
+
 
 
 

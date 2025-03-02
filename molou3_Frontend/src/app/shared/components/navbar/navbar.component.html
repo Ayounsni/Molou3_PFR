@@ -1,4 +1,4 @@
-<nav class="w-full flex justify-between items-center px-5 py-2.5 bg-gray-800 text-white text-[15px] shadow font-semibold ">
+<nav class="w-full flex justify-between items-center px-5 py-2 bg-gray-800 text-white text-[15px] shadow font-semibold ">
     <div>
         <img [attr.src]="imagepath" alt="Logo" class="w-40">
     </div>
@@ -14,7 +14,7 @@
                     <span class="ml-1.5 transition-transform text-sm" [class.rotate-180]="isDropdownOpen">⮟ </span>
                 </button>
 
-                <div *ngIf="isDropdownOpen" class=" dropdown-menu absolute left-0 mt-[19px] w-52 bg-white text-black shadow-xl shadow-gray-300 rounded-b-xl  py-2 z-50">
+                <div *ngIf="isDropdownOpen" class=" dropdown-menu absolute left-0 mt-[16px] w-52 bg-white text-black rounded-b-xl  py-2 z-50">
                     <ul class="space-y-2 text-[#959595]">
                         <li><a href="#" class="block px-4 py-2 hover:bg-gray-100 hover:text-gray-800">Prévisions</a></li>
                         <li><a href="#" class="block px-4 py-2 hover:bg-gray-100 hover:text-gray-800">Alertes météo</a></li>

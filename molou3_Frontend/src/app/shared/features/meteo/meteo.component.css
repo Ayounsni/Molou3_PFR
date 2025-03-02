@@ -1,0 +1,8 @@
+.bg-meteo {
+    background-image: url('/assets/sky17.png'); /* Assure-toi que l'image est dans `src/assets` */
+    background-size:cover;
+    /* background-position: center; */
+    /* background-repeat: no-repeat; */
+ /* Pour couvrir toute la hauteur de l'écran */
+    /* linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), */
+  }

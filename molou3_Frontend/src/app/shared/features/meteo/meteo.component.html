@@ -1,0 +1,149 @@
+ <div class="relative">
+ <div class="bg-meteo h-72">
+ </div>
+ <div class="bg-gradient-to-b from-[#5E85B0]  to-white flex flex-col items-center justify-center min-h-screen">
+    <!-- Container principal -->
+     <div class="absolute top-7/12 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full max-w-5xl">
+    <div class="w-full max-w-5xl bg-gray-800 rounded-lg shadow-lg p-6 transition-all hover:shadow-xl">
+        <h1 class="text-4xl mb-5 text-center text-white font-bold">Conditions Météo pour les Compétitions 🌤️</h1>
+        <!-- Barre de recherche -->
+        <div class="mb-4 flex items-center bg-gray-700 p-3 rounded-lg shadow-md">
+            <input type="text" placeholder="Rechercher une ville..." 
+                class="w-full bg-transparent text-gray-100 placeholder-gray-400 outline-none p-2">
+            <button class="ml-2 bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md transition-all">
+                Rechercher
+            </button>
+        </div>
+
+        <!-- En-tête -->
+        <div class="flex items-center justify-between border-b border-gray-700 pb-4">
+            <div class="flex items-center gap-2">
+                <h1 class="text-xl font-bold text-gray-100">MÉTEO CASABLANCA</h1>
+                <!-- Icône Étoile -->
+                <svg class="w-5 h-5 text-blue-400 hover:text-blue-500 transition-colors" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.043 3.203a1 1 0 00.95.69h3.372c.969 0 1.371 1.24.588 1.81l-2.73 1.984a1 1 0 00-.363 1.118l1.043 3.203c.3.922-.755 1.688-1.54 1.118l-2.73-1.983a1 1 0 00-1.176 0l-2.73 1.983c-.784.57-1.84-.196-1.54-1.118l1.043-3.203a1 1 0 00-.363-1.118L2.098 8.63c-.783-.57-.38-1.81.589-1.81h3.371a1 1 0 00.95-.69l1.043-3.203z"/>
+                </svg>
+            </div>
+            <!-- Liens (onglets) -->
+            <div class="flex items-center space-x-6 text-sm text-gray-400">
+                <a href="#" class="hover:text-gray-100 transition-colors">AUJOURD'HUI</a>
+                <a href="#" class="px-2 py-1 rounded-md bg-blue-400/10 text-blue-400 font-semibold hover:bg-blue-400/20 transition-all">
+                    DEMAIN
+                </a>
+            </div>
+        </div>
+
+        <!-- Contenu principal -->
+        <div class="mt-4 flex flex-col md:flex-row justify-between items-start md:items-center">
+            <div class="flex-1 md:pr-8">
+                <div class="text-sm text-gray-400 mb-2">Samedi 01 Mars 2025 | 02:46</div>
+                <div class="flex items-center space-x-4">
+                    <div class="w-20 h-20 flex items-center justify-center bg-gray-700 rounded-full hover:scale-105 transition-transform">
+                        <svg class="w-10 h-10 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                                  d="M12 2a9 9 0 00-9 9 9 9 0 009 9h5.5a3.5 3.5 0 000-7H17a5 5 0 00-5-5V2z"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <div class="text-6xl font-bold text-gray-100 leading-none">18°</div>
+                        <p class="text-gray-300 text-lg">Partiellement nuageux</p>
+                        <p class="text-sm text-gray-400 mt-1">18° Ressentie</p>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-4 md:mt-0 w-full md:w-auto">
+                <div class="flex flex-col space-y-2 items-end">
+                    <div class="flex items-center text-sm space-x-2">
+                        <span class="text-gray-400">Vent</span>
+                        <span class="font-semibold text-blue-400 text-md">15 km/h</span>
+                    </div>
+                    <div class="flex items-center text-sm space-x-2">
+                        <span class="text-gray-400">Direction</span>
+                        <span class="font-semibold text-blue-400 text-md">N</span>
+                    </div>
+                    <div class="flex items-center text-sm space-x-2">
+                        <span class="text-gray-400">Rafales</span>
+                        <span class="font-semibold text-blue-400 text-md">22 km/h</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Infos supplémentaires -->
+        <div class="mt-6 grid grid-cols-2 md:grid-cols-4 gap-4 text-center text-sm">
+            <div class="bg-gray-700 rounded-lg p-4 hover:bg-gray-600 transition-all">
+                <p class="text-gray-400">Visibilité</p>
+                <p class="font-semibold text-gray-100 text-md">10 km</p>
+            </div>
+            <div class="bg-gray-700 rounded-lg p-4 hover:bg-gray-600 transition-all">
+                <p class="text-gray-400">Indice UV</p>
+                <p class="font-semibold text-gray-100 text-md">3</p>
+            </div>
+            <div class="bg-gray-700 rounded-lg p-4 hover:bg-gray-600 transition-all">
+                <p class="text-gray-400">Conditions</p>
+                <p class="font-semibold text-green-400 text-md">Optimales</p>
+            </div>
+            <div class="bg-gray-700 rounded-lg p-4 hover:bg-gray-600 transition-all">
+                <p class="text-gray-400">Humidité</p>
+                <p class="font-semibold text-gray-100 text-md">62%</p>
+            </div>
+        </div>
+
+        <!-- Lever/coucher du soleil -->
+        <div class="mt-6 flex justify-between text-sm border-t border-gray-700 pt-4 text-gray-400">
+            <div>
+                <p class="text-gray-400">Lever du soleil</p>
+                <p class="font-semibold text-gray-100">06:59 AM</p>
+            </div>
+            <div class="text-right">
+                <p class="text-gray-400">Coucher du soleil</p>
+                <p class="font-semibold text-gray-100">06:27 PM</p>
+            </div>
+        </div>
+    </div>
+    <div class="w-full max-w-5xl mt-6 grid grid-cols-2 md:grid-cols-4 gap-4">
+        <!-- Carte 1 -->
+        <div class="bg-gray-800 rounded-lg shadow-lg p-4 text-center hover:shadow-xl transition-all">
+            <p class="text-gray-400 text-sm mb-1">Demain</p>
+            <svg class="w-8 h-8 text-blue-400 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707"/>
+            </svg>
+            <p class="text-xl font-bold text-gray-100">19°</p>
+            <p class="text-gray-300 text-sm">Ensoleillé</p>
+        </div>
+
+        <!-- Carte 2 -->
+        <div class="bg-gray-800 rounded-lg shadow-lg p-4 text-center hover:shadow-xl transition-all">
+            <p class="text-gray-400 text-sm mb-1">Mercredi</p>
+            <svg class="w-8 h-8 text-blue-400 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"/>
+            </svg>
+            <p class="text-xl font-bold text-gray-100">17°</p>
+            <p class="text-gray-300 text-sm">Nuageux</p>
+        </div>
+
+        <!-- Carte 3 -->
+        <div class="bg-gray-800 rounded-lg shadow-lg p-4 text-center hover:shadow-xl transition-all">
+            <p class="text-gray-400 text-sm mb-1">Jeudi</p>
+            <svg class="w-8 h-8 text-blue-400 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+            </svg>
+            <p class="text-xl font-bold text-gray-100">20°</p>
+            <p class="text-gray-300 text-sm">Éclaircies</p>
+        </div>
+
+        <!-- Carte 4 -->
+        <div class="bg-gray-800 rounded-lg shadow-lg p-4 text-center hover:shadow-xl transition-all">
+            <p class="text-gray-400 text-sm mb-1">Vendredi</p>
+            <svg class="w-8 h-8 text-blue-400 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 2a9 9 0 00-9 9 9 9 0 009 9h5.5a3.5 3.5 0 000-7H17a5 5 0 00-5-5V2z"/>
+            </svg>
+            <p class="text-xl font-bold text-gray-100">21°</p>
+            <p class="text-gray-300 text-sm">Clair</p>
+        </div>
+    </div>
+    </div>
+</div>
+</div>
+
+  <app-footer></app-footer>
