@@ -1,0 +1,27 @@
+.step-button:not([disabled]):hover .w-8 {
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.5); /* ring-2 ring-blue-400/50 */
+    transform: scale(1.1);
+    transition: all 0.2s ease-in-out;
+  }
+  
+  .w-8 {
+    transition: all 0.3s ease-in-out;
+  }
+  
+  /* Complété */
+  .w-8.bg-blue-400.border-blue-100 {
+    background-color: #60A5FA; /* Bleu clair */
+    border-color: #BFDBFE; /* Bordure bleue claire */
+  }
+  
+  /* Actuel */
+  .w-8.bg-white.border-blue-400 {
+    background-color: #FFFFFF;
+    border-color: #3B82F6; /* Bleu moyen */
+  }
+  
+  /* Futur */
+  .w-8.bg-gray-800.border-gray-700 {
+    background-color: #1F2937; /* Gris foncé */
+    border-color: #4B5563; /* Gris moyen */
+  }

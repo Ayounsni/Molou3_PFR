@@ -183,7 +183,6 @@ export class WeatherComponent implements OnInit {
         icon: "fas fa-exclamation-triangle"
       };
     }
-
     if (
       (wind >= 20 && wind <= 30) ||
       (visibility >= 2 && visibility <= 5) ||
@@ -197,7 +196,6 @@ export class WeatherComponent implements OnInit {
         icon: "fas fa-exclamation-circle"
       };
     }
-
     return {
       message: "Optimal : Bonnes conditions pour la compétition " + (isToday ? "aujourd'hui." : "demain."),
       color: "bg-green-500",
