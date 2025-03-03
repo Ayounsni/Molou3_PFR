@@ -1,0 +1,28 @@
+.bg-meteo {
+    background-image: url('/assets/sky17.png'); /* Assure-toi que l'image est dans `src/assets` */
+    background-size:cover;
+  }
+
+.max-h-60 {
+    max-height: 15rem;
+  }
+  
+  .overflow-y-auto {
+    scrollbar-width: thin;
+    scrollbar-color: #4a5568 #2d3748;
+  }
+  
+  .overflow-y-auto::-webkit-scrollbar {
+    width: 8px;
+  }
+  
+  .overflow-y-auto::-webkit-scrollbar-track {
+    background: #2d3748;
+  }
+  
+  .overflow-y-auto::-webkit-scrollbar-thumb {
+    background-color: #4a5568;
+    border-radius: 4px;
+  }
+
+  
