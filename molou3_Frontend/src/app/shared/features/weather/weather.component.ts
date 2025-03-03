@@ -38,6 +38,7 @@ export class WeatherComponent implements OnInit {
   constructor(private weatherService: WeatherService) { }
 
   ngOnInit() {
+    this.forecastDays = [];
     this.getWeather();
     this.searchTerms.pipe(
       debounceTime(300),
@@ -55,6 +56,8 @@ export class WeatherComponent implements OnInit {
     });
   }
 
+  
+
   getTomorrowDate(): string {
     const today = new Date();
     const tomorrow = new Date(today);
@@ -67,7 +70,6 @@ export class WeatherComponent implements OnInit {
     this.showSuggestions = false;
     this.searchResults = []; 
   }
-
 
   getUvIntensity(uv: number): string {
     if (uv <= 2) return 'Faible';
@@ -149,6 +151,58 @@ export class WeatherComponent implements OnInit {
     if (this.searchQuery.trim()) {
       this.getWeather();
     }
+  }
+
+  getCompetitionCondition(): { message: string, color: string, icon: string } {
+    if (!this.weatherData || !this.weatherData.current) {
+      return {
+        message: "Données météo non disponibles.",
+        color: "bg-gray-500",
+        icon: "fas fa-exclamation-circle"
+      };
+    }
+  
+    const isToday = this.activeTab === 'today';
+  
+    const wind = isToday ? this.weatherData.current.wind_kph : this.forecastDays[1]?.day.maxwind_kph;
+    const visibility = isToday ? this.weatherData.current.vis_km : this.forecastDays[1]?.day.avgvis_km;
+    const uv = isToday ? this.weatherData.current.uv : this.forecastDays[1]?.day.uv;
+    const rainChance = isToday ? this.forecastDays[0]?.day.daily_chance_of_rain : this.forecastDays[1]?.day.daily_chance_of_rain;
+    const airQuality = isToday ? this.weatherData.current.air_quality?.['us-epa-index'] : this.forecastDays[1]?.day.air_quality?.['us-epa-index'];
+  
+    if (
+      wind > 30 ||
+      visibility < 2 ||
+      rainChance > 90 ||
+      uv > 10 ||
+      airQuality >= 5
+    ) {
+      return {
+        message: "Dangereux : Compétition interdite " + (isToday ? "aujourd'hui." : "demain."),
+        color: "bg-red-500",
+        icon: "fas fa-exclamation-triangle"
+      };
+    }
+
+    if (
+      (wind >= 20 && wind <= 30) ||
+      (visibility >= 2 && visibility <= 5) ||
+      (rainChance >= 50 && rainChance <= 90) ||
+      (uv >= 5 && uv <= 10) ||
+      airQuality === 4
+    ) {
+      return {
+        message: "Risqué : Compétition possible mais avec prudence " + (isToday ? "aujourd'hui." : "demain."),
+        color: "bg-orange-400",
+        icon: "fas fa-exclamation-circle"
+      };
+    }
+
+    return {
+      message: "Optimal : Bonnes conditions pour la compétition " + (isToday ? "aujourd'hui." : "demain."),
+      color: "bg-green-500",
+      icon: "fas fa-check-circle"
+    };
   }
 }
 
