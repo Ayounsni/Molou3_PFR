@@ -1,155 +1,128 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { FooterComponent } from "../../../components/footer/footer.component";
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-register',
-  imports: [ReactiveFormsModule, CommonModule],
+  standalone: true,
+  imports: [ReactiveFormsModule, CommonModule,RouterLink],
   templateUrl: './register.component.html',
-  styleUrl: './register.component.css'
+  styleUrls: ['./register.component.css']
 })
 export class RegisterComponent {
-
   currentStep = 1;
   isLoading = false;
   userType: 'colombophile' | 'association' = 'colombophile';
   image = 'assets/molou.png';
-
-  // Options pour le niveau d'expérience (pour Colombophile)
+  uploadedFiles: { [key: string]: File } = {};
   niveauOptions = ['Débutant', 'Intermédiaire', 'Avancé'];
 
-  // Formulaire regroupant tous les champs
   registerForm: FormGroup;
 
   constructor(private fb: FormBuilder) {
     this.registerForm = this.fb.group({
-      // STEP 1: Identification
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(8)]],
       confirmPassword: ['', Validators.required],
-
-      // STEP 2: Coordonnées
       ville: ['', Validators.required],
       adresse: ['', Validators.required],
       telephone: ['', [Validators.required, Validators.pattern('^(\\+212|0)[5-7][0-9]{8}$')]],
-
-      // STEP 3: Informations personnelles
-      // Utilisation d'un même champ "nom" pour "nomAssociation" ou "nomComplet"
       nom: ['', Validators.required],
-      // Pour Association uniquement :
       responsable: [''],
       dateCreation: [''],
-      // Pour Colombophile uniquement :
       niveauExperience: [''],
       dateNaissance: [''],
-
-      // STEP 4: Documents et Photo
-      photoUrl: [''],
-      // Pour Association uniquement :
-      preuveLegalePath: [''],
-      documentAdditionnel: ['']
+      photoUrl: ['', Validators.required],
+      preuveLegalePath: ['']
     }, { validators: this.passwordMatchValidator });
+
+    this.updateValidators(); // Appliquer les validateurs initiaux
   }
 
-  // Validateur personnalisé pour vérifier que les deux mots de passe correspondent
-  passwordMatchValidator(control: AbstractControl): { [key: string]: boolean } | null {
-    const pwd = control.get('password')?.value;
-    const cpwd = control.get('confirmPassword')?.value;
-    return pwd && cpwd && pwd !== cpwd ? { mismatch: true } : null;
+  passwordMatchValidator(control: AbstractControl) {
+    const password = control.get('password')?.value;
+    const confirmPassword = control.get('confirmPassword')?.value;
+    return password && confirmPassword && password !== confirmPassword ? { mismatch: true } : null;
   }
 
-  // Permet de choisir le type d'utilisateur et de réinitialiser les champs spécifiques
-  setUserType(type: 'colombophile' | 'association'): void {
+  onFileSelected(event: Event, field: string) {
+    const input = event.target as HTMLInputElement;
+    if (input.files?.[0]) {
+      this.uploadedFiles[field] = input.files[0];
+      if (field === 'photo') {
+        const reader = new FileReader();
+        reader.onload = (e) => this.registerForm.patchValue({ photoUrl: e.target?.result });
+        reader.readAsDataURL(input.files[0]);
+      } else if (field === 'preuveLegale') {
+        this.registerForm.patchValue({ preuveLegalePath: input.files[0].name });
+      }
+    }
+  }
+
+  setUserType(type: 'colombophile' | 'association') {
     this.userType = type;
-    if (type === 'colombophile') {
-      this.registerForm.patchValue({
-        responsable: '',
-        dateCreation: '',
-        preuveLegalePath: '',
-        documentAdditionnel: ''
-      });
-    }
+    this.registerForm.reset();
+    this.uploadedFiles = {};
     this.currentStep = 1;
+    this.updateValidators();
   }
 
+  private updateValidators() {
+    const controls = ['responsable', 'dateCreation', 'niveauExperience', 'dateNaissance'];
+    controls.forEach(control => this.registerForm.get(control)?.clearValidators());
 
-
-  // Navigation entre les étapes en validant les champs de la partie en cours
-  nextStep(): void {
-    if (this.currentStep === 1) {
-      if (
-        this.registerForm.get('email')?.valid &&
-        this.registerForm.get('password')?.valid &&
-        this.registerForm.get('confirmPassword')?.valid
-      ) {
-        this.currentStep = 2;
-      } else {
-        this.markGroupTouched(['email', 'password', 'confirmPassword']);
-      }
-    } else if (this.currentStep === 2) {
-      if (
-        this.registerForm.get('ville')?.valid &&
-        this.registerForm.get('adresse')?.valid &&
-        this.registerForm.get('telephone')?.valid
-      ) {
-        this.currentStep = 3;
-      } else {
-        this.markGroupTouched(['ville', 'adresse', 'telephone']);
-      }
-    } else if (this.currentStep === 3) {
-      if (this.userType === 'association') {
-        if (
-          this.registerForm.get('nom')?.valid &&
-          this.registerForm.get('responsable')?.value &&
-          this.registerForm.get('dateCreation')?.value
-        ) {
-          this.currentStep = 4;
-        } else {
-          this.markGroupTouched(['nom', 'responsable', 'dateCreation']);
-        }
-      } else {
-        if (
-          this.registerForm.get('nom')?.valid &&
-          this.registerForm.get('niveauExperience')?.value &&
-          this.registerForm.get('dateNaissance')?.value
-        ) {
-          this.currentStep = 4;
-        } else {
-          this.markGroupTouched(['nom', 'niveauExperience', 'dateNaissance']);
-        }
-      }
+    if (this.userType === 'association') {
+      this.registerForm.get('responsable')?.setValidators(Validators.required);
+      this.registerForm.get('dateCreation')?.setValidators(Validators.required);
+      this.registerForm.get('preuveLegalePath')?.setValidators(Validators.required);
+    } else {
+      this.registerForm.get('niveauExperience')?.setValidators(Validators.required);
+      this.registerForm.get('dateNaissance')?.setValidators(Validators.required);
     }
+
+    controls.forEach(control => this.registerForm.get(control)?.updateValueAndValidity());
   }
 
-  prevStep(): void {
-    if (this.currentStep > 1) {
-      this.currentStep--;
-    }
+  nextStep() {
+    const stepValidations = [
+      () => ['email', 'password', 'confirmPassword'],
+      () => ['ville', 'adresse', 'telephone'],
+      () => this.userType === 'association'
+        ? ['nom', 'responsable', 'dateCreation']
+        : ['nom', 'niveauExperience', 'dateNaissance'],
+      () => this.userType === 'association'
+        ? ['photoUrl', 'preuveLegalePath']
+        : ['photoUrl']
+    ];
+
+    const currentValidation = stepValidations[this.currentStep - 1]();
+    const isValid = currentValidation.every(field => this.registerForm.get(field)?.valid);
+
+    isValid ? this.currentStep++ : this.markGroupTouched(currentValidation);
   }
 
-  goToStep(step: number): void {
-    if (step <= this.currentStep) {
-      this.currentStep = step;
-    }
+  prevStep() {
+    if (this.currentStep > 1) this.currentStep--;
   }
 
-  markGroupTouched(fields: string[]): void {
-    fields.forEach(field => {
-      const control = this.registerForm.get(field);
-      if (control) {
-        control.markAsTouched();
-      }
-    });
+  goToStep(step: number) {
+    if (step <= this.currentStep) this.currentStep = step;
   }
 
-  onSubmit(): void {
+  markGroupTouched(fields: string[]) {
+    fields.forEach(field => this.registerForm.get(field)?.markAsTouched());
+  }
+
+  onSubmit() {
     if (this.registerForm.valid) {
       this.isLoading = true;
       setTimeout(() => {
         console.log('Form Submitted', this.registerForm.value);
         this.isLoading = false;
       }, 2000);
+    } else {
+      this.markGroupTouched(Object.keys(this.registerForm.controls));
     }
   }
 }
