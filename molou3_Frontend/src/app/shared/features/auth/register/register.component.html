@@ -285,31 +285,31 @@
             </div>
   
             <ng-template #colombophileFields>
-              <div>
-                <label class="text-gray-300 text-sm mb-1 block">Niveau d'expérience</label>
-                <div class="relative flex items-center bg-gray-800 rounded-md border border-gray-700 focus-within:border-blue-400 focus-within:ring-2 focus-within:ring-blue-400/20 transition-all duration-200 p-3">
-                  <svg class="w-4 h-4 text-blue-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                  </svg>
-                  <select formControlName="niveauExperience"
-                          class="w-full bg-transparent text-gray-100 outline-none text-sm appearance-none pr-6 cursor-pointer">
-                    <option value="" disabled selected>Choisissez votre niveau</option>
-                    <option *ngFor="let level of niveauOptions" [value]="level">{{ level }}</option>
-                  </select>
-                  <div class="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none">
-                    <svg class="w-4 h-4 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
-                    </svg>
+                <div>
+                    <label class="text-gray-300 text-sm mb-1 block">Niveau d'expérience</label>
+                    <div class="relative flex items-center bg-gray-800 rounded-md border border-gray-700 focus-within:border-blue-400 focus-within:ring-2 focus-within:ring-blue-400/20 transition-all duration-200 p-3">
+                      <svg class="w-4 h-4 text-blue-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                      </svg>
+                      <select formControlName="niveauExperience"
+                              class="w-full bg-transparent text-gray-100 outline-none text-sm appearance-none pr-6 cursor-pointer">
+                        <option value="" disabled selected>Choisissez votre niveau</option>
+                        <option *ngFor="let level of niveauOptions" [value]="level">{{ niveauLabels[level] }}</option>
+                      </select>
+                      <div class="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none">
+                        <svg class="w-4 h-4 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                        </svg>
+                      </div>
+                    </div>
+                    <p *ngIf="registerForm.get('niveauExperience')?.invalid && registerForm.get('niveauExperience')?.touched" 
+                       class="text-red-400 text-xs mt-1 flex items-center">
+                      <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
+                      </svg>
+                      Niveau d'expérience requis
+                    </p>
                   </div>
-                </div>
-                <p *ngIf="registerForm.get('niveauExperience')?.invalid && registerForm.get('niveauExperience')?.touched" 
-                   class="text-red-400 text-xs mt-1 flex items-center">
-                  <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
-                    <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
-                  </svg>
-                  Niveau d'expérience requis
-                </p>
-              </div>
               <div>
                 <label class="text-gray-300 text-sm mb-1 block">Date de naissance</label>
                 <div class="flex items-center bg-gray-800 rounded-md border border-gray-700 focus-within:border-blue-400 focus-within:ring-2 focus-within:ring-blue-400/20 transition-all duration-200 p-3">
@@ -398,21 +398,30 @@
                 <p class="text-gray-500 text-xs mt-1">Formats acceptés : PDF, JPG, PNG, JPEG (max 5MB)</p>
               </div>
             </div>
+            <p *ngIf="error$ | async as error" class="text-red-400 text-sm mt-1 text-center flex items-center justify-center mx-auto">
+                <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
+                  </svg>
+                {{ error.message }}
+            </p>              
+              <div *ngIf="registeredUser$ | async" class="mb-4 p-4 bg-green-100 text-green-700 rounded">
+                Inscription réussie ! Redirection en cours...
+              </div>
             <div class="flex justify-between mt-6">
               <button type="button" (click)="prevStep()"
                       class="px-6 py-2 bg-gray-700 text-gray-100 rounded-md font-semibold text-sm hover:bg-gray-600 transition-transform shadow-md shadow-blue-300/10">
                 Retour
               </button>
               <button type="submit" 
-                     [disabled]="!isCurrentStepValid() || isLoading"
+                     [disabled]="!isCurrentStepValid() || (loading$ | async)"
                       class="group relative flex justify-center items-center gap-2 px-6 py-2 bg-gradient-to-br from-blue-300/90 to-blue-400/80 text-gray-900 rounded-md font-semibold text-sm hover:scale-105 transition-transform shadow-md shadow-blue-300/10 hover:shadow-blue-300/20 disabled:opacity-50">
-                <span *ngIf="!isLoading" class="flex items-center gap-2">
+                <span *ngIf="!(loading$ | async)" class="flex items-center gap-2">
                   <svg class="w-4 h-4 transition-transform group-hover:rotate-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"/>
                   </svg>
                   S'inscrire gratuitement
                 </span>
-                <span *ngIf="isLoading" class="flex items-center gap-2">
+                <span *ngIf="loading$ | async" class="flex items-center gap-2">
                   <svg class="animate-spin h-4 w-4 mr-2 text-white" viewBox="0 0 24 24">
                     <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                     <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
