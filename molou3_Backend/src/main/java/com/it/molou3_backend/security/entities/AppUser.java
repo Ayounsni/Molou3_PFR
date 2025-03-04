@@ -1,7 +1,6 @@
 package com.it.molou3_backend.security.entities;
 
 
-import com.it.molou3_backend.models.entities.Notification;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -9,8 +8,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.util.List;
 
 @Entity
 @Setter
@@ -22,10 +19,6 @@ public class AppUser {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-//    @NotBlank
-//    @Column(unique = true, nullable = false)
-//    private String username;
 
     @NotBlank
     @Column(unique = true, nullable = false)
@@ -52,8 +45,6 @@ public class AppUser {
     @ManyToOne
     private AppRole role;
 
-    @OneToMany(mappedBy = "appUser", cascade = CascadeType.REMOVE)
-    private List<Notification> notifications;
 }
 
 
