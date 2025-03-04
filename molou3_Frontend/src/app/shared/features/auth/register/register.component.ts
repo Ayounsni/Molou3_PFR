@@ -6,7 +6,7 @@ import { RouterLink } from '@angular/router';
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule,RouterLink],
+  imports: [ReactiveFormsModule, CommonModule, RouterLink],
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css']
 })
@@ -16,6 +16,7 @@ export class RegisterComponent {
   userType: 'colombophile' | 'association' = 'colombophile';
   image = 'assets/molou.png';
   uploadedFiles: { [key: string]: File } = {};
+  formData = new FormData();
   niveauOptions = ['Débutant', 'Intermédiaire', 'Avancé'];
 
   registerForm: FormGroup;
@@ -34,10 +35,10 @@ export class RegisterComponent {
       niveauExperience: [''],
       dateNaissance: [''],
       photoUrl: ['', Validators.required],
-      preuveLegalePath: ['']
+      preuveLegalePath: ['',Validators.required]
     }, { validators: this.passwordMatchValidator });
 
-    this.updateValidators(); // Appliquer les validateurs initiaux
+    this.updateValidators();
   }
 
   passwordMatchValidator(control: AbstractControl) {
@@ -50,6 +51,8 @@ export class RegisterComponent {
     const input = event.target as HTMLInputElement;
     if (input.files?.[0]) {
       this.uploadedFiles[field] = input.files[0];
+      this.formData.append(field, input.files[0]);
+
       if (field === 'photo') {
         const reader = new FileReader();
         reader.onload = (e) => this.registerForm.patchValue({ photoUrl: e.target?.result });
@@ -64,6 +67,7 @@ export class RegisterComponent {
     this.userType = type;
     this.registerForm.reset();
     this.uploadedFiles = {};
+    this.formData = new FormData();
     this.currentStep = 1;
     this.updateValidators();
   }
@@ -81,10 +85,11 @@ export class RegisterComponent {
       this.registerForm.get('dateNaissance')?.setValidators(Validators.required);
     }
 
+    this.registerForm.get('photoUrl')?.setValidators(Validators.required);
     controls.forEach(control => this.registerForm.get(control)?.updateValueAndValidity());
   }
 
-  nextStep() {
+  isCurrentStepValid(): boolean {
     const stepValidations = [
       () => ['email', 'password', 'confirmPassword'],
       () => ['ville', 'adresse', 'telephone'],
@@ -97,9 +102,12 @@ export class RegisterComponent {
     ];
 
     const currentValidation = stepValidations[this.currentStep - 1]();
-    const isValid = currentValidation.every(field => this.registerForm.get(field)?.valid);
+    return currentValidation.every(field => this.registerForm.get(field)?.valid);
+  }
 
-    isValid ? this.currentStep++ : this.markGroupTouched(currentValidation);
+  nextStep() {
+    if (this.isCurrentStepValid()) this.currentStep++;
+    else this.markGroupTouched(Object.keys(this.registerForm.controls));
   }
 
   prevStep() {
@@ -117,8 +125,13 @@ export class RegisterComponent {
   onSubmit() {
     if (this.registerForm.valid) {
       this.isLoading = true;
+      const formValue = { ...this.registerForm.value };
+      Object.keys(this.uploadedFiles).forEach(key => {
+        formValue[key] = this.uploadedFiles[key];
+      });
+
       setTimeout(() => {
-        console.log('Form Submitted', this.registerForm.value);
+        console.log('Form Submitted', formValue);
         this.isLoading = false;
       }, 2000);
     } else {
