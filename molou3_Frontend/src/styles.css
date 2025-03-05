@@ -30,3 +30,24 @@
     font-variation-settings:
       "wdth" 100;
   } */
+
+  /* Animation du flash message */
+@keyframes slideIn {
+  from {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.flash-message {
+  animation: slideIn 0.5s ease-out;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.progress-bar {
+  transition: width 4s linear;
+}

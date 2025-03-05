@@ -1,10 +1,11 @@
 import { Component, HostListener, LOCALE_ID, OnInit } from '@angular/core';
-import { FooterComponent } from '../../components/footer/footer.component';
-import { WeatherService } from '../../../core/services/weather.service';
+
 import { CommonModule, DatePipe, registerLocaleData } from '@angular/common';
 import localeFr from '@angular/common/locales/fr';
 import { FormsModule } from '@angular/forms';
 import { debounceTime, distinctUntilChanged, Subject, switchMap } from 'rxjs';
+import { FooterComponent } from '../../shared/components/footer/footer.component';
+import { WeatherService } from '../../core/services/weather.service';
 
 interface WeatherData {
   current: any;

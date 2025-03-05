@@ -3,13 +3,15 @@ import { Component } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { Store } from '@ngrx/store';
-import * as AuthActions from '../../../../store/auth/auth.actions';
+import * as AuthActions from '../../../store/auth/auth.actions';
 import { Observable } from 'rxjs';
-import { AppState } from '../../../../store/app.state';
-import { selectError, selectLoading, selectRegisteredUser } from '../../../../store/auth/auth.selectors';
-import { Colombophile } from '../../../models/colombophile.model';
-import { Association } from '../../../models/association.model';
-import { NiveauExperience } from '../../../models/enums/enums';
+import { NiveauExperience } from '../../../shared/models/enums/enums';
+import { Colombophile } from '../../../shared/models/colombophile.model';
+import { Association } from '../../../shared/models/association.model';
+import { AppState } from '../../../store/app.state';
+import { selectError, selectLoading, selectRegisteredUser } from '../../../store/auth/auth.selectors';
+import { notInFuture, notTodayOrFuture } from '../../../shared/validators/validators';
+
 
 @Component({
   selector: 'app-register',
@@ -22,7 +24,6 @@ export class RegisterComponent {
   currentStep = 1;
   userType: 'colombophile' | 'association' = 'colombophile';
   image = 'assets/molou.png';
-  uploadedFiles: { [key: string]: File } = {};
   niveauOptions: NiveauExperience[] = ['BEGINNER', 'INTERMEDIATE', 'EXPERT'];
   niveauLabels: { [key in NiveauExperience]: string } = {
     BEGINNER: 'Débutant',
@@ -32,6 +33,8 @@ export class RegisterComponent {
   loading$: Observable<boolean>;
   error$: Observable<any>;
   registeredUser$: Observable<Colombophile | Association | null>;
+  fileError: string | null = null;
+  uploadedFiles: { [key: string]: File | undefined } = {};
 
   registerForm: FormGroup;
 
@@ -49,9 +52,9 @@ export class RegisterComponent {
       telephone: ['', [Validators.required, Validators.pattern('^(\\+212|0)[5-7][0-9]{8}$')]],
       nom: ['', Validators.required],
       responsable: [''],
-      dateCreation: [''],
+      dateCreation: ['', [Validators.required, notInFuture]],
       niveauExperience: [''],
-      dateNaissance: [''],
+      dateNaissance: ['', [Validators.required, notTodayOrFuture]],
       photoUrl: ['', Validators.required],
       preuveLegalePath: [''],
       roleId: [null, Validators.required]
@@ -74,18 +77,32 @@ export class RegisterComponent {
     return new Promise((resolve) => {
       const input = event.target as HTMLInputElement;
       if (input.files?.[0]) {
-        this.uploadedFiles[field] = input.files[0];
+        const file = input.files[0];
+        const validImageExtensions = ['jpg', 'jpeg', 'png'];
+        const fileExtension = file.name.split('.').pop()?.toLowerCase();
+
+        if (field === 'photo' && !validImageExtensions.includes(fileExtension || '')) {
+          this.registerForm.patchValue({ photoUrl: '' });
+          delete this.uploadedFiles[field]; 
+          this.fileError = 'Seules les images JPG, PNG ou JPEG sont acceptées pour la photo.'; 
+          input.value = ''; 
+          resolve();
+          return;
+        }
+
+        this.fileError = null;
+        this.uploadedFiles[field] = file;
         const reader = new FileReader();
         reader.onload = (e) => {
-          const base64String = e.target?.result as string;
+          const base64String = e.target?.result as string; 
           if (field === 'photo') {
-            this.registerForm.patchValue({ photoUrl: input.files![0].name });
+            this.registerForm.patchValue({ photoUrl: file.name });
           } else if (field === 'preuveLegale') {
-            this.registerForm.patchValue({ preuveLegalePath: input.files![0].name });
+            this.registerForm.patchValue({ preuveLegalePath: file.name });
           }
           resolve();
         };
-        reader.readAsDataURL(input.files[0]);
+        reader.readAsDataURL(file);
       } else {
         resolve();
       }
@@ -107,12 +124,12 @@ export class RegisterComponent {
 
     if (this.userType === 'association') {
       this.registerForm.get('responsable')?.setValidators(Validators.required);
-      this.registerForm.get('dateCreation')?.setValidators(Validators.required);
+      this.registerForm.get('dateCreation')?.setValidators([Validators.required, notInFuture]);
       this.registerForm.get('preuveLegalePath')?.setValidators(Validators.required);
       this.registerForm.get('roleId')?.setValue(1); // Exemple : rôle "association"
     } else {
       this.registerForm.get('niveauExperience')?.setValidators(Validators.required);
-      this.registerForm.get('dateNaissance')?.setValidators(Validators.required);
+      this.registerForm.get('dateNaissance')?.setValidators([Validators.required, notTodayOrFuture]);
       this.registerForm.get('roleId')?.setValue(2); // Exemple : rôle "colombophile"
     }
 
@@ -190,7 +207,7 @@ export class RegisterComponent {
 
       this.registeredUser$.subscribe(user => {
         if (user) {
-          this.router.navigate(['/meteo']);
+          this.router.navigate(['/login'], { queryParams: { registered: 'true' } });
           this.store.dispatch(AuthActions.resetRegistrationState());
         }
       });
