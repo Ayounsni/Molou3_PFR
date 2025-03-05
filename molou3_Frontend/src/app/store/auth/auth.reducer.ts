@@ -7,12 +7,20 @@ export interface AuthState {
   loading: boolean;
   error: any;
   registeredUser: Colombophile | Association | null;
+  currentUser: any | null;
+  token: string | null;
+  loginLoading: boolean;
+  loginError: any | null;
 }
 
 export const initialState: AuthState = {
   loading: false,
   error: null,
-  registeredUser: null
+  registeredUser: null,
+  currentUser: null,
+  token: null,
+  loginLoading: false,
+  loginError: null
 };
 
 export const authReducer = createReducer(
@@ -32,5 +40,26 @@ export const authReducer = createReducer(
     loading: false,
     error
   })),
-  on(AuthActions.resetRegistrationState, () => initialState)
+  on(AuthActions.resetRegistrationState, () => initialState),
+  on(AuthActions.login, (state) => ({
+    ...state,
+    loginLoading: true,
+    loginError: null
+  })),
+  on(AuthActions.loginSuccess, (state, { user, token }) => ({
+    ...state,
+    currentUser: user,
+    token,
+    loginLoading: false
+  })),
+  on(AuthActions.loginFailure, (state, { error }) => ({
+    ...state,
+    loginError: error,
+    loginLoading: false
+  })),
+  on(AuthActions.logout, (state) => ({
+    ...state,
+    currentUser: null,
+    token: null
+  }))
 );

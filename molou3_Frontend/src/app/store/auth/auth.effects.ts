@@ -6,11 +6,13 @@ import * as AuthActions from './auth.actions';
 import { AuthService } from '../../core/services/auth.service';
 import { Colombophile } from '../../shared/models/colombophile.model';
 import { Association } from '../../shared/models/association.model';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class AuthEffects {
   private actions$ = inject(Actions);
   private authService = inject(AuthService);
+  private router = inject(Router);
 
   registerColombophile$ = createEffect(() =>
     this.actions$.pipe(
@@ -45,4 +47,36 @@ export class AuthEffects {
       )
     )
   );
+
+  login$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(AuthActions.login),
+      mergeMap(({ email, password }) =>
+        this.authService.login(email, password).pipe(
+          tap((response) => {
+            console.log(response)
+            this.authService.setToken(response.token);
+            this.router.navigate([this.getDashboardRoute(response.role)]);
+          }),
+          map((response) => AuthActions.loginSuccess({
+            user: { email: response.email, role: response.role },
+            token: response.token
+          })),
+          catchError((error) => {
+            this.authService.clearToken();
+            return of(AuthActions.loginFailure({ error: error.error?.message || 'Erreur de connexion' }));
+          })
+        )
+      )
+    )
+  );
+
+  private getDashboardRoute(role: string): string {
+    switch (role) {
+      case 'ROLE_ADMIN': return '/admin/dashboard';
+      case 'ROLE_COLOMBOPHILE': return '/colombophile/dashboard';
+      case 'ROLE_ASSOCIATION': return '/association/dashboard';
+      default: return '/';
+    }
+  }
 }

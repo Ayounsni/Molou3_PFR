@@ -2,6 +2,10 @@ import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { AppState } from '../../../store/app.state';
+import * as AuthActions from '../../../store/auth/auth.actions';
+import { selectLoginError, selectLoginLoading } from '../../../store/auth/auth.selectors';
 
 @Component({
   selector: 'app-login',
@@ -18,8 +22,9 @@ export class LoginComponent implements OnInit, OnDestroy {
   showSuccessMessage = false;
   progressWidth = 100;
   private timer: any;
+  errorMessage: string | null = null;
 
-  constructor(private fb: FormBuilder,private route: ActivatedRoute, private router: Router) {
+  constructor(private fb: FormBuilder,private route: ActivatedRoute, private router: Router,private store: Store<AppState>) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required]
@@ -28,6 +33,14 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.checkRegistrationSuccess();
+    this.store.select(selectLoginError).subscribe(error => {
+      this.errorMessage = error;
+      this.isLoading = false;
+    });
+    
+    this.store.select(selectLoginLoading).subscribe(loading => {
+      this.isLoading = loading;
+    });
   }
 
   togglePasswordVisibility() {
@@ -37,7 +50,9 @@ export class LoginComponent implements OnInit, OnDestroy {
   onSubmit() {
     if (this.loginForm.valid) {
       this.isLoading = true;
-      // Simuler une requête API
+      this.errorMessage = null;
+      const { email, password } = this.loginForm.value;
+      this.store.dispatch(AuthActions.login({ email, password }));
       setTimeout(() => {
         console.log('Login Submitted', this.loginForm.value);
         this.isLoading = false;

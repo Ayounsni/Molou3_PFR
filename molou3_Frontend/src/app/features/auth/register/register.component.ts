@@ -10,7 +10,8 @@ import { Colombophile } from '../../../shared/models/colombophile.model';
 import { Association } from '../../../shared/models/association.model';
 import { AppState } from '../../../store/app.state';
 import { selectError, selectLoading, selectRegisteredUser } from '../../../store/auth/auth.selectors';
-import { notInFuture, notTodayOrFuture } from '../../../shared/validators/validators';
+import { notInFuture, notTodayOrFuture, uniqueEmailValidator } from '../../../shared/validators/validators';
+import { AuthService } from '../../../core/services/auth.service';
 
 
 @Component({
@@ -41,10 +42,11 @@ export class RegisterComponent {
   constructor(
     private fb: FormBuilder,
     private store: Store<AppState>,
-    private router: Router
+    private router: Router,
+    private authService: AuthService
   ) {
     this.registerForm = this.fb.group({
-      email: ['', [Validators.required, Validators.email]],
+      email: ['', [Validators.required, Validators.email], [uniqueEmailValidator(this.authService)]],
       password: ['', [Validators.required, Validators.minLength(8)]],
       confirmPassword: ['', Validators.required],
       ville: ['', Validators.required],
@@ -126,13 +128,14 @@ export class RegisterComponent {
       this.registerForm.get('responsable')?.setValidators(Validators.required);
       this.registerForm.get('dateCreation')?.setValidators([Validators.required, notInFuture]);
       this.registerForm.get('preuveLegalePath')?.setValidators(Validators.required);
-      this.registerForm.get('roleId')?.setValue(1); // Exemple : rôle "association"
+      this.registerForm.get('roleId')?.setValue(2); // Exemple : rôle "association"
     } else {
       this.registerForm.get('niveauExperience')?.setValidators(Validators.required);
       this.registerForm.get('dateNaissance')?.setValidators([Validators.required, notTodayOrFuture]);
-      this.registerForm.get('roleId')?.setValue(2); // Exemple : rôle "colombophile"
+      this.registerForm.get('roleId')?.setValue(1); // Exemple : rôle "colombophile"
     }
-
+    this.registerForm.get('email')?.setValidators([Validators.required, Validators.email]);
+    this.registerForm.get('email')?.setAsyncValidators([uniqueEmailValidator(this.authService)]);
     this.registerForm.get('photoUrl')?.setValidators(Validators.required);
     controls.forEach(control => this.registerForm.get(control)?.updateValueAndValidity());
   }

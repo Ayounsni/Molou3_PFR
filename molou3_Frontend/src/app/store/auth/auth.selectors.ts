@@ -17,3 +17,23 @@ export const selectRegisteredUser = createSelector(
   selectAuthState,
   (state) => state.registeredUser
 );
+
+export const selectLoginLoading = createSelector(
+    selectAuthState,
+    (state) => state.loginLoading
+  );
+  
+  export const selectLoginError = createSelector(
+    selectAuthState,
+    (state) => state.loginError
+  );
+  
+  export const selectCurrentUser = createSelector(
+    selectAuthState,
+    (state) => state.currentUser
+  );
+  
+  export const selectToken = createSelector(
+    selectAuthState,
+    (state) => state.token
+  );
