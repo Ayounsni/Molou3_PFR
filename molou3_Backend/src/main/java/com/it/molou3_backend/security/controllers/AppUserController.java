@@ -61,6 +61,26 @@ public class AppUserController {
         return new ResponseEntity<>(login, HttpStatus.OK);
     }
 
+    @GetMapping("/public/current-user")
+    public ResponseEntity<ResponseLoginDTO> getCurrentUser(@RequestHeader("Authorization") String authorizationHeader) {
+        try {
+            // Vérifier la présence et le format de l’en-tête Authorization
+            if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+            }
+
+            // Extraire le token de l’en-tête
+            String token = authorizationHeader.substring(7); // Retire "Bearer "
+
+            // Appeler le service pour récupérer les données de l’utilisateur
+            ResponseLoginDTO response = appUserService.getCurrentUser(token);
+
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+        }
+    }
+
 
     @GetMapping("/public/users/{username}")
     public ResponseEntity<ResponseAppUserDTO> getAppUserByUsername( @PathVariable("username") String username) {

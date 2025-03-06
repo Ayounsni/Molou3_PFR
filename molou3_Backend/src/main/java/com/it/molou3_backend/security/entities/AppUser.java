@@ -14,6 +14,8 @@ import lombok.Setter;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "dtype", discriminatorType = DiscriminatorType.STRING)
 public class AppUser {
 
     @Id
@@ -41,6 +43,9 @@ public class AppUser {
     private String description;
 
     private boolean enabled = true;
+
+    @Column(name = "dtype", insertable = false, updatable = false)
+    private String dtype; //
 
     @ManyToOne
     private AppRole role;

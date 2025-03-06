@@ -16,6 +16,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@DiscriminatorValue("Colombophile")
 public class Colombophile extends AppUser {
 
     @NotBlank

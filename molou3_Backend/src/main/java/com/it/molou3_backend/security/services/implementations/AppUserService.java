@@ -1,6 +1,8 @@
 package com.it.molou3_backend.security.services.implementations;
 
 
+import com.it.molou3_backend.models.entities.Association;
+import com.it.molou3_backend.models.entities.Colombophile;
 import com.it.molou3_backend.security.config.Jwt.JwtUtils;
 import com.it.molou3_backend.security.dtos.AppUserDTO.CreateAppUserDTO;
 import com.it.molou3_backend.security.dtos.AppUserDTO.ResponseAppUserDTO;
@@ -43,9 +45,7 @@ public class AppUserService implements IAppUserService {
 
     @Override
     public ResponseAppUserDTO create(CreateAppUserDTO createAppUserDTO) {
-//        if (appUserRepository.findByUsername(createAppUserDTO.getUsername()).isPresent()) {
-//            throw new IllegalArgumentException("Ce nom d'utilisateur existe déjà.");
-//        }
+
         if (appUserRepository.findByEmail(createAppUserDTO.getEmail()).isPresent()) {
             throw new IllegalArgumentException("Cette email existe déjà.");
         }
@@ -58,20 +58,105 @@ public class AppUserService implements IAppUserService {
     }
     @Override
     public ResponseLoginDTO login(RequestLoginDTO loginRequest) {
+        // Authentification de l'utilisateur
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        loginRequest.getEmail(),
+                        loginRequest.getPassword())
+        );
 
-            Authentication authentication = authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(
-                            loginRequest.getEmail(),
-                            loginRequest.getPassword())
-            );
+        // Récupération de l'utilisateur depuis la base de données
+        AppUser user = appUserRepository.findByEmail(authentication.getName())
+                .orElseThrow(() -> new RuntimeException("Utilisateur non trouvé"));
 
-            String token = jwtUtils.generateToken(loginRequest.getEmail());
-            ResponseLoginDTO response = new ResponseLoginDTO();
-            response.setToken(token);
-            response.setEmail(authentication.getName());
-            response.setRole(authentication.getAuthorities().iterator().next().getAuthority());
-            return response;
+        // Création de la réponse DTO
+        ResponseLoginDTO response = new ResponseLoginDTO();
 
+        // Remplir les champs communs à tous les utilisateurs
+        response.setId(user.getId());
+        response.setEmail(user.getEmail());
+        response.setRole(authentication.getAuthorities().iterator().next().getAuthority()); // Assurez-vous que `role` est une énumération
+        response.setVille(user.getVille());
+        response.setTelephone(user.getTelephone());
+        response.setPhotoUrl(user.getPhotoUrl());
+        response.setAdresse(user.getAdresse());
+        response.setDescription(user.getDescription());
+        response.setEnabled(user.isEnabled());
+
+        // Générer le token JWT
+        String token = jwtUtils.generateToken(user.getEmail());
+        response.setToken(token);
+
+        // Vérifier le type de l'utilisateur en utilisant `dtype`
+        if ("Colombophile".equals(user.getDtype())) {
+            Colombophile colombophile = (Colombophile) user;
+            // Remplir les champs spécifiques à Colombophile
+            response.setNomComplet(colombophile.getNomComplet());
+            response.setNiveauExperience(colombophile.getNiveauExperience());
+            response.setDateNaissance(colombophile.getDateNaissance());
+        }
+        else if ("Association".equals(user.getDtype())) {
+            Association association = (Association) user;
+            // Remplir les champs spécifiques à Association
+            response.setNomAssociation(association.getNomAssociation());
+            response.setResponsable(association.getResponsable());
+            response.setDateCreation(association.getDateCreation());
+            response.setStatusInscription(association.getStatusInscription());
+            response.setPreuveLegalePath(association.getPreuveLegalePath());
+        }
+        else {
+            throw new RuntimeException("Type d'utilisateur non pris en charge : " + user.getDtype());
+        }
+
+        return response;
+    }
+    @Override
+    public ResponseLoginDTO getCurrentUser(String token) {
+        // Extraire l’email du token
+        if (!jwtUtils.validateJwtToken(token)) {
+            throw new RuntimeException("Token invalide ou expiré");
+        }
+
+        // Extraire l’email du token
+        String email = jwtUtils.getUsernameFromJwtToken(token);
+
+        // Récupérer l’utilisateur depuis la base de données
+        AppUser user = appUserRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("Utilisateur non trouvé"));
+
+        // Création de la réponse DTO
+        ResponseLoginDTO response = new ResponseLoginDTO();
+
+        // Remplir les champs communs à tous les utilisateurs
+        response.setId(user.getId());
+        response.setEmail(user.getEmail());
+        response.setRole(user.getRole().getRoleName()); // Assurez-vous que getRole() renvoie un objet avec getAuthority()
+        response.setVille(user.getVille());
+        response.setTelephone(user.getTelephone());
+        response.setPhotoUrl(user.getPhotoUrl());
+        response.setAdresse(user.getAdresse());
+        response.setDescription(user.getDescription());
+        response.setEnabled(user.isEnabled());
+        response.setToken(token); // Réutiliser le token existant
+
+        // Vérifier le type de l’utilisateur en utilisant `dtype`
+        if ("Colombophile".equals(user.getDtype())) {
+            Colombophile colombophile = (Colombophile) user;
+            response.setNomComplet(colombophile.getNomComplet());
+            response.setNiveauExperience(colombophile.getNiveauExperience());
+            response.setDateNaissance(colombophile.getDateNaissance());
+        } else if ("Association".equals(user.getDtype())) {
+            Association association = (Association) user;
+            response.setNomAssociation(association.getNomAssociation());
+            response.setResponsable(association.getResponsable());
+            response.setDateCreation(association.getDateCreation());
+            response.setStatusInscription(association.getStatusInscription());
+            response.setPreuveLegalePath(association.getPreuveLegalePath());
+        } else {
+            throw new RuntimeException("Type d'utilisateur non pris en charge : " + user.getDtype());
+        }
+
+        return response;
     }
 
     @Override

@@ -17,5 +17,6 @@ public interface IAppUserService {
     ResponseAppUserDTO updateUser(String username , UpdateAppUserDTO updateAppUserDTO);
     void changePassword(ChangePasswordDTO changePasswordDTO);
     ResponseLoginDTO login(RequestLoginDTO loginRequest);
+    public ResponseLoginDTO getCurrentUser(String token);
 
 }
