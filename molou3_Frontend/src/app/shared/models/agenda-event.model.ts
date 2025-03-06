@@ -1,5 +1,6 @@
-import { Colombophile } from "./colombophile.model";
+import { AppUser } from "./app-user.model";
 import { TypeEvent } from "./enums/enums";
+import { User } from "./user.model";
 
 
 export interface AgendaEvent {
@@ -8,5 +9,5 @@ export interface AgendaEvent {
   dateDebut: string | Date;
   dateFin: string | Date;
   typeEvent: TypeEvent;
-  colombophile?: Colombophile;
+  colombophile?: User;
 }

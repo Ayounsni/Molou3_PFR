@@ -5,6 +5,7 @@ import { Colombophile } from '../../shared/models/colombophile.model';
 import { Association } from '../../shared/models/association.model';
 import { environment } from '../../environment/environment';
 import { AppUser } from '../../shared/models/app-user.model';
+import { LoginResponse } from '../../shared/models/login-response.model';
 
 @Injectable({
   providedIn: 'root'
@@ -30,8 +31,8 @@ export class AuthService {
     );
   }
 
-  login(email: string, password: string): Observable<{ email: string, role: string, token: string }> {
-    return this.http.post<{ email: string, role: string, token: string }>(
+  login(email: string, password: string): Observable<LoginResponse> {
+    return this.http.post<LoginResponse>(
       `${this.apiUrl}/public/login`,
       { email, password },
       { headers: { 'Content-Type': 'application/json' } }
@@ -42,7 +43,10 @@ export class AuthService {
     return this.http.get<AppUser[]>(`${this.apiUrl}/public/users`);
   }
 
-  // Ajouter ces méthodes pour la gestion du token
+  getCurrentUser(): Observable<LoginResponse> {
+    return this.http.get<LoginResponse>(`${this.apiUrl}/public/current-user`);
+  }
+
   setToken(token: string): void {
     localStorage.setItem('jwt_token', token);
   }

@@ -1,7 +1,8 @@
-import { Colombophile } from './colombophile.model';
+import { AppUser } from './app-user.model';
 import { Sexe, StatusPigeon } from './enums/enums';
 import { Marketplace } from './marketplace.model';
 import { Participation } from './participation.model';
+import { User } from './user.model';
 
 export interface Pigeon {
   id?: number;
@@ -11,7 +12,7 @@ export interface Pigeon {
   photoUrl?: string;
   statusPigeon: StatusPigeon;
   estFavori: boolean;
-  colombophile?: Colombophile;
+  colombophile?: User;
   marketplace?: Marketplace;
   participations?: Participation[];
 }

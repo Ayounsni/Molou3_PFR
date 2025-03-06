@@ -2,15 +2,16 @@ import { createReducer, on } from '@ngrx/store';
 import * as AuthActions from './auth.actions';
 import { Association } from '../../shared/models/association.model';
 import { Colombophile } from '../../shared/models/colombophile.model';
+import { User } from '../../shared/models/user.model';
 
 export interface AuthState {
   loading: boolean;
-  error: any;
+  error: string | null;
   registeredUser: Colombophile | Association | null;
-  currentUser: any | null;
+  currentUser: User | null;
   token: string | null;
   loginLoading: boolean;
-  loginError: any | null;
+  loginError: string | null;
 }
 
 export const initialState: AuthState = {

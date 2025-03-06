@@ -6,6 +6,8 @@ import * as AuthActions from './auth.actions';
 import { AuthService } from '../../core/services/auth.service';
 import { Colombophile } from '../../shared/models/colombophile.model';
 import { Association } from '../../shared/models/association.model';
+import { User } from '../../shared/models/user.model';
+import { LoginResponse } from '../../shared/models/login-response.model';
 import { Router } from '@angular/router';
 
 @Injectable()
@@ -23,8 +25,7 @@ export class AuthEffects {
           map((user: Colombophile) => AuthActions.registerSuccess({ user })),
           catchError((error) => {
             console.error('Erreur API pour colombophile:', error);
-            // Passer l'erreur complète, incluant la réponse du backend
-            return of(AuthActions.registerFailure({ error: error.error || error }));
+            return of(AuthActions.registerFailure({ error: error.error?.message || error.message || 'Erreur inconnue' }));
           })
         )
       )
@@ -40,8 +41,7 @@ export class AuthEffects {
           map((user: Association) => AuthActions.registerSuccess({ user })),
           catchError((error) => {
             console.error('Erreur API pour association:', error);
-            // Passer l'erreur complète, incluant la réponse du backend
-            return of(AuthActions.registerFailure({ error: error.error || error }));
+            return of(AuthActions.registerFailure({ error: error.error?.message || error.message || 'Erreur inconnue' }));
           })
         )
       )
@@ -54,20 +54,92 @@ export class AuthEffects {
       mergeMap(({ email, password }) =>
         this.authService.login(email, password).pipe(
           tap((response) => {
-            console.log(response)
+            console.log('Login réussi, token:', response.token);
             this.authService.setToken(response.token);
             this.router.navigate([this.getDashboardRoute(response.role)]);
           }),
-          map((response) => AuthActions.loginSuccess({
-            user: { email: response.email, role: response.role },
-            token: response.token
-          })),
+          map((response: LoginResponse) => {
+            const user: User = {
+              id: response.id,
+              email: response.email,
+              password: '',
+              role: { roleName: response.role } as any,
+              ville: response.ville,
+              telephone: response.telephone,
+              photoUrl: response.photoUrl,
+              adresse: response.adresse,
+              description: response.description,
+              enabled: response.enabled,
+              nomComplet: response.nomComplet,
+              niveauExperience: response.niveauExperience,
+              dateNaissance: response.dateNaissance,
+              nomAssociation: response.nomAssociation,
+              responsable: response.responsable,
+              dateCreation: response.dateCreation,
+              statusInscription: response.statusInscription,
+              preuveLegalePath: response.preuveLegalePath
+            };
+            return AuthActions.loginSuccess({
+              user,
+              token: response.token
+            });
+          }),
           catchError((error) => {
+            console.error('Erreur login:', error);
             this.authService.clearToken();
-            return of(AuthActions.loginFailure({ error: error.error?.message || 'Erreur de connexion' }));
+            return of(AuthActions.loginFailure({ error: error.error?.message || error.message || 'Erreur de connexion' }));
           })
         )
       )
+    )
+  );
+
+  checkLogin$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(AuthActions.checkLogin),
+      mergeMap(() => {
+        const token = this.authService.getToken();
+        console.log('CheckLogin - Token trouvé dans localStorage:', token);
+        if (!token) {
+          console.log('Aucun token trouvé, échec de checkLogin');
+          return of(AuthActions.loginFailure({ error: 'Aucun token trouvé' }));
+        }
+        return this.authService.getCurrentUser().pipe(
+          tap((response) => console.log('Réponse getCurrentUser:', response)),
+          map((response: LoginResponse) => {
+            const user: User = {
+              id: response.id,
+              email: response.email,
+              password: '',
+              role: { roleName: response.role } as any,
+              ville: response.ville,
+              telephone: response.telephone,
+              photoUrl: response.photoUrl,
+              adresse: response.adresse,
+              description: response.description,
+              enabled: response.enabled,
+              nomComplet: response.nomComplet,
+              niveauExperience: response.niveauExperience,
+              dateNaissance: response.dateNaissance,
+              nomAssociation: response.nomAssociation,
+              responsable: response.responsable,
+              dateCreation: response.dateCreation,
+              statusInscription: response.statusInscription,
+              preuveLegalePath: response.preuveLegalePath
+            };
+            console.log('Utilisateur restauré:', user);
+            return AuthActions.loginSuccess({
+              user,
+              token
+            });
+          }),
+          catchError((error) => {
+            console.error('Erreur getCurrentUser:', error);
+            this.authService.clearToken();
+            return of(AuthActions.loginFailure({ error: error.error?.message || error.message || 'Erreur de récupération de l’utilisateur' }));
+          })
+        );
+      })
     )
   );
 
