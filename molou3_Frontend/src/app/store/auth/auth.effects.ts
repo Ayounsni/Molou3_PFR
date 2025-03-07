@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { catchError, map, mergeMap, tap } from 'rxjs/operators';
+import { catchError, map, mergeMap, tap, timeout } from 'rxjs/operators';
 import { of } from 'rxjs';
 import * as AuthActions from './auth.actions';
 import { AuthService } from '../../core/services/auth.service';
@@ -118,6 +118,7 @@ export class AuthEffects {
         }
         return this.authService.getCurrentUser().pipe(
           tap((response) => console.log('Réponse getCurrentUser:', response)),
+          timeout(5000),
           map((response: LoginResponse) => {
             const user: User = {
               id: response.id,
@@ -151,6 +152,8 @@ export class AuthEffects {
       })
     )
   );
+
+
 
   private getDashboardRoute(role: string): string {
     switch (role) {

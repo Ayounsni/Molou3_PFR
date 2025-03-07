@@ -1,0 +1,13 @@
+.roleLabel {
+    text-transform: capitalize;
+  }
+  
+  .roleLabel::after {
+    content: "";
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    background: #93c5fd;
+    border-radius: 50%;
+    margin-left: 4px;
+  }
