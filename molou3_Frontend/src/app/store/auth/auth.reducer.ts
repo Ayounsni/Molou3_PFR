@@ -64,3 +64,4 @@ export const authReducer = createReducer(
     token: null
   }))
 );
+

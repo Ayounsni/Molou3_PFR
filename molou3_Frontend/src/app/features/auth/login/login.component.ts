@@ -9,12 +9,13 @@ import { selectLoginError, selectLoginLoading } from '../../../store/auth/auth.s
 
 @Component({
   selector: 'app-login',
-  imports: [CommonModule,ReactiveFormsModule,RouterLink],
+  standalone: true,
+  imports: [CommonModule, ReactiveFormsModule, RouterLink],
   templateUrl: './login.component.html',
-  styleUrl: './login.component.css'
+  styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit, OnDestroy {
-  imagepath = 'assets/logo10.png'; 
+  imagepath = 'assets/logo10.png';
   loginForm: FormGroup;
   isLoading = false;
   showPassword = false;
@@ -24,7 +25,12 @@ export class LoginComponent implements OnInit, OnDestroy {
   private timer: any;
   errorMessage: string | null = null;
 
-  constructor(private fb: FormBuilder,private route: ActivatedRoute, private router: Router,private store: Store<AppState>) {
+  constructor(
+    private fb: FormBuilder,
+    private route: ActivatedRoute,
+    private router: Router,
+    private store: Store<AppState>
+  ) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required]
@@ -33,11 +39,6 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.checkRegistrationSuccess();
-    this.store.select(selectLoginError).subscribe(error => {
-      this.errorMessage = error;
-      this.isLoading = false;
-    });
-    
     this.store.select(selectLoginLoading).subscribe(loading => {
       this.isLoading = loading;
     });
@@ -50,12 +51,22 @@ export class LoginComponent implements OnInit, OnDestroy {
   onSubmit() {
     if (this.loginForm.valid) {
       this.isLoading = true;
-      this.errorMessage = null;
+      this.errorMessage = null; 
       const { email, password } = this.loginForm.value;
       this.store.dispatch(AuthActions.login({ email, password }));
+
+      const errorSubscription = this.store.select(selectLoginError).subscribe(error => {
+        if (error) {
+          this.errorMessage = error;
+          this.isLoading = false;
+        }
+      });
+
       setTimeout(() => {
-        console.log('Login Submitted', this.loginForm.value);
-        this.isLoading = false;
+        errorSubscription.unsubscribe();
+        if (!this.errorMessage) {
+          this.isLoading = false; 
+        }
       }, 2000);
     }
   }
@@ -65,8 +76,6 @@ export class LoginComponent implements OnInit, OnDestroy {
       if (params['registered'] === 'true') {
         this.showSuccessMessage = true;
         this.startProgressBar();
-        
-        // Cleanup URL
         this.router.navigate([], {
           replaceUrl: true,
           queryParams: { registered: null },

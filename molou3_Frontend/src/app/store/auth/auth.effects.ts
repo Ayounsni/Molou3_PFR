@@ -87,11 +87,22 @@ export class AuthEffects {
           catchError((error) => {
             console.error('Erreur login:', error);
             this.authService.clearToken();
-            return of(AuthActions.loginFailure({ error: error.error?.message || error.message || 'Erreur de connexion' }));
+            return of(AuthActions.loginFailure({ error: 'Email ou mot de passe incorrect' }));
           })
         )
       )
     )
+  );
+
+  logout$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(AuthActions.logout),
+      tap(() => {
+        this.authService.clearToken();
+        this.router.navigate(['/login']);
+      })
+    ),
+    { dispatch: false } 
   );
 
   checkLogin$ = createEffect(() =>
@@ -101,8 +112,9 @@ export class AuthEffects {
         const token = this.authService.getToken();
         console.log('CheckLogin - Token trouvé dans localStorage:', token);
         if (!token) {
-          console.log('Aucun token trouvé, échec de checkLogin');
-          return of(AuthActions.loginFailure({ error: 'Aucun token trouvé' }));
+          console.log('Aucun token trouvé, pas de restauration de session');
+          // Ne pas dispatch loginFailure ici pour éviter d’afficher une erreur
+          return of({ type: '[Auth] No Action' }); // Action neutre ou rien
         }
         return this.authService.getCurrentUser().pipe(
           tap((response) => console.log('Réponse getCurrentUser:', response)),
@@ -128,15 +140,12 @@ export class AuthEffects {
               preuveLegalePath: response.preuveLegalePath
             };
             console.log('Utilisateur restauré:', user);
-            return AuthActions.loginSuccess({
-              user,
-              token
-            });
+            return AuthActions.loginSuccess({ user, token });
           }),
           catchError((error) => {
             console.error('Erreur getCurrentUser:', error);
             this.authService.clearToken();
-            return of(AuthActions.loginFailure({ error: error.error?.message || error.message || 'Erreur de récupération de l’utilisateur' }));
+            return of(AuthActions.loginFailure({ error: error.error?.message || 'Erreur de récupération de l’utilisateur' }));
           })
         );
       })
