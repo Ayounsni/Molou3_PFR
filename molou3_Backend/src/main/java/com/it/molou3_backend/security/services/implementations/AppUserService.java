@@ -104,7 +104,9 @@ public class AppUserService implements IAppUserService {
             response.setStatusInscription(association.getStatusInscription());
             response.setPreuveLegalePath(association.getPreuveLegalePath());
         }
-        else {
+        else if ("Admin".equals(user.getDtype())) {
+            response.setRole("ROLE_ADMIN");
+        }         else {
             throw new RuntimeException("Type d'utilisateur non pris en charge : " + user.getDtype());
         }
 
