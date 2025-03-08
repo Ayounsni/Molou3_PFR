@@ -56,7 +56,7 @@ export class RegisterComponent {
       dateCreation: ['', [Validators.required, notInFuture]],
       niveauExperience: [''],
       dateNaissance: ['', [Validators.required, notTodayOrFuture]],
-      photoUrl: ['', Validators.required],
+      photoUrl: [''], 
       preuveLegalePath: [''],
       roleId: [null, Validators.required]
     }, { validators: this.passwordMatchValidator });
@@ -143,7 +143,6 @@ export class RegisterComponent {
     }
     this.registerForm.get('email')?.setValidators([Validators.required, Validators.email]);
     this.registerForm.get('email')?.setAsyncValidators([uniqueEmailValidator(this.authService)]);
-    this.registerForm.get('photoUrl')?.setValidators(Validators.required);
     controls.forEach(control => this.registerForm.get(control)?.updateValueAndValidity());
   }
 
@@ -155,8 +154,8 @@ export class RegisterComponent {
         ? ['nom', 'responsable', 'dateCreation']
         : ['nom', 'niveauExperience', 'dateNaissance'],
       () => this.userType === 'association'
-        ? ['photoUrl', 'preuveLegalePath', 'roleId']
-        : ['photoUrl', 'roleId']
+        ? ['preuveLegalePath', 'roleId'] 
+        : ['roleId'] 
     ];
 
     const currentValidation = stepValidations[this.currentStep - 1]();
@@ -194,7 +193,7 @@ export class RegisterComponent {
         responsable: formValue.responsable,
         dateCreation: formValue.dateCreation,
         roleId: formValue.roleId,
-        enabled: true // Par défaut, peut être ajusté selon votre backend
+        enabled: true 
       } : {
         email: formValue.email,
         password: formValue.password,
@@ -205,19 +204,19 @@ export class RegisterComponent {
         niveauExperience: formValue.niveauExperience,
         dateNaissance: formValue.dateNaissance,
         roleId: formValue.roleId,
-        enabled: true // Par défaut, peut être ajusté selon votre backend
+        enabled: true 
       };
 
       if (this.userType === 'colombophile') {
         this.store.dispatch(AuthActions.registerColombophile({
           data,
-          photo: this.uploadedFiles['photo']
+          photo: this.uploadedFiles['photo'] 
         }));
       } else {
         this.store.dispatch(AuthActions.registerAssociation({
           data,
           preuveLegale: this.uploadedFiles['preuveLegale']!,
-          logo: this.uploadedFiles['photo']
+          logo: this.uploadedFiles['photo'] 
         }));
       }
 

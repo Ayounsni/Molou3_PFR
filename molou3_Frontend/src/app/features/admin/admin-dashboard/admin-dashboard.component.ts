@@ -1,7 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { UploadService } from '../../../core/services/upload.service';
 import { CommonModule } from '@angular/common';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { User } from '../../../shared/models/user.model';
+import { Store } from '@ngrx/store';
+import { AppState } from '../../../store/app.state';
+import { selectCurrentUser } from '../../../store/auth/auth.selectors';
 
 @Component({
   selector: 'app-admin-dashboard',
@@ -9,30 +13,15 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
   templateUrl: './admin-dashboard.component.html',
   styleUrl: './admin-dashboard.component.css'
 })
-export class AdminDashboardComponent {
-  selectedFile: File | null = null;
-  fileUrl: string | null = null;
-  safeFileUrl: SafeResourceUrl | null = null; // URL sécurisée pour l’iframe
+export class AdminDashboardComponent implements OnInit {
+  currentUser: User | null = null;
 
-  constructor(
-    private uploadService: UploadService,
-    private sanitizer: DomSanitizer
-  ) {}
+  constructor(private store: Store<AppState>) {}
 
-  onFileSelected(event: any): void {
-    this.selectedFile = event.target.files[0];
+  ngOnInit() {
+    this.store.select(selectCurrentUser).subscribe(user => {
+      this.currentUser = user;
+    });
   }
 
-  uploadFile(): void {
-    if (this.selectedFile) {
-      this.uploadService.uploadFile(this.selectedFile).subscribe({
-        next: (response) => {
-          this.fileUrl = response.url; // URL brute
-          this.safeFileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.fileUrl); // URL sécurisée
-          console.log('Fichier uploadé : ', this.fileUrl);
-        },
-        error: (err) => console.error('Erreur : ', err)
-      });
-    }
-  }
 }
