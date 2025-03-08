@@ -1,234 +1,297 @@
 <div class="relative">
-<div class="flex flex-row-reverse relative" style="z-index: 1">
-    <img [attr.src]="image" alt="Logo" class="w-[887px] ">
-    <div class=" absolute pl-16 top-0 bottom-0 flex items-center w-full ">
-        <div class="max-w-2xl">
-          <h1 class="text-6xl font-bold mb-6 leading-tight">
-            La communauté des passionnés de 
-            <span class="text-blue-400">pigeons voyageurs</span>
-          </h1>
-          <div class="flex gap-4">
-            <button 
-            class="group relative flex items-center gap-2 px-5 py-3 rounded-sm
-                   bg-gradient-to-br from-blue-300/90 to-blue-400/80 
-                   hover:from-blue-300 hover:to-blue-400 hover:scale-[1.02]
-                   text-gray-800 font-semibold 
-                   transition-all duration-300 
-                   shadow-lg shadow-blue-300/20 
-                   hover:shadow-blue-300/30">
-            <svg class="w-5 h-5 transition-transform group-hover:rotate-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
+  <div class="flex flex-row-reverse relative" style="z-index: 1">
+    <img [attr.src]="image" alt="Logo" class="w-[887px]" />
+    <div class="absolute pl-16 top-0 bottom-0 flex items-center w-full">
+      <div class="max-w-2xl">
+        <h1 class="text-6xl font-bold mb-6 leading-tight">
+          La communauté des passionnés de
+          <span class="text-blue-400">pigeons voyageurs</span>
+        </h1>
+        <div class="flex gap-4">
+          <button
+            class="group relative flex items-center gap-2 px-5 py-3 rounded-sm bg-gradient-to-br from-blue-300/90 to-blue-400/80 hover:from-blue-300 hover:to-blue-400 hover:scale-[1.02] text-gray-800 font-semibold transition-all duration-300 shadow-lg shadow-blue-300/20 hover:shadow-blue-300/30"
+          >
+            <svg
+              class="w-5 h-5 transition-transform group-hover:rotate-12"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
+              />
             </svg>
             Découvrir les compétitions
           </button>
-          <button 
-            class="group relative flex items-center gap-2 px-5 py-3 rounded-sm
-                   border-2 border-blue-400/40 bg-blue-300/5 
-                   hover:border-blue-400/60 hover:bg-blue-300/10 
-                   text-blue-400 
-                   transition-all duration-300 
-                   shadow-lg shadow-blue-300/10 
-                   hover:shadow-blue-300/20">
-            <svg class="w-5 h-5 text-blue-400 transition-transform group-hover:scale-100" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/>
+          <button
+            class="group relative flex items-center gap-2 px-5 py-3 rounded-sm border-2 border-blue-400/40 bg-blue-300/5 hover:border-blue-400/60 hover:bg-blue-300/10 text-blue-400 transition-all duration-300 shadow-lg shadow-blue-300/10 hover:shadow-blue-300/20"
+          >
+            <svg
+              class="w-5 h-5 text-blue-400 transition-transform group-hover:scale-100"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
+              />
             </svg>
             Voir la marketplace
           </button>
-          </div>
         </div>
       </div>
-</div>
-<div class="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 z-20  flex items-center justify-between bg-gray-800 text-white px-4 py-4 rounded-full shadow-xl w-9/12 mx-auto  transition-all duration-300">
-    <div class="flex-1 text-center group">
-        <span class="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-300 to-blue-400">120+</span>
-        <p class=" text-gray-300 mt-1 group-hover:text-blue-300 transition-colors">Associations</p>
     </div>
-    
-    <div class="w-px h-10 bg-gray-700"></div>
-    
+  </div>
+  <div
+    class="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 z-20 flex items-center justify-between bg-gray-800 text-white px-4 py-4 rounded-full shadow-xl w-9/12 mx-auto transition-all duration-300"
+  >
     <div class="flex-1 text-center group">
-        <span class="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-300 to-blue-400">3500+</span>
-        <p class=" text-gray-300 mt-1 group-hover:text-blue-300 transition-colors">Colombophiles</p>
-    </div>
-    
-    <div class="w-px h-10 bg-gray-700"></div>
-    
-    <div class="flex-1 text-center group">
-        <span class="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-300 to-blue-400">500+</span>
-        <p class=" text-gray-300 mt-1 group-hover:text-blue-300 transition-colors">Compétitions</p>
-    </div>
-    
-    <div class="w-px h-10 bg-gray-700"></div>
-    
-    <div class="flex-1 text-center group">
-        <span class="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-300 to-blue-400">250+</span>
-        <p class=" text-gray-300 mt-1 group-hover:text-blue-300 transition-colors">Annonces</p>
+      <span
+        class="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-300 to-blue-400"
+        >120+</span
+      >
+      <p class="text-gray-300 mt-1 group-hover:text-blue-300 transition-colors">
+        Associations
+      </p>
     </div>
 
-</div>
+    <div class="w-px h-10 bg-gray-700"></div>
+
+    <div class="flex-1 text-center group">
+      <span
+        class="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-300 to-blue-400"
+        >3500+</span
+      >
+      <p class="text-gray-300 mt-1 group-hover:text-blue-300 transition-colors">
+        Colombophiles
+      </p>
+    </div>
+
+    <div class="w-px h-10 bg-gray-700"></div>
+
+    <div class="flex-1 text-center group">
+      <span
+        class="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-300 to-blue-400"
+        >500+</span
+      >
+      <p class="text-gray-300 mt-1 group-hover:text-blue-300 transition-colors">
+        Compétitions
+      </p>
+    </div>
+
+    <div class="w-px h-10 bg-gray-700"></div>
+
+    <div class="flex-1 text-center group">
+      <span
+        class="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-300 to-blue-400"
+        >250+</span
+      >
+      <p class="text-gray-300 mt-1 group-hover:text-blue-300 transition-colors">
+        Annonces
+      </p>
+    </div>
+  </div>
 </div>
 
 <section class="bg-white pb-16 pt-24 px-4">
-    <div class="text-center max-w-4xl mx-auto mb-6">
-        <h1 class="text-4xl font-extrabold leading-tight text-gray-900">Suivez. Organisez. Progressez.</h1>
-        <h2 class="text-4xl font-extrabold text-blue-400 mt-2">Tout cela sur une seule plateforme.</h2>
-        <p class="text-gray-600 text-sm px-32  font-medium mt-4">
-            <span class="text-blue-500">Distances</span>, <span class="text-blue-500">performances</span>, 
-            <span class="text-blue-500">suivi</span> en temps réel… Rejoignez 
-            <span class="text-blue-500">une communauté</span> passionnée ! 
-            <span class="text-blue-500">Planifiez</span> vos journées, consultez 
-            <span class="text-blue-500">la météo</span> et accédez à 
-            <span class="text-blue-500">la marketplace</span> pour vos pigeons. 
-            <span class="text-blue-500">Inscrivez-vous gratuitement</span> et vivez pleinement votre passion !
-        </p>
-    </div>
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-7xl mx-auto px-1">
-        <div class="group relative bg-white rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300 overflow-hidden">
-            <div class="relative overflow-hidden">
-                <img 
-                    [attr.src]="meteo" 
-                    alt="Météo" 
-                    class="w-full h-48 object-cover transform transition-all duration-500 group-hover:scale-110"
-                >
-                <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-4">
-                    <p class="text-white font-semibold text-lg">Données Météo Intelligentes</p>
-                </div>
-                <button class="absolute top-3 right-3 bg-white/90 backdrop-blur-sm px-4 py-2 rounded-full text-sm font-medium shadow-sm hover:bg-white transition-all">
-                    Voir →
-                </button>
-            </div>
-            <div class="p-5 bg-gray-50">
-                <p class="text-gray-600 text-sm leading-relaxed">
-                    Planification optimale selon les conditions météo en temps réel
-                </p>
-
-            </div>
-        </div>
-        <div class="group relative bg-white rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300 overflow-hidden">
-            <div class="relative overflow-hidden">
-                <img 
-                    [attr.src]="plan" 
-                    alt="Météo" 
-                    class="w-full h-48 object-cover transform transition-all duration-500 group-hover:scale-110"
-                >
-                <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-4">
-                    <p class="text-white font-semibold text-lg">Agenda Intelligent</p>
-                </div>
-                <button class="absolute top-3 right-3 bg-white/90 backdrop-blur-sm px-4 py-2 rounded-full text-sm font-medium shadow-sm hover:bg-white transition-all">
-                    Voir →
-                </button>
-            </div>
-            <div class="p-5 bg-gray-50">
-                <p class="text-gray-600 text-sm leading-relaxed">
-                    Planifiez entraînements, compétitions et soins alertes et rappels automatiques
-                </p>
-
-            </div>
-        </div>
-        <div class="group relative bg-white rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300 overflow-hidden">
-            <div class="relative overflow-hidden">
-                <img 
-                    [attr.src]="market" 
-                    alt="Météo" 
-                    class="w-full h-48 object-cover transform transition-all duration-500 group-hover:scale-110"
-                >
-                <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-4">
-                    <p class="text-white font-semibold text-lg">Marketplace Premium</p>
-                </div>
-                <button class="absolute top-3 right-3 bg-white/90 backdrop-blur-sm px-4 py-2 rounded-full text-sm font-medium shadow-sm hover:bg-white transition-all">
-                    Voir →
-                </button>
-            </div>
-            <div class="p-5 bg-gray-50">
-                <p class="text-gray-600 text-sm leading-relaxed">
-                    Achetez/vendez pigeons Notations et certifications vérifiées
-                </p>
-
-            </div>
-        </div>
-        <div class="group relative bg-white rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300 overflow-hidden">
-            <div class="relative overflow-hidden">
-                <img 
-                    [attr.src]="rank" 
-                    alt="Météo" 
-                    class="w-full h-48 object-cover transform transition-all duration-500 group-hover:scale-110"
-                >
-                <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-4">
-                    <p class="text-white font-semibold text-lg">Classements Dynamiques</p>
-                </div>
-                <button class="absolute top-3 right-3 bg-white/90 backdrop-blur-sm px-4 py-2 rounded-full text-sm font-medium shadow-sm hover:bg-white transition-all">
-                    Voir →
-                </button>
-            </div>
-            <div class="p-5 bg-gray-50">
-                <p class="text-gray-600 text-sm leading-relaxed">
-                    Comparez vos résultats en temps réel avec la communauté
-                </p>
-
-            </div>
-        </div>
-    </div>
-</section>
-
-
-<div class="bg-gray-800 text-white py-10 ">
-    <h2 class="text-center text-3xl font-semibold">Associations les plus actives</h2>
-    <p class="text-center text-gray-300 mt-2 ">
-        Découvrez les associations de compétition de pigeons voyageurs les plus actives. Consultez leurs annonces, <br>
-         découvrez leurs programmes annuels et suivez les classements des compétitions.
+  <div class="text-center max-w-4xl mx-auto mb-6">
+    <h1 class="text-4xl font-extrabold leading-tight text-gray-900">
+      Suivez. Organisez. Progressez.
+    </h1>
+    <h2 class="text-4xl font-extrabold text-blue-400 mt-2">
+      Tout cela sur une seule plateforme.
+    </h2>
+    <p class="text-gray-600 text-sm px-32 font-medium mt-4">
+      <span class="text-blue-500">Distances</span>,
+      <span class="text-blue-500">performances</span>,
+      <span class="text-blue-500">suivi</span> en temps réel… Rejoignez
+      <span class="text-blue-500">une communauté</span> passionnée !
+      <span class="text-blue-500">Planifiez</span> vos journées, consultez
+      <span class="text-blue-500">la météo</span> et accédez à
+      <span class="text-blue-500">la marketplace</span> pour vos pigeons.
+      <span class="text-blue-500">Inscrivez-vous gratuitement</span> et vivez
+      pleinement votre passion !
     </p>
-    <div class="overflow-x-auto whitespace-nowrap px-4 py-6">
-      <div class="flex justify-center gap-12">
-        <div *ngFor="let cyclist of cyclists" class="bg-gray-900 relative py-6 px-3 rounded-sm flex flex-col justify-center items-center">
-          <div class="">
-            <img [src]="cyclist.image" alt="{{ cyclist.image }}" class="rounded-full w-40 h-40 ">
-            <div class="absolute top-0 right-0  pl-20 rounded-full">
-                <img 
-                [attr.src]="verified" 
-                alt="Météo" 
-                class="w-20"
-            >
-            </div>
-          </div>
-          <p class="text-center font-semibold mt-3">{{ cyclist.name }}</p>
+  </div>
+  <div
+    class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-7xl mx-auto px-1"
+  >
+    <div
+      class="group relative bg-white rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300 overflow-hidden"
+    >
+      <div class="relative overflow-hidden">
+        <img
+          [attr.src]="meteo"
+          alt="Météo"
+          class="w-full h-48 object-cover transform transition-all duration-500 group-hover:scale-110"
+        />
+        <div
+          class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-4"
+        >
+          <p class="text-white font-semibold text-lg">
+            Données Météo Intelligentes
+          </p>
         </div>
+        <button
+          class="absolute top-3 right-3 bg-white/90 backdrop-blur-sm px-4 py-2 rounded-full text-sm font-medium shadow-sm hover:bg-white transition-all"
+        >
+          Voir →
+        </button>
+      </div>
+      <div class="p-5 bg-gray-50">
+        <p class="text-gray-600 text-sm leading-relaxed">
+          Planification optimale selon les conditions météo en temps réel
+        </p>
       </div>
     </div>
-  
-    <div class="mt-7 text-center">
-        <button class="bg-gradient-to-br from-blue-300/90 to-blue-400/80 hover:bg-blue-400 text-white px-4 py-2 rounded-sm text-lg font-semibold 
-                      hover:shadow-lg ">
-                      Accéder à la liste complète
+    <div
+      class="group relative bg-white rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300 overflow-hidden"
+    >
+      <div class="relative overflow-hidden">
+        <img
+          [attr.src]="plan"
+          alt="Météo"
+          class="w-full h-48 object-cover transform transition-all duration-500 group-hover:scale-110"
+        />
+        <div
+          class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-4"
+        >
+          <p class="text-white font-semibold text-lg">Agenda Intelligent</p>
+        </div>
+        <button
+          class="absolute top-3 right-3 bg-white/90 backdrop-blur-sm px-4 py-2 rounded-full text-sm font-medium shadow-sm hover:bg-white transition-all"
+        >
+          Voir →
         </button>
+      </div>
+      <div class="p-5 bg-gray-50">
+        <p class="text-gray-600 text-sm leading-relaxed">
+          Planifiez entraînements, compétitions et soins alertes et rappels
+          automatiques
+        </p>
+      </div>
+    </div>
+    <div
+      class="group relative bg-white rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300 overflow-hidden"
+    >
+      <div class="relative overflow-hidden">
+        <img
+          [attr.src]="market"
+          alt="Météo"
+          class="w-full h-48 object-cover transform transition-all duration-500 group-hover:scale-110"
+        />
+        <div
+          class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-4"
+        >
+          <p class="text-white font-semibold text-lg">Marketplace Premium</p>
+        </div>
+        <button
+          class="absolute top-3 right-3 bg-white/90 backdrop-blur-sm px-4 py-2 rounded-full text-sm font-medium shadow-sm hover:bg-white transition-all"
+        >
+          Voir →
+        </button>
+      </div>
+      <div class="p-5 bg-gray-50">
+        <p class="text-gray-600 text-sm leading-relaxed">
+          Achetez/vendez pigeons Notations et certifications vérifiées
+        </p>
+      </div>
+    </div>
+    <div
+      class="group relative bg-white rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300 overflow-hidden"
+    >
+      <div class="relative overflow-hidden">
+        <img
+          [attr.src]="rank"
+          alt="Météo"
+          class="w-full h-48 object-cover transform transition-all duration-500 group-hover:scale-110"
+        />
+        <div
+          class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-4"
+        >
+          <p class="text-white font-semibold text-lg">Classements Dynamiques</p>
+        </div>
+        <button
+          class="absolute top-3 right-3 bg-white/90 backdrop-blur-sm px-4 py-2 rounded-full text-sm font-medium shadow-sm hover:bg-white transition-all"
+        >
+          Voir →
+        </button>
+      </div>
+      <div class="p-5 bg-gray-50">
+        <p class="text-gray-600 text-sm leading-relaxed">
+          Comparez vos résultats en temps réel avec la communauté
+        </p>
+      </div>
     </div>
   </div>
-    <h2 class="text-4xl text-center font-extrabold leading-tight text-black mb-4 mt-8 ">Découvrez l’univers fascinant des<span class="text-blue-400"> pigeons voyageurs</span> </h2>
-  <div class="flex justify-between flex-row flex-wrap w-full mb-20  px-28">
-    <div *ngFor="let video of videoUrls" class=" mt-6 flex flex-col justify-center items-center gap-2">
-      <iframe
-        [src]="video.safeUrl"
-        class="rounded-xl w-96 h-56 "
-        frameborder="0"
-        allowfullscreen>
-      </iframe>
-      <p class="text-center font-bold  text-gray-800">{{ video.title}}</p>
+</section>
+
+<div class="bg-gray-800 text-white py-10">
+  <h2 class="text-center text-3xl font-semibold">
+    Associations les plus actives
+  </h2>
+  <p class="text-center text-gray-300 mt-2">
+    Découvrez les associations de compétition de pigeons voyageurs les plus
+    actives. Consultez leurs annonces, <br />
+    découvrez leurs programmes annuels et suivez les classements des
+    compétitions.
+  </p>
+  <div class="overflow-x-auto whitespace-nowrap px-4 py-6">
+    <div class="flex justify-center gap-12">
+      <div
+        *ngFor="let cyclist of cyclists"
+        class="bg-gray-900 relative py-6 px-3 rounded-sm flex flex-col justify-center items-center"
+      >
+        <div class="">
+          <img
+            [src]="cyclist.image"
+            alt="{{ cyclist.image }}"
+            class="rounded-full w-40 h-40"
+          />
+          <div class="absolute top-0 right-0 pl-20 rounded-full">
+            <img [attr.src]="verified" alt="Météo" class="w-20" />
+          </div>
+        </div>
+        <p class="text-center font-semibold mt-3">{{ cyclist.name }}</p>
+      </div>
     </div>
   </div>
 
-
-
-
-
-
-
-  
-
-  
-
-
-
-
-
-
+  <div class="mt-7 text-center">
+    <button
+      class="bg-gradient-to-br from-blue-300/90 to-blue-400/80 hover:bg-blue-400 text-white px-4 py-2 rounded-sm text-lg font-semibold hover:shadow-lg"
+    >
+      Accéder à la liste complète
+    </button>
+  </div>
+</div>
+<h2
+  class="text-4xl text-center font-extrabold leading-tight text-black mb-4 mt-8"
+>
+  Découvrez l’univers fascinant des<span class="text-blue-400">
+    pigeons voyageurs</span
+  >
+</h2>
+<div class="flex justify-between flex-row flex-wrap w-full mb-20 px-28">
+  <div
+    *ngFor="let video of videoUrls"
+    class="mt-6 flex flex-col justify-center items-center gap-2"
+  >
+    <iframe
+      [src]="video.safeUrl"
+      class="rounded-xl w-96 h-56"
+      frameborder="0"
+      allowfullscreen
+    >
+    </iframe>
+    <p class="text-center font-bold text-gray-800">{{ video.title }}</p>
+  </div>
+</div>
 
 <app-footer></app-footer>

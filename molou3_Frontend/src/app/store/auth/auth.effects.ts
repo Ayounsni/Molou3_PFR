@@ -19,8 +19,8 @@ export class AuthEffects {
   registerColombophile$ = createEffect(() =>
     this.actions$.pipe(
       ofType(AuthActions.registerColombophile),
-      mergeMap(({ data }) =>
-        this.authService.registerColombophile(data).pipe(
+      mergeMap(({ data, photo }) =>
+        this.authService.registerColombophile(data, photo).pipe(
           tap(response => console.log('Réponse réussie pour colombophile:', response)),
           map((user: Colombophile) => AuthActions.registerSuccess({ user })),
           catchError((error) => {
@@ -35,8 +35,8 @@ export class AuthEffects {
   registerAssociation$ = createEffect(() =>
     this.actions$.pipe(
       ofType(AuthActions.registerAssociation),
-      mergeMap(({ data }) =>
-        this.authService.registerAssociation(data).pipe(
+      mergeMap(({ data, preuveLegale, logo }) =>
+        this.authService.registerAssociation(data, preuveLegale, logo).pipe(
           tap(response => console.log('Réponse réussie pour association:', response)),
           map((user: Association) => AuthActions.registerSuccess({ user })),
           catchError((error) => {
@@ -102,7 +102,7 @@ export class AuthEffects {
         this.router.navigate(['/login']);
       })
     ),
-    { dispatch: false } 
+    { dispatch: false }
   );
 
   checkLogin$ = createEffect(() =>
@@ -113,8 +113,7 @@ export class AuthEffects {
         console.log('CheckLogin - Token trouvé dans localStorage:', token);
         if (!token) {
           console.log('Aucun token trouvé, pas de restauration de session');
-          // Ne pas dispatch loginFailure ici pour éviter d’afficher une erreur
-          return of({ type: '[Auth] No Action' }); // Action neutre ou rien
+          return of({ type: '[Auth] No Action' });
         }
         return this.authService.getCurrentUser().pipe(
           tap((response) => console.log('Réponse getCurrentUser:', response)),
@@ -152,8 +151,6 @@ export class AuthEffects {
       })
     )
   );
-
-
 
   private getDashboardRoute(role: string): string {
     switch (role) {

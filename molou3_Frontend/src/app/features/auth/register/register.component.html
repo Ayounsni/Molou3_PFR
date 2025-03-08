@@ -4,7 +4,6 @@
     </div>
     <div class="lg:w-6/12 flex items-center justify-center p-4 lg:p-6">
       <div class="w-full max-w-xl bg-gray-900 rounded-xl shadow-lg px-12 py-7 transition-all duration-300 hover:shadow-xl">
-        <!-- En-tête -->
         <div class="text-center mb-6">
           <h2 class="text-2xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-blue-300 to-blue-400 mb-1">
             Débutez votre aventure colombophile
@@ -31,7 +30,6 @@
               Association
             </button>
           </div>
-          <!-- Barre de progression -->
           <div class="relative flex items-center justify-between mb-6">
             <div class="absolute top-1/2 left-4 right-4 h-1 bg-gray-800 rounded-full -translate-y-1/2">
               <div class="absolute h-full bg-blue-400 rounded-full transition-all duration-500 ease-out"
@@ -74,9 +72,7 @@
           </div>
         </div>
   
-        <!-- Formulaire multi-étapes -->
         <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
-          <!-- Étape 1: Identification -->
           <div *ngIf="currentStep === 1" class="space-y-4">
             <h3 class="text-xl font-bold text-gray-100 mb-4">
               Identification
@@ -154,7 +150,6 @@
             </div>
           </div>
   
-          <!-- Étape 2: Coordonnées -->
           <div *ngIf="currentStep === 2" class="space-y-4">
             <h3 class="text-xl font-bold text-gray-100 mb-4">
               Coordonnées
@@ -224,8 +219,6 @@
               </button>
             </div>
           </div>
-  
-          <!-- Étape 3: Informations personnelles -->
           <div *ngIf="currentStep === 3" class="space-y-4">
             <h3 class="text-xl font-bold text-gray-100 mb-4">
               Informations personnelles
@@ -361,7 +354,6 @@
             </div>
           </div>
   
-          <!-- Étape 4: Documents et Photo -->
           <div *ngIf="currentStep === 4" class="space-y-4">
             <h3 class="text-xl font-bold text-gray-100 mb-4">
               Documents et Photo

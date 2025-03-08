@@ -13,7 +13,6 @@ import { selectError, selectLoading, selectRegisteredUser } from '../../../store
 import { notInFuture, notTodayOrFuture, uniqueEmailValidator } from '../../../shared/validators/validators';
 import { AuthService } from '../../../core/services/auth.service';
 
-
 @Component({
   selector: 'app-register',
   standalone: true,
@@ -81,13 +80,21 @@ export class RegisterComponent {
       if (input.files?.[0]) {
         const file = input.files[0];
         const validImageExtensions = ['jpg', 'jpeg', 'png'];
+        const validProofExtensions = ['pdf', 'jpg', 'jpeg', 'png'];
         const fileExtension = file.name.split('.').pop()?.toLowerCase();
 
         if (field === 'photo' && !validImageExtensions.includes(fileExtension || '')) {
           this.registerForm.patchValue({ photoUrl: '' });
-          delete this.uploadedFiles[field]; 
-          this.fileError = 'Seules les images JPG, PNG ou JPEG sont acceptées pour la photo.'; 
-          input.value = ''; 
+          delete this.uploadedFiles[field];
+          this.fileError = 'Seules les images JPG, PNG ou JPEG sont acceptées pour la photo.';
+          input.value = '';
+          resolve();
+          return;
+        } else if (field === 'preuveLegale' && !validProofExtensions.includes(fileExtension || '')) {
+          this.registerForm.patchValue({ preuveLegalePath: '' });
+          delete this.uploadedFiles[field];
+          this.fileError = 'Seuls les fichiers PDF, JPG, PNG ou JPEG sont acceptés pour la preuve légale.';
+          input.value = '';
           resolve();
           return;
         }
@@ -96,7 +103,7 @@ export class RegisterComponent {
         this.uploadedFiles[field] = file;
         const reader = new FileReader();
         reader.onload = (e) => {
-          const base64String = e.target?.result as string; 
+          const base64String = e.target?.result as string;
           if (field === 'photo') {
             this.registerForm.patchValue({ photoUrl: file.name });
           } else if (field === 'preuveLegale') {
@@ -117,7 +124,7 @@ export class RegisterComponent {
     this.uploadedFiles = {};
     this.currentStep = 1;
     this.updateValidators();
-    this.store.dispatch(AuthActions.resetRegistrationState()); // Réinitialiser l'erreur lors du changement de type
+    this.store.dispatch(AuthActions.resetRegistrationState());
   }
 
   private updateValidators() {
@@ -186,9 +193,8 @@ export class RegisterComponent {
         nomAssociation: formValue.nom,
         responsable: formValue.responsable,
         dateCreation: formValue.dateCreation,
-        photoUrl: formValue.photoUrl,
-        preuveLegalePath: formValue.preuveLegalePath,
-        roleId: formValue.roleId
+        roleId: formValue.roleId,
+        enabled: true // Par défaut, peut être ajusté selon votre backend
       } : {
         email: formValue.email,
         password: formValue.password,
@@ -198,14 +204,21 @@ export class RegisterComponent {
         nomComplet: formValue.nom,
         niveauExperience: formValue.niveauExperience,
         dateNaissance: formValue.dateNaissance,
-        photoUrl: formValue.photoUrl,
-        roleId: formValue.roleId
+        roleId: formValue.roleId,
+        enabled: true // Par défaut, peut être ajusté selon votre backend
       };
 
       if (this.userType === 'colombophile') {
-        this.store.dispatch(AuthActions.registerColombophile({ data }));
+        this.store.dispatch(AuthActions.registerColombophile({
+          data,
+          photo: this.uploadedFiles['photo']
+        }));
       } else {
-        this.store.dispatch(AuthActions.registerAssociation({ data }));
+        this.store.dispatch(AuthActions.registerAssociation({
+          data,
+          preuveLegale: this.uploadedFiles['preuveLegale']!,
+          logo: this.uploadedFiles['photo']
+        }));
       }
 
       this.registeredUser$.subscribe(user => {

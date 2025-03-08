@@ -17,7 +17,7 @@ import { RoleLabelPipe } from '../../pipes/role-label.pipe';
 })
 export class NavbarComponent {
   imagepath = 'assets/logo1.png';
-  logo = 'assets/association.png';
+  logo = 'assets/nhassi.png';
   isDropdownOpen: string | null = null; // Gérer plusieurs dropdowns avec un identifiant
   isProfileDropdownOpen = false;
   currentUser: User | null = null;

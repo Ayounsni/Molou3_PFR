@@ -15,20 +15,23 @@ export class AuthService {
 
   constructor(private http: HttpClient) {}
 
-  registerColombophile(data: any): Observable<Colombophile> {
-    return this.http.post<Colombophile>(
-      `${this.apiUrl}/public/colombophile/register`,
-      data,
-      { headers: { 'Content-Type': 'application/json' } }
-    );
+  registerColombophile(data: any, photo?: File): Observable<Colombophile> {
+    const formData = new FormData();
+    formData.append('data', new Blob([JSON.stringify(data)], { type: 'application/json' }));
+    if (photo) {
+      formData.append('photo', photo, photo.name);
+    }
+    return this.http.post<Colombophile>(`${this.apiUrl}/public/colombophile/register`, formData);
   }
 
-  registerAssociation(data: any): Observable<Association> {
-    return this.http.post<Association>(
-      `${this.apiUrl}/public/association/register`,
-      data,
-      { headers: { 'Content-Type': 'application/json' } }
-    );
+  registerAssociation(data: any, preuveLegale: File, logo?: File): Observable<Association> {
+    const formData = new FormData();
+    formData.append('data', new Blob([JSON.stringify(data)], { type: 'application/json' }));
+    formData.append('preuveLegale', preuveLegale, preuveLegale.name);
+    if (logo) {
+      formData.append('logo', logo, logo.name);
+    }
+    return this.http.post<Association>(`${this.apiUrl}/public/association/register`, formData);
   }
 
   login(email: string, password: string): Observable<LoginResponse> {

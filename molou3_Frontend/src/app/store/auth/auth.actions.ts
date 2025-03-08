@@ -1,16 +1,16 @@
 import { createAction, props } from '@ngrx/store';
-import { Association } from '../../shared/models/association.model';
 import { Colombophile } from '../../shared/models/colombophile.model';
+import { Association } from '../../shared/models/association.model';
 import { User } from '../../shared/models/user.model';
 
 export const registerColombophile = createAction(
   '[Auth] Register Colombophile',
-  props<{ data: any }>()
+  props<{ data: any; photo?: File }>()
 );
 
 export const registerAssociation = createAction(
   '[Auth] Register Association',
-  props<{ data: any }>()
+  props<{ data: any; preuveLegale: File; logo?: File }>()
 );
 
 export const registerSuccess = createAction(
@@ -40,6 +40,6 @@ export const loginFailure = createAction(
 
 export const logout = createAction('[Auth] Logout');
 
-export const resetRegistrationState = createAction('[Auth] Reset Registration State');
-
 export const checkLogin = createAction('[Auth] Check Login');
+
+export const resetRegistrationState = createAction('[Auth] Reset Registration State');
