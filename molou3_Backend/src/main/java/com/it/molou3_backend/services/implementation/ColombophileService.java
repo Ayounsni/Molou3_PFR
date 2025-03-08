@@ -11,6 +11,9 @@ import com.it.molou3_backend.services.interfaces.IColombophileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 @Service
 public class ColombophileService extends GenericService<Colombophile,CreateColombophileDTO,UpdateColombophileDTO,ResponseColombophileDTO> implements IColombophileService {
@@ -27,11 +30,12 @@ public class ColombophileService extends GenericService<Colombophile,CreateColom
     public PasswordEncoder passwordEncoder;
     @Autowired
     public HaveIBeenPwnedService haveIBeenPwnedService;
+    @Autowired
+    public FileUploadService fileUploadService;
 
 
     @Override
-    public ResponseColombophileDTO create(CreateColombophileDTO createColombophileDTO) {
-
+    public ResponseColombophileDTO create(CreateColombophileDTO createColombophileDTO, MultipartFile photoFile) throws IOException {
         if (colombophileRepository.findByEmail(createColombophileDTO.getEmail()).isPresent()) {
             throw new IllegalArgumentException("Cette email existe déjà.");
         }
@@ -40,7 +44,14 @@ public class ColombophileService extends GenericService<Colombophile,CreateColom
         }
         Colombophile user = colombophileMapper.toEntity(createColombophileDTO);
         user.setPassword(passwordEncoder.encode(createColombophileDTO.getPassword()));
-        return colombophileMapper.toDTO(colombophileRepository.save(user)) ;
+
+        // Upload et stockage de la photo
+        if (photoFile != null && !photoFile.isEmpty()) {
+            String photoUrl = fileUploadService.uploadFile(photoFile); // URL générée
+            user.setPhotoUrl(photoUrl); // Assignée à l’entité
+        }
+
+        return colombophileMapper.toDTO(colombophileRepository.save(user)); // Sauvegarde dans la BD
     }
 
 }

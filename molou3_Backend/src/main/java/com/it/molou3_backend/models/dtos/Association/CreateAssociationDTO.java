@@ -25,8 +25,6 @@ public class CreateAssociationDTO {
     @NotNull
     private Long roleId;
 
-    private String photoUrl;
-
     @NotBlank
     private String ville ;
 
@@ -54,7 +52,5 @@ public class CreateAssociationDTO {
     @Enumerated(EnumType.STRING)
     private StatusInscription statusInscription = StatusInscription.PENDING;
 
-    @NotBlank
-    @Pattern(regexp = ".*\\.(pdf|jpg|jpeg|png)$", message = "Le fichier doit être au format PDF ou image (JPG, JPEG, PNG)")
-    private String preuveLegalePath;
+
 }

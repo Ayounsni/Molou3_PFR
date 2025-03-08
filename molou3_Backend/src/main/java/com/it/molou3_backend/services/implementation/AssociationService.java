@@ -20,6 +20,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 @Service
 public class AssociationService extends GenericService<Association,CreateAssociationDTO,UpdateAssociationDTO,ResponseAssociationDTO> implements IAssociationService {
@@ -35,11 +38,12 @@ public class AssociationService extends GenericService<Association,CreateAssocia
     public  PasswordEncoder passwordEncoder;
     @Autowired
     public  HaveIBeenPwnedService haveIBeenPwnedService;
+    @Autowired
+    public FileUploadService fileUploadService;
 
 
     @Override
-    public ResponseAssociationDTO create(CreateAssociationDTO createAssociationDTO) {
-
+    public ResponseAssociationDTO create(CreateAssociationDTO createAssociationDTO, MultipartFile preuveLegaleFile, MultipartFile logoFile) throws IOException {
         if (associationRepository.findByEmail(createAssociationDTO.getEmail()).isPresent()) {
             throw new IllegalArgumentException("Cette email existe déjà.");
         }
@@ -48,7 +52,22 @@ public class AssociationService extends GenericService<Association,CreateAssocia
         }
         Association user = associationMapper.toEntity(createAssociationDTO);
         user.setPassword(passwordEncoder.encode(createAssociationDTO.getPassword()));
-        return associationMapper.toDTO(associationRepository.save(user)) ;
+
+        // Upload et stockage de la preuve légale
+        if (preuveLegaleFile != null && !preuveLegaleFile.isEmpty()) {
+            String preuveLegaleUrl = fileUploadService.uploadFile(preuveLegaleFile); // URL générée
+            user.setPreuveLegalePath(preuveLegaleUrl); // Assignée à l’entité
+        } else {
+            throw new IllegalArgumentException("La preuve légale est obligatoire pour une association.");
+        }
+
+        // Upload et stockage du logo
+        if (logoFile != null && !logoFile.isEmpty()) {
+            String logoUrl = fileUploadService.uploadFile(logoFile); // URL générée
+            user.setPhotoUrl(logoUrl); // Assignée à photoUrl de AppUser
+        }
+
+        return associationMapper.toDTO(associationRepository.save(user)); // Sauvegarde dans la BD
     }
 
 }

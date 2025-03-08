@@ -25,8 +25,6 @@ public class CreateColombophileDTO {
     @NotNull
     private Long roleId;
 
-    private String photoUrl;
-
     @NotBlank
     private String ville ;
 

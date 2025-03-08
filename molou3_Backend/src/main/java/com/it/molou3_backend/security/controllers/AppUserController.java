@@ -21,7 +21,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 
@@ -43,16 +45,31 @@ public class AppUserController {
         return new ResponseEntity<>(appUser, HttpStatus.OK);
     }
 
-    @PostMapping("/public/colombophile/register")
-    public ResponseEntity<ResponseColombophileDTO> createColombophile(@Valid @RequestBody CreateColombophileDTO createColombophileDTO) {
-        ResponseColombophileDTO colombophile = colombophileService.create(createColombophileDTO);
-        return new ResponseEntity<>(colombophile, HttpStatus.OK);
+    @PostMapping(value = "/public/colombophile/register", consumes = {"multipart/form-data"})
+    public ResponseEntity<ResponseColombophileDTO> createColombophile(
+            @Valid @RequestPart("data") CreateColombophileDTO createColombophileDTO,
+            @RequestPart(value = "photo", required = false) MultipartFile photoFile) {
+        try {
+            ResponseColombophileDTO colombophile = colombophileService.create(createColombophileDTO, photoFile);
+            return new ResponseEntity<>(colombophile, HttpStatus.OK);
+        } catch (IOException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(null); // Ou un message d’erreur personnalisé
+        }
     }
 
-    @PostMapping("/public/association/register")
-    public ResponseEntity<ResponseAssociationDTO> createAssociation(@Valid @RequestBody CreateAssociationDTO createAssociationDTO) {
-        ResponseAssociationDTO association = associationService.create(createAssociationDTO);
-        return new ResponseEntity<>(association, HttpStatus.OK);
+    @PostMapping(value = "/public/association/register", consumes = {"multipart/form-data"})
+    public ResponseEntity<ResponseAssociationDTO> createAssociation(
+            @Valid @RequestPart("data") CreateAssociationDTO createAssociationDTO,
+            @RequestPart(value = "preuveLegale") MultipartFile preuveLegaleFile,
+            @RequestPart(value = "logo", required = false) MultipartFile logoFile) {
+        try {
+            ResponseAssociationDTO association = associationService.create(createAssociationDTO, preuveLegaleFile, logoFile);
+            return new ResponseEntity<>(association, HttpStatus.OK);
+        } catch (IOException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(null); // Ou un message d’erreur personnalisé
+        }
     }
 
     @PostMapping("/public/login")
