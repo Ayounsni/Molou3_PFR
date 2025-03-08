@@ -17,6 +17,7 @@ import com.it.molou3_backend.services.interfaces.IColombophileService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
@@ -45,10 +46,14 @@ public class AppUserController {
         return new ResponseEntity<>(appUser, HttpStatus.OK);
     }
 
-    @PostMapping(value = "/public/colombophile/register", consumes = {"multipart/form-data"})
+    @PostMapping(value = "/public/colombophile/register", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
     public ResponseEntity<ResponseColombophileDTO> createColombophile(
-            @Valid @RequestPart("data") CreateColombophileDTO createColombophileDTO,
-            @RequestPart(value = "photo", required = false) MultipartFile photoFile) {
+            @Valid @RequestBody(required = false) CreateColombophileDTO createColombophileDTO,
+            @RequestPart(value = "photo", required = false) MultipartFile photoFile) throws IOException {
+        if (createColombophileDTO == null) {
+            throw new IllegalArgumentException("Les données de création sont requises.");
+        }
+
         try {
             ResponseColombophileDTO colombophile = colombophileService.create(createColombophileDTO, photoFile);
             return new ResponseEntity<>(colombophile, HttpStatus.OK);
@@ -58,11 +63,18 @@ public class AppUserController {
         }
     }
 
-    @PostMapping(value = "/public/association/register", consumes = {"multipart/form-data"})
+    @PostMapping(value = "/public/association/register", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
     public ResponseEntity<ResponseAssociationDTO> createAssociation(
-            @Valid @RequestPart("data") CreateAssociationDTO createAssociationDTO,
-            @RequestPart(value = "preuveLegale") MultipartFile preuveLegaleFile,
-            @RequestPart(value = "logo", required = false) MultipartFile logoFile) {
+            @Valid @RequestBody(required = false) CreateAssociationDTO createAssociationDTO,
+            @RequestPart(value = "preuveLegale", required = false) MultipartFile preuveLegaleFile,
+            @RequestPart(value = "logo", required = false) MultipartFile logoFile) throws IOException {
+        if (createAssociationDTO == null) {
+            throw new IllegalArgumentException("Les données de création sont requises.");
+        }
+        if (preuveLegaleFile == null || preuveLegaleFile.isEmpty()) {
+            throw new IllegalArgumentException("La preuve légale est obligatoire pour créer une association.");
+        }
+
         try {
             ResponseAssociationDTO association = associationService.create(createAssociationDTO, preuveLegaleFile, logoFile);
             return new ResponseEntity<>(association, HttpStatus.OK);

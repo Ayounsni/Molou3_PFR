@@ -70,4 +70,31 @@ public class AssociationService extends GenericService<Association,CreateAssocia
         return associationMapper.toDTO(associationRepository.save(user)); // Sauvegarde dans la BD
     }
 
+    @Override
+    public ResponseAssociationDTO update(Long id, UpdateAssociationDTO updateDTO, MultipartFile preuveLegaleFile, MultipartFile logoFile) throws IOException {
+        if (updateDTO == null) {
+            throw new NullPointerException("The DTO cannot be null");
+        }
+        Association entity = repository.findById(id).orElseThrow(() -> new IllegalArgumentException("Association non trouvée avec l'ID : " + id));
+
+        // Mise à jour des champs via le mapper
+        Association updatedEntity = mapper.updateEntityFromDTO(updateDTO, entity);
+
+        // Gestion de la preuve légale si un fichier est fourni
+        if (preuveLegaleFile != null && !preuveLegaleFile.isEmpty()) {
+            String preuveLegaleUrl = fileUploadService.uploadFile(preuveLegaleFile);
+            updatedEntity.setPreuveLegalePath(preuveLegaleUrl);
+        }
+
+        // Gestion du logo si un fichier est fourni
+        if (logoFile != null && !logoFile.isEmpty()) {
+            String logoUrl = fileUploadService.uploadFile(logoFile);
+            updatedEntity.setPhotoUrl(logoUrl);
+        }
+
+        // Sauvegarde et retour du DTO
+        updatedEntity = repository.save(updatedEntity);
+        return mapper.toDTO(updatedEntity);
+    }
+
 }

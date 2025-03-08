@@ -10,10 +10,13 @@ import com.it.molou3_backend.validation.annotations.Exists;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @Validated
@@ -49,11 +52,19 @@ public class ColombophileController {
             return new ResponseEntity<>("Colombophile est supprimé avec succès", HttpStatus.OK);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<ResponseColombophileDTO> updateColombophile(@Exists(entity = Colombophile.class , message = "Cette colombophile n'existe pas.") @PathVariable("id") Long id, @Valid @RequestBody UpdateColombophileDTO updateColombophileDTO) {
+    @PutMapping(value = "/{id}", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
+    public ResponseEntity<ResponseColombophileDTO> updateColombophile(
+            @Exists(entity = Colombophile.class, message = "Ce colombophile n'existe pas.")
+            @PathVariable("id") Long id,
+            @Valid @RequestBody(required = false) UpdateColombophileDTO updateColombophileDTO,
+            @RequestPart(value = "photoFile", required = false) MultipartFile photoFile) throws IOException {
 
-            ResponseColombophileDTO updatedColombophile = colombophileService.update(id, updateColombophileDTO);
-            return new ResponseEntity<>(updatedColombophile, HttpStatus.OK);
+        if (updateColombophileDTO == null && photoFile == null) {
+            throw new IllegalArgumentException("Aucune donnée fournie pour la mise à jour.");
+        }
+
+        ResponseColombophileDTO updatedColombophile = colombophileService.update(id, updateColombophileDTO, photoFile);
+        return new ResponseEntity<>(updatedColombophile, HttpStatus.OK);
     }
 
 

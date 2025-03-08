@@ -9,4 +9,5 @@ import java.io.IOException;
 
 public interface IColombophileService extends IGenericService<CreateColombophileDTO,UpdateColombophileDTO,ResponseColombophileDTO> {
     ResponseColombophileDTO create(CreateColombophileDTO createColombophileDTO, MultipartFile photoFile) throws IOException;
+    ResponseColombophileDTO update(Long id, UpdateColombophileDTO updateDTO, MultipartFile photoFile) throws IOException;
 }

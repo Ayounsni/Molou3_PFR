@@ -154,6 +154,9 @@ public class AppUserService implements IAppUserService {
             response.setDateCreation(association.getDateCreation());
             response.setStatusInscription(association.getStatusInscription());
             response.setPreuveLegalePath(association.getPreuveLegalePath());
+        }else if ("Admin".equals(user.getDtype())) {
+            response.setRole("ROLE_ADMIN"); // Forcer le rôle pour Admin, comme dans login
+            // Ajouter d'autres champs spécifiques à Admin si nécessaire
         } else {
             throw new RuntimeException("Type d'utilisateur non pris en charge : " + user.getDtype());
         }

@@ -9,5 +9,6 @@ import java.io.IOException;
 
 public interface IAssociationService extends IGenericService<CreateAssociationDTO,UpdateAssociationDTO,ResponseAssociationDTO> {
     ResponseAssociationDTO create(CreateAssociationDTO createAssociationDTO, MultipartFile preuveLegaleFile, MultipartFile logoFile) throws IOException;
+    ResponseAssociationDTO update(Long id, UpdateAssociationDTO updateDTO, MultipartFile preuveLegaleFile, MultipartFile logoFile) throws IOException;
 
 }

@@ -9,10 +9,13 @@ import com.it.molou3_backend.validation.annotations.Exists;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @Validated
@@ -46,11 +49,20 @@ public class AssociationController {
             return new ResponseEntity<>("Association est supprimé avec succès", HttpStatus.OK);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<ResponseAssociationDTO> updateAssociation(@Exists(entity = Association.class , message = "Cette association n'existe pas.") @PathVariable("id") Long id, @Valid @RequestBody UpdateAssociationDTO updateAssociationDTO) {
+    @PutMapping(value = "/{id}", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
+    public ResponseEntity<ResponseAssociationDTO> updateAssociation(
+            @Exists(entity = Association.class, message = "Cette association n'existe pas.")
+            @PathVariable("id") Long id,
+            @Valid @RequestBody(required = false) UpdateAssociationDTO updateAssociationDTO,
+            @RequestPart(value = "preuveLegaleFile", required = false) MultipartFile preuveLegaleFile,
+            @RequestPart(value = "logoFile", required = false) MultipartFile logoFile) throws IOException {
 
-            ResponseAssociationDTO updatedAssociation = associationService.update(id, updateAssociationDTO);
-            return new ResponseEntity<>(updatedAssociation, HttpStatus.OK);
+        if (updateAssociationDTO == null && preuveLegaleFile == null && logoFile == null) {
+            throw new IllegalArgumentException("Aucune donnée fournie pour la mise à jour.");
+        }
+
+        ResponseAssociationDTO updatedAssociation = associationService.update(id, updateAssociationDTO, preuveLegaleFile, logoFile);
+        return new ResponseEntity<>(updatedAssociation, HttpStatus.OK);
     }
 
 
