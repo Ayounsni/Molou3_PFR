@@ -15,7 +15,9 @@ import com.it.molou3_backend.repository.EtapeCompetitionRepository;
 import com.it.molou3_backend.services.interfaces.IEtapeCompetitionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @Service
@@ -29,6 +31,8 @@ public class EtapeCompetitionService extends GenericService<EtapeCompetition,Cre
     public EtapeCompetitionRepository etapeCompetitionRepository;
     @Autowired
     public EtapeCompetitionMapper etapeCompetitionMapper;
+    @Autowired
+    public FileUploadService fileUploadService;
 
 
 
@@ -47,8 +51,7 @@ public class EtapeCompetitionService extends GenericService<EtapeCompetition,Cre
     }
 
     @Override
-    public ResponseEtapeCompetitionDTO update(Long id, UpdateEtapeCompetitionDTO updateEtapeCompetitionDTO) {
-
+    public ResponseEtapeCompetitionDTO update(Long id, UpdateEtapeCompetitionDTO updateEtapeCompetitionDTO, MultipartFile pdfClassementFile) throws IOException {
         EtapeCompetition entity = etapeCompetitionRepository.findById(id).orElseThrow(() ->
                 new IllegalArgumentException("L'étape de compétition avec cet ID n'existe pas.")
         );
@@ -68,6 +71,13 @@ public class EtapeCompetitionService extends GenericService<EtapeCompetition,Cre
         }
 
         EtapeCompetition updatedEntity = mapper.updateEntityFromDTO(updateEtapeCompetitionDTO, entity);
+
+        // Gestion du fichier PDF de classement
+        if (pdfClassementFile != null && !pdfClassementFile.isEmpty()) {
+            String pdfClassementUrl = fileUploadService.uploadFile(pdfClassementFile);
+            updatedEntity.setPdfClassement(pdfClassementUrl);
+        }
+
         updatedEntity = repository.save(updatedEntity);
         return mapper.toDTO(updatedEntity);
     }

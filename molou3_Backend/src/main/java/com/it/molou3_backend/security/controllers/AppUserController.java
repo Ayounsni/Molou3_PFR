@@ -46,9 +46,9 @@ public class AppUserController {
         return new ResponseEntity<>(appUser, HttpStatus.OK);
     }
 
-    @PostMapping(value = "/public/colombophile/register", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
+    @PostMapping(value = "/public/colombophile/register", consumes = {"multipart/form-data"})
     public ResponseEntity<ResponseColombophileDTO> createColombophile(
-            @Valid @RequestBody(required = false) CreateColombophileDTO createColombophileDTO,
+            @Valid @RequestPart(value = "data", required = false) CreateColombophileDTO createColombophileDTO,
             @RequestPart(value = "photo", required = false) MultipartFile photoFile) throws IOException {
         if (createColombophileDTO == null) {
             throw new IllegalArgumentException("Les données de création sont requises.");
@@ -63,9 +63,9 @@ public class AppUserController {
         }
     }
 
-    @PostMapping(value = "/public/association/register", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
+    @PostMapping(value = "/public/association/register", consumes = {"multipart/form-data"})
     public ResponseEntity<ResponseAssociationDTO> createAssociation(
-            @Valid @RequestBody(required = false) CreateAssociationDTO createAssociationDTO,
+            @Valid @RequestPart(value = "data", required = false) CreateAssociationDTO createAssociationDTO,
             @RequestPart(value = "preuveLegale", required = false) MultipartFile preuveLegaleFile,
             @RequestPart(value = "logo", required = false) MultipartFile logoFile) throws IOException {
         if (createAssociationDTO == null) {

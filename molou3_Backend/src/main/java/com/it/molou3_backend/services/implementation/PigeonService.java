@@ -7,13 +7,49 @@ import com.it.molou3_backend.models.entities.Pigeon;
 import com.it.molou3_backend.models.mappers.PigeonMapper;
 import com.it.molou3_backend.repository.PigeonRepository;
 import com.it.molou3_backend.services.interfaces.IPigeonService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 @Service
 public class PigeonService extends GenericService<Pigeon,CreatePigeonDTO,UpdatePigeonDTO,ResponsePigeonDTO> implements IPigeonService {
 
+    @Autowired
+    public FileUploadService fileUploadService;
+
     public PigeonService(PigeonRepository pigeonRepository, PigeonMapper pigeonMapper) {
         super(pigeonRepository, pigeonMapper);
+    }
+
+    @Override
+    public ResponsePigeonDTO create(CreatePigeonDTO createPigeonDTO, MultipartFile photoFile) throws IOException {
+
+        Pigeon pigeon = mapper.toEntity(createPigeonDTO);
+
+        if (photoFile != null && !photoFile.isEmpty()) {
+            String photoUrl = fileUploadService.uploadFile(photoFile); // URL générée
+            pigeon.setPhotoUrl(photoUrl); // Assignée à l’entité
+        }
+
+        return mapper.toDTO(repository.save(pigeon));
+    }
+
+    @Override
+    public ResponsePigeonDTO update(Long id, UpdatePigeonDTO updatePigeonDTO, MultipartFile photoFile) throws IOException {
+        Pigeon entity = repository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Pigeon non trouvé avec l'ID : " + id));
+
+        Pigeon updatedEntity = mapper.updateEntityFromDTO(updatePigeonDTO, entity);
+
+        if (photoFile != null && !photoFile.isEmpty()) {
+            String photoUrl = fileUploadService.uploadFile(photoFile);
+            updatedEntity.setPhotoUrl(photoUrl);
+        }
+
+        updatedEntity = repository.save(updatedEntity);
+        return mapper.toDTO(updatedEntity);
     }
 
 }

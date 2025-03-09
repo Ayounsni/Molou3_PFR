@@ -55,9 +55,7 @@ public class ColombophileService extends GenericService<Colombophile,CreateColom
 
     @Override
     public ResponseColombophileDTO update(Long id, UpdateColombophileDTO updateDTO, MultipartFile photoFile) throws IOException {
-        if (updateDTO == null) {
-            throw new NullPointerException("The DTO cannot be null");
-        }
+
         Colombophile entity = repository.findById(id).orElseThrow(() -> new IllegalArgumentException("Colombophile non trouvé avec l'ID : " + id));
 
         // Mise à jour des champs via le mapper

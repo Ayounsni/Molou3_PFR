@@ -52,13 +52,14 @@ public class ColombophileController {
             return new ResponseEntity<>("Colombophile est supprimé avec succès", HttpStatus.OK);
     }
 
-    @PutMapping(value = "/{id}", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
+    @PutMapping(value = "/{id}", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     public ResponseEntity<ResponseColombophileDTO> updateColombophile(
             @Exists(entity = Colombophile.class, message = "Ce colombophile n'existe pas.")
             @PathVariable("id") Long id,
-            @Valid @RequestBody(required = false) UpdateColombophileDTO updateColombophileDTO,
+            @Valid @RequestPart(value = "updateDTO", required = false) UpdateColombophileDTO updateColombophileDTO,
             @RequestPart(value = "photoFile", required = false) MultipartFile photoFile) throws IOException {
 
+        // Vérification qu’au moins une donnée est fournie
         if (updateColombophileDTO == null && photoFile == null) {
             throw new IllegalArgumentException("Aucune donnée fournie pour la mise à jour.");
         }

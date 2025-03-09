@@ -17,28 +17,21 @@ import java.time.LocalDate;
 @AllArgsConstructor
 public class UpdateAssociationDTO {
 
-    @NotBlank
     @Email
     private String email;
 
-    @NotBlank
     private String password;
 
-    @NotNull
     private Long roleId;
 
-    @NotBlank
     private String nomAssociation;
 
-    @NotBlank
     private String responsable;
 
-    @NotNull
     private LocalDate dateCreation;
 
     @Enumerated(EnumType.STRING)
     private StatusInscription statusInscription = StatusInscription.PENDING;
 
-    @NotBlank
     private String preuveLegalePath;
 }

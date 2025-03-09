@@ -10,10 +10,13 @@ import com.it.molou3_backend.validation.annotations.Exists;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @Validated
@@ -53,11 +56,20 @@ public class CompetitionController {
             return new ResponseEntity<>("Competition est supprimé avec succès", HttpStatus.OK);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<ResponseCompetitionDTO> updateCompetition(@Exists(entity = Competition.class , message = "Cette compétition n'existe pas.") @PathVariable("id") Long id, @Valid @RequestBody UpdateCompetitionDTO updateCompetitionDTO) {
+    @PutMapping(value = "/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<ResponseCompetitionDTO> updateCompetition(
+            @Exists(entity = Competition.class, message = "Cette compétition n'existe pas.")
+            @PathVariable("id") Long id,
+            @Valid @RequestPart(value = "updateDTO", required = false) UpdateCompetitionDTO updateCompetitionDTO,
+            @RequestPart(value = "pdfClassement", required = false) MultipartFile pdfClassementFile) throws IOException {
 
-            ResponseCompetitionDTO updatedCompetition = competitionService.update(id, updateCompetitionDTO);
-            return new ResponseEntity<>(updatedCompetition, HttpStatus.OK);
+        if (updateCompetitionDTO == null && pdfClassementFile == null) {
+            throw new IllegalArgumentException("Aucune donnée fournie pour la mise à jour.");
+        }
+
+        assert updateCompetitionDTO != null;
+        ResponseCompetitionDTO updatedCompetition = competitionService.update(id, updateCompetitionDTO, pdfClassementFile);
+        return new ResponseEntity<>(updatedCompetition, HttpStatus.OK);
     }
 
 }

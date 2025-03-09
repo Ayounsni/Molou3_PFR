@@ -10,10 +10,13 @@ import com.it.molou3_backend.validation.annotations.Exists;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @Validated
@@ -23,10 +26,21 @@ public class PigeonController {
     @Autowired
     private PigeonService pigeonService;
 
-    @PostMapping
-    public ResponseEntity<ResponsePigeonDTO> createPigeon(@Valid @RequestBody CreatePigeonDTO createPigeonDTO) {
-        ResponsePigeonDTO pigeon = pigeonService.create(createPigeonDTO);
-        return new ResponseEntity<>(pigeon, HttpStatus.OK);
+    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<ResponsePigeonDTO> createPigeon(
+            @Valid @RequestPart(value = "data", required = false) CreatePigeonDTO createPigeonDTO,
+            @RequestPart(value = "photo", required = false) MultipartFile photoFile) throws IOException {
+        if (createPigeonDTO == null) {
+            throw new IllegalArgumentException("Les données de création sont requises.");
+        }
+
+        try {
+            ResponsePigeonDTO pigeon = pigeonService.create(createPigeonDTO, photoFile);
+            return new ResponseEntity<>(pigeon, HttpStatus.OK);
+        } catch (IOException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(null); // Ou un message d’erreur personnalisé
+        }
     }
 
     @GetMapping("/{id}")
@@ -53,11 +67,18 @@ public class PigeonController {
             return new ResponseEntity<>("Pigeon est supprimé avec succès", HttpStatus.OK);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<ResponsePigeonDTO> updatePigeon(@Exists(entity = Pigeon.class , message = "Cette pigeon n'existe pas.") @PathVariable("id") Long id, @Valid @RequestBody UpdatePigeonDTO updatePigeonDTO) {
+    @PutMapping(value = "/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<ResponsePigeonDTO> updatePigeon(
+            @Exists(entity = Pigeon.class, message = "Ce pigeon n'existe pas.")
+            @PathVariable("id") Long id,
+            @Valid @RequestPart(value = "updateDTO", required = false) UpdatePigeonDTO updatePigeonDTO,
+            @RequestPart(value = "photo", required = false) MultipartFile photoFile) throws IOException {
+        if (updatePigeonDTO == null && photoFile == null) {
+            throw new IllegalArgumentException("Aucune donnée fournie pour la mise à jour.");
+        }
 
-            ResponsePigeonDTO updatedPigeon = pigeonService.update(id, updatePigeonDTO);
-            return new ResponseEntity<>(updatedPigeon, HttpStatus.OK);
+        ResponsePigeonDTO updatedPigeon = pigeonService.update(id, updatePigeonDTO, photoFile);
+        return new ResponseEntity<>(updatedPigeon, HttpStatus.OK);
     }
 
 

@@ -49,11 +49,11 @@ public class AssociationController {
             return new ResponseEntity<>("Association est supprimé avec succès", HttpStatus.OK);
     }
 
-    @PutMapping(value = "/{id}", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
+    @PutMapping(value = "/{id}", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     public ResponseEntity<ResponseAssociationDTO> updateAssociation(
             @Exists(entity = Association.class, message = "Cette association n'existe pas.")
             @PathVariable("id") Long id,
-            @Valid @RequestBody(required = false) UpdateAssociationDTO updateAssociationDTO,
+            @Valid @RequestPart(value = "updateDTO", required = false) UpdateAssociationDTO updateAssociationDTO,
             @RequestPart(value = "preuveLegaleFile", required = false) MultipartFile preuveLegaleFile,
             @RequestPart(value = "logoFile", required = false) MultipartFile logoFile) throws IOException {
 

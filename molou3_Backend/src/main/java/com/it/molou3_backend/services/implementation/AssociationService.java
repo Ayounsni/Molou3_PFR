@@ -53,7 +53,6 @@ public class AssociationService extends GenericService<Association,CreateAssocia
         Association user = associationMapper.toEntity(createAssociationDTO);
         user.setPassword(passwordEncoder.encode(createAssociationDTO.getPassword()));
 
-        // Upload et stockage de la preuve légale
         if (preuveLegaleFile != null && !preuveLegaleFile.isEmpty()) {
             String preuveLegaleUrl = fileUploadService.uploadFile(preuveLegaleFile); // URL générée
             user.setPreuveLegalePath(preuveLegaleUrl); // Assignée à l’entité
@@ -61,38 +60,30 @@ public class AssociationService extends GenericService<Association,CreateAssocia
             throw new IllegalArgumentException("La preuve légale est obligatoire pour une association.");
         }
 
-        // Upload et stockage du logo
         if (logoFile != null && !logoFile.isEmpty()) {
-            String logoUrl = fileUploadService.uploadFile(logoFile); // URL générée
-            user.setPhotoUrl(logoUrl); // Assignée à photoUrl de AppUser
+            String logoUrl = fileUploadService.uploadFile(logoFile);
+            user.setPhotoUrl(logoUrl);
         }
 
-        return associationMapper.toDTO(associationRepository.save(user)); // Sauvegarde dans la BD
+        return associationMapper.toDTO(associationRepository.save(user));
     }
 
     @Override
     public ResponseAssociationDTO update(Long id, UpdateAssociationDTO updateDTO, MultipartFile preuveLegaleFile, MultipartFile logoFile) throws IOException {
-        if (updateDTO == null) {
-            throw new NullPointerException("The DTO cannot be null");
-        }
         Association entity = repository.findById(id).orElseThrow(() -> new IllegalArgumentException("Association non trouvée avec l'ID : " + id));
 
-        // Mise à jour des champs via le mapper
         Association updatedEntity = mapper.updateEntityFromDTO(updateDTO, entity);
 
-        // Gestion de la preuve légale si un fichier est fourni
         if (preuveLegaleFile != null && !preuveLegaleFile.isEmpty()) {
             String preuveLegaleUrl = fileUploadService.uploadFile(preuveLegaleFile);
             updatedEntity.setPreuveLegalePath(preuveLegaleUrl);
         }
 
-        // Gestion du logo si un fichier est fourni
         if (logoFile != null && !logoFile.isEmpty()) {
             String logoUrl = fileUploadService.uploadFile(logoFile);
             updatedEntity.setPhotoUrl(logoUrl);
         }
 
-        // Sauvegarde et retour du DTO
         updatedEntity = repository.save(updatedEntity);
         return mapper.toDTO(updatedEntity);
     }
