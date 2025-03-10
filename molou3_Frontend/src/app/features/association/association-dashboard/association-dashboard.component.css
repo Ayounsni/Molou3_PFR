@@ -1,0 +1,12 @@
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+  }
+  
+  .hover\:float:hover {
+    animation: float 3s ease-in-out infinite;
+  }
+  
+  .profile-halo {
+    box-shadow: 0 0 40px rgba(99, 102, 241, 0.3);
+  }

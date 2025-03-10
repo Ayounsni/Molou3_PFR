@@ -1,20 +1,2 @@
-<div *ngIf="currentUser; else noUser">
-    <h1>Bienvenue, {{ currentUser.email }}</h1>
-    <p>Ville : {{ currentUser.ville }}</p>
-    <p>Téléphone : {{ currentUser.telephone }}</p>
-    <p>Téléphone : {{ currentUser.role?.roleName }}</p>
-    <p>Téléphone : {{ currentUser.nomAssociation }}</p>
-  
-    <!-- Champs spécifiques à Association -->
-    <div *ngIf="currentUser.nomAssociation">
-      <p>Nom de l'association : {{ currentUser.nomAssociation }}</p>
-      <p *ngIf="currentUser.responsable">Responsable : {{ currentUser.responsable }}</p>
-      <p *ngIf="currentUser.dateCreation">Date de création : {{ currentUser.dateCreation }}</p>
-      <p *ngIf="currentUser.statusInscription">Statut d'inscription : {{ currentUser.statusInscription }}</p>
-      <p *ngIf="currentUser.preuveLegalePath">Preuve légale : {{ currentUser.preuveLegalePath }}</p>
-    </div>
-  </div>
-  
-  <ng-template #noUser>
-    <p>Aucun utilisateur connecté.</p>
-  </ng-template>
+<app-sidebar></app-sidebar>
+

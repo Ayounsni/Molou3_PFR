@@ -8,6 +8,7 @@ import { AssociationDashboardComponent } from './features/association/associatio
 import { ColombophileDashboardComponent } from './features/colombophile/colombophile-dashboard/colombophile-dashboard.component';
 import { AuthGuard } from './core/guards/auth.guard';
 import { LoggedInGuard } from './core/guards/logged-in.guard';
+import { ProfileComponent } from './features/auth/profile/profile.component';
 
 
 
@@ -16,6 +17,7 @@ export const routes: Routes = [
     { path: 'meteo', component: WeatherComponent },
     { path: 'register', component: RegisterComponent, canActivate: [LoggedInGuard] },
     { path: 'login', component: LoginComponent, canActivate: [LoggedInGuard] },
+    { path: 'profile', component: ProfileComponent },
     {
         path: 'admin',
         canActivate: [AuthGuard],
