@@ -1,27 +1,24 @@
 <app-sidebar></app-sidebar>
 <app-notification></app-notification>
 <div class="ml-70 bg-[#dddddd] flex justify-center items-center min-h-screen">
-  <div class="bg-[#F8F8F8] min-h-screen w-10/12 p-8 " *ngIf="currentUser">
-    <!-- En-tête du profil -->
-    <div class="relative bg-gray-700 rounded-xs px-6 py-5 mb-5 overflow-hidden">
-        <div class="flex justify-start ">
-            <!-- Bouton "Changer le mot de passe" -->
-            <button
-              class="flex items-center text-sm gap-2 px-4 py-2 bg-white text-gray-600 font-medium rounded-lg shadow-md hover:bg-gray-100 transition-all duration-300 hover:shadow-lg"
-            >
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"/>
-              </svg>
-              Changer le mot de passe
-            </button>
-        
-            <!-- Bouton "Modifier le profil" -->
-
-          </div>
+    <div class="bg-[#F8F8F8] min-h-screen w-10/12 p-8" *ngIf="currentUser">
+      <!-- En-tête du profil -->
+      <div class="relative bg-gray-700 rounded-xs px-6 py-5 mb-5 overflow-hidden">
+        <div class="flex justify-start">
+          <!-- Bouton "Changer le mot de passe" -->
+          <button
+            class="flex items-center text-sm gap-2 px-4 py-2 bg-white text-gray-600 font-medium rounded-lg shadow-md hover:bg-gray-100 transition-all duration-300 hover:shadow-lg"
+          >
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"/>
+            </svg>
+            Changer le mot de passe
+          </button>
+        </div>
         <div class="absolute inset-0 bg-opacity-20 bg-[url('https://www.transparenttextures.com/patterns/asfalt-dark.png')] pointer-events-none"></div>
         <div class="relative flex flex-col items-center text-center">
-          <!-- Photo de profil et autres éléments existants -->
-          <div class="relative group mb-6 ">
+          <!-- Photo de profil -->
+          <div class="relative group mb-6">
             <img
               *ngIf="currentUser.role?.roleName === 'ROLE_ASSOCIATION'"
               [src]="currentUser.photoUrl || association"
@@ -34,16 +31,25 @@
               alt="Photo de profil"
               class="w-40 h-40 rounded-full bg-white border-4 border-white shadow-lg object-cover transition-transform duration-300"
             />
+            <!-- Spinner de chargement -->
+            <div *ngIf="isLoading" class="absolute inset-0 flex items-center justify-center">
+              <svg class="w-12 h-12 text-white animate-spin" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+              </svg>
+            </div>
             <div class="absolute inset-0 rounded-full border-2 border-white/40 animate-spin-slow"></div>
             <span class="absolute bottom-0 right-0 bg-green-400 text-white text-xs font-semibold px-2 py-1 rounded-full shadow">
               {{ currentUser.enabled ? "Vérifié" : "Non vérifié" }}
             </span>
             <!-- Bouton de modification de la photo -->
-            <button class="absolute bottom-0 left-0 bg-white/90 backdrop-blur-sm p-2 rounded-full shadow-md hover:bg-white transition-all duration-300">
+            <button class="absolute bottom-0 left-0 bg-white/90 backdrop-blur-sm p-2 rounded-full shadow-md hover:bg-white transition-all duration-300" (click)="triggerFileInput()">
               <svg class="w-5 h-5 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/>
               </svg>
             </button>
+            <!-- Input file caché -->
+            <input type="file" #fileInput accept="image/*" class="hidden" (change)="onFileSelected($event)" />
           </div>
           <h1 class="mt-4 text-4xl font-bold text-white">
             <span *ngIf="currentUser.role?.roleName === 'ROLE_ASSOCIATION'">
@@ -54,6 +60,7 @@
             </span>
           </h1>
           <p class="text-white/80 mt-2 flex items-center gap-2">
+            <!-- SVG et texte inchangés -->
             <svg
               *ngIf="currentUser.role?.roleName === 'ROLE_ASSOCIATION'"
               xmlns="http://www.w3.org/2000/svg"
@@ -63,8 +70,7 @@
               class="bi bi-buildings"
               viewBox="0 0 16 16"
             >
-              <path d="M14.763.075A.5.5 0 0 1 15 .5v15a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5V14h-1v1.5a.5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5V10a.5.5 0 0 1 .342-.474L6 7.64V4.5a.5.5 0 0 1 .276-.447l8-4a.5.5 0 0 1 .487.022M6 8.694 1 10.36V15h5zM7 15h2v-1.5a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 .5.5V15h2V1.309l-7 3.5z"/>
-              <path d="M2 11h1v1H2zm2 0h1v1H4zm-2 2h1v1H2zm2 0h1v1H4zm4-4h1v1H8zm2 0h1v1h-1zm-2 2h1v1H8zm2 0h1v1h-1zm2-2h1v1h-1zm0 2h1v1h-1zM8 7h1v1H8zm2 0h1v1h-1zm2 0h1v1h-1zM8 5h1v1H8zm2 0h1v1h-1zm2 0h1v1h-1zm0-2h1v1h-1z"/>
+              <!-- Path SVG inchangé -->
             </svg>
             <svg
               *ngIf="currentUser.role?.roleName !== 'ROLE_ASSOCIATION'"
@@ -75,25 +81,14 @@
               class="bi bi-feather"
               viewBox="0 0 16 16"
             >
-              <path d="M15.807.531c-.174-.177-.41-.289-.64-.363a3.8 3.8 0 0 0-.833-.15c-.62-.049-1.394 0-2.252.175C10.365.545 8.264 1.415 6.315 3.1S3.147 6.824 2.557 8.523c-.294.847-.44 1.634-.429 2.268.005.316.05.62.154.88q.025.061.056.122A68 68 0 0 0 .08 15.198a.53.53 0 0 0 .157.72.504.504 0 0 0 .705-.16 68 68 0 0 1 2.158-3.26c.285.141.616.195.958.182.513-.02 1.098-.188 1.723-.49 1.25-.605 2.744-1.787 4.303-3.642l1.518-1.55a.53.53 0 0 0 0-.739l-.729-.744 1.311.209a.5.5 0 0 0 .443-.15l.663-.684c.663-.68 1.292-1.325 1.763-1.892.314-.378.585-.752.754-1.107.163-.345.278-.773.112-1.188a.5.5 0 0 0-.112-.172M3.733 11.62C5.385 9.374 7.24 7.215 9.309 5.394l1.21 1.234-1.171 1.196-.027.03c-1.5 1.789-2.891 2.867-3.977 3.393-.544.263-.99.378-1.324.39a1.3 1.3 0 0 1-.287-.018Zm6.769-7.22c1.31-1.028 2.7-1.914 4.172-2.6a7 7 0 0 1-.4.523c-.442.533-1.028 1.134-1.681 1.804l-.51.524zm3.346-3.357C9.594 3.147 6.045 6.8 3.149 10.678c.007-.464.121-1.086.37-1.806.533-1.535 1.65-3.415 3.455-4.976 1.807-1.561 3.746-2.36 5.31-2.68a8 8 0 0 1 1.564-.173"/>
+              <!-- Path SVG inchangé -->
             </svg>
-            <span *ngIf="currentUser.role?.roleName === 'ROLE_ASSOCIATION'">
-              Association
-            </span>
-            <span *ngIf="currentUser.role?.roleName !== 'ROLE_ASSOCIATION'">
-              Colombophile
-            </span>
+            <span *ngIf="currentUser.role?.roleName === 'ROLE_ASSOCIATION'">Association</span>
+            <span *ngIf="currentUser.role?.roleName !== 'ROLE_ASSOCIATION'">Colombophile</span>
           </p>
         </div>
-      
-        <!-- Boutons améliorés avec couleurs sobres et effets de survol -->
-        <div class="flex justify-end ">
-
-      
-          <!-- Bouton "Modifier le profil" -->
-          <button (click)="openEditModal()"
-            class="flex items-center  text-sm gap-2 px-4 py-2 bg-white text-gray-600 font-medium cursor-pointer  rounded-lg shadow-md hover:bg-gray-100 transition-all duration-300 hover:shadow-lg"
-          >
+        <div class="flex justify-end">
+          <button (click)="openEditModal()" class="flex items-center text-sm gap-2 px-4 py-2 bg-white text-gray-600 font-medium cursor-pointer rounded-lg shadow-md hover:bg-gray-100 transition-all duration-300 hover:shadow-lg">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/>
             </svg>

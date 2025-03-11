@@ -155,7 +155,7 @@ export class AuthEffects {
   updateProfile$ = createEffect(() =>
     this.actions$.pipe(
       ofType(AuthActions.updateProfile),
-      mergeMap(({ id, updateDTO, photoFile, preuveLegaleFile, logoFile }) =>
+      mergeMap(({ id, updateDTO, photoFile, preuveLegaleFile }) =>
         this.authService.getCurrentUser().pipe(
           mergeMap((currentUser: LoginResponse) => {
             if (currentUser.role === 'ROLE_COLOMBOPHILE') {
@@ -176,7 +176,7 @@ export class AuthEffects {
                 })
               );
             } else if (currentUser.role === 'ROLE_ASSOCIATION') {
-              return this.authService.updateAssociation(id, updateDTO, preuveLegaleFile, logoFile).pipe(
+              return this.authService.updateAssociation(id, updateDTO, preuveLegaleFile, photoFile).pipe(
                 map((response) => {
                   const updatedUser: User = {
                     ...currentUser,
@@ -187,7 +187,7 @@ export class AuthEffects {
                     adresse: response.adresse || currentUser.adresse,
                     description: response.description || currentUser.description,
                     telephone: response.telephone || currentUser.telephone,
-                    photoUrl: response.logoUrl || currentUser.photoUrl
+                    photoUrl: response.photoUrl || currentUser.photoUrl
                   };
                   return AuthActions.updateProfileSuccess({ user: updatedUser });
                 })

@@ -11,7 +11,7 @@ import { FlashMessage, NotificationService } from '../../../core/services/notifi
   styleUrls: ['./notification.component.css']
 })
 export class NotificationComponent implements OnInit, OnDestroy {
-  notification: FlashMessage | null = null; // Utilisez FlashMessage
+  notification: FlashMessage | null = null; 
   private subscription: Subscription | undefined;
 
   constructor(private notificationService: NotificationService) {}
@@ -28,5 +28,8 @@ export class NotificationComponent implements OnInit, OnDestroy {
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
+  }
+  closeNotification(): void {
+    this.notificationService.clearNotification();
   }
 }
