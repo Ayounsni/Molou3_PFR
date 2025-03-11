@@ -6,6 +6,7 @@ import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -24,11 +25,20 @@ public class UpdateAssociationDTO {
 
     private Long roleId;
 
+    private String ville ;
+
+    private String adresse;
+
     private String nomAssociation;
 
     private String responsable;
 
     private LocalDate dateCreation;
+
+    @Pattern(regexp = "^(\\+212|0)[5-7][0-9]{8}$", message = "Numéro de téléphone invalide")
+    private String telephone;
+
+    private String description;
 
     @Enumerated(EnumType.STRING)
     private StatusInscription statusInscription = StatusInscription.PENDING;

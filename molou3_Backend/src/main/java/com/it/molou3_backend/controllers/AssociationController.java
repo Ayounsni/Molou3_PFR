@@ -55,7 +55,7 @@ public class AssociationController {
             @PathVariable("id") Long id,
             @Valid @RequestPart(value = "updateDTO", required = false) UpdateAssociationDTO updateAssociationDTO,
             @RequestPart(value = "preuveLegaleFile", required = false) MultipartFile preuveLegaleFile,
-            @RequestPart(value = "logoFile", required = false) MultipartFile logoFile) throws IOException {
+            @RequestPart(value = "photoFile", required = false) MultipartFile logoFile) throws IOException {
 
         if (updateAssociationDTO == null && preuveLegaleFile == null && logoFile == null) {
             throw new IllegalArgumentException("Aucune donnée fournie pour la mise à jour.");
