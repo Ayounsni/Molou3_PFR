@@ -10,7 +10,7 @@ import { ExperienceLabelPipe } from '../../../shared/pipes/experience-label.pipe
 
 @Component({
   selector: 'app-profile',
-  imports: [SidebarComponent,CommonModule,RoleLabelPipe,ExperienceLabelPipe],
+  imports: [SidebarComponent,CommonModule,ExperienceLabelPipe],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.css'
 })

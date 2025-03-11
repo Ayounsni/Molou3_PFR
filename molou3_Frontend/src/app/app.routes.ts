@@ -17,8 +17,8 @@ export const routes: Routes = [
     { path: 'meteo', component: WeatherComponent },
     { path: 'register', component: RegisterComponent, canActivate: [LoggedInGuard] },
     { path: 'login', component: LoginComponent, canActivate: [LoggedInGuard] },
-    { path: 'profile', component: ProfileComponent },
-    {
+    { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard], data: { roles: ['ROLE_COLOMBOPHILE', 'ROLE_ASSOCIATION'] } },
+        {
         path: 'admin',
         canActivate: [AuthGuard],
         data: { roles: ['ROLE_ADMIN'] },
