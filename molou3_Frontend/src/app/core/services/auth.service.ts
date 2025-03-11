@@ -42,6 +42,31 @@ export class AuthService {
     );
   }
 
+  updateColombophile(id: number, updateDTO: any, photoFile?: File): Observable<any> {
+    const formData = new FormData();
+    if (updateDTO) {
+      formData.append('updateDTO', new Blob([JSON.stringify(updateDTO)], { type: 'application/json' }));
+    }
+    if (photoFile) {
+      formData.append('photoFile', photoFile, photoFile.name);
+    }
+    return this.http.put(`${this.apiUrl}/public/colombophile/${id}`, formData);
+  }
+
+  updateAssociation(id: number, updateDTO: any, preuveLegaleFile?: File, logoFile?: File): Observable<any> {
+    const formData = new FormData();
+    if (updateDTO) {
+      formData.append('updateDTO', new Blob([JSON.stringify(updateDTO)], { type: 'application/json' }));
+    }
+    if (preuveLegaleFile) {
+      formData.append('preuveLegaleFile', preuveLegaleFile, preuveLegaleFile.name);
+    }
+    if (logoFile) {
+      formData.append('logoFile', logoFile, logoFile.name);
+    }
+    return this.http.put(`${this.apiUrl}/public/association/${id}`, formData);
+  }
+
   getAllUsers(): Observable<AppUser[]> {
     return this.http.get<AppUser[]>(`${this.apiUrl}/public/users`);
   }

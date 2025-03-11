@@ -40,3 +40,4 @@ export const selectToken = createSelector(
   selectAuthState,
   (state) => state.token
 );
+

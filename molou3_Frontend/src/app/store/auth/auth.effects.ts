@@ -152,6 +152,58 @@ export class AuthEffects {
     )
   );
 
+  updateProfile$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(AuthActions.updateProfile),
+      mergeMap(({ id, updateDTO, photoFile, preuveLegaleFile, logoFile }) =>
+        this.authService.getCurrentUser().pipe(
+          mergeMap((currentUser: LoginResponse) => {
+            if (currentUser.role === 'ROLE_COLOMBOPHILE') {
+              return this.authService.updateColombophile(id, updateDTO, photoFile).pipe(
+                map((response) => {
+                  const updatedUser: User = {
+                    ...currentUser,
+                    role: { roleName: currentUser.role }, // Garder la structure AppRole
+                    nomComplet: response.nomComplet || currentUser.nomComplet,
+                    dateNaissance: response.dateNaissance || currentUser.dateNaissance,
+                    niveauExperience: response.niveauExperience || currentUser.niveauExperience,
+                    adresse: response.adresse || currentUser.adresse,
+                    description: response.description || currentUser.description,
+                    telephone: response.telephone || currentUser.telephone,
+                    photoUrl: response.photoUrl || currentUser.photoUrl
+                  };
+                  return AuthActions.updateProfileSuccess({ user: updatedUser });
+                })
+              );
+            } else if (currentUser.role === 'ROLE_ASSOCIATION') {
+              return this.authService.updateAssociation(id, updateDTO, preuveLegaleFile, logoFile).pipe(
+                map((response) => {
+                  const updatedUser: User = {
+                    ...currentUser,
+                    role: { roleName: currentUser.role }, // Garder la structure AppRole
+                    nomAssociation: response.nomAssociation || currentUser.nomAssociation,
+                    responsable: response.responsable || currentUser.responsable,
+                    dateCreation: response.dateCreation || currentUser.dateCreation,
+                    adresse: response.adresse || currentUser.adresse,
+                    description: response.description || currentUser.description,
+                    telephone: response.telephone || currentUser.telephone,
+                    photoUrl: response.logoUrl || currentUser.photoUrl
+                  };
+                  return AuthActions.updateProfileSuccess({ user: updatedUser });
+                })
+              );
+            }
+            return of(AuthActions.updateProfileFailure({ error: 'Rôle non reconnu' }));
+          }),
+          catchError((error) => {
+            console.error('Erreur lors de la mise à jour du profil:', error);
+            return of(AuthActions.updateProfileFailure({ error: error.error?.message || 'Erreur lors de la mise à jour' }));
+          })
+        )
+      )
+    )
+  );
+
   private getDashboardRoute(role: string): string {
     switch (role) {
       case 'ROLE_ADMIN': return '/admin/dashboard';

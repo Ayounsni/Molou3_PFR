@@ -21,7 +21,7 @@ export const initialState: AuthState = {
   currentUser: null,
   token: null,
   loginLoading: false,
-  loginError: null
+  loginError: null,
 };
 
 export const authReducer = createReducer(
@@ -62,6 +62,20 @@ export const authReducer = createReducer(
     ...state,
     currentUser: null,
     token: null
+  })),
+  on(AuthActions.updateProfile, (state) => ({
+    ...state,
+    loading: true,
+    error: null
+  })),
+  on(AuthActions.updateProfileSuccess, (state, { user }) => ({
+    ...state,
+    loading: false,
+    currentUser: user,
+  })),
+  on(AuthActions.updateProfileFailure, (state, { error }) => ({
+    ...state,
+    loading: false,
+    error
   }))
 );
-

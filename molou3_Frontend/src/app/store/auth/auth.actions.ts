@@ -43,3 +43,19 @@ export const logout = createAction('[Auth] Logout');
 export const checkLogin = createAction('[Auth] Check Login');
 
 export const resetRegistrationState = createAction('[Auth] Reset Registration State');
+
+export const updateProfile = createAction(
+  '[Auth] Update Profile',
+  props<{ id: number; updateDTO: any; photoFile?: File; preuveLegaleFile?: File; logoFile?: File }>()
+);
+
+export const updateProfileSuccess = createAction(
+  '[Auth] Update Profile Success',
+  props<{ user: User }>()
+);
+
+export const updateProfileFailure = createAction(
+  '[Auth] Update Profile Failure',
+  props<{ error: string }>()
+);
+

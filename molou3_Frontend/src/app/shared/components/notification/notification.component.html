@@ -1,0 +1,7 @@
+<div *ngIf="notification" class="notification" [ngClass]="{
+    'bg-green-500': notification.type === 'success',
+    'bg-red-500': notification.type === 'error',
+    'bg-blue-500': notification.type === 'info'
+  }">
+    <p class="text-white">{{ notification.message }}</p>
+  </div>
