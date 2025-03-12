@@ -35,6 +35,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
   association = 'assets/assoc.jpg';
   showEditModal: boolean = false;
   showChangePasswordModal: boolean = false;
+  private lastUpdateType: 'photo' | 'profile' | null = null; 
   @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
   private subscription: Subscription = new Subscription();
 
@@ -55,7 +56,12 @@ export class ProfileComponent implements OnInit, OnDestroy {
         ofType(AuthActions.updateProfileSuccess)
       ).subscribe(() => {
         this.isLoading = false;
-        this.notificationService.showNotification( 'Photo de profil mise à jour avec succès !','success');
+        if (this.lastUpdateType === 'photo') {
+          this.notificationService.showNotification('Photo de profil mise à jour avec succès !', 'success');
+        } else if (this.lastUpdateType === 'profile') {
+          this.notificationService.showNotification('Profil mis à jour avec succès !', 'success');
+        }
+        this.lastUpdateType = null; 
       })
     );
 
@@ -64,7 +70,8 @@ export class ProfileComponent implements OnInit, OnDestroy {
         ofType(AuthActions.updateProfileFailure)
       ).subscribe(({ error }) => {
         this.isLoading = false;
-        this.notificationService.showNotification( error,'error');
+        this.notificationService.showNotification(error, 'error');
+        this.lastUpdateType = null; 
       })
     );
   }
@@ -85,6 +92,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
     this.showEditModal = false;
     if (this.currentUser) {
       this.currentUser = { ...this.currentUser, ...updatedData };
+      this.lastUpdateType = 'profile'; 
     }
   }
 
@@ -98,6 +106,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
       const file = input.files[0];
       console.log('Dispatching updateProfile with file:', file, 'for user ID:', this.currentUser.id);
       this.isLoading = true;
+      this.lastUpdateType = 'photo'; 
       this.store.dispatch(AuthActions.updateProfile({
         id: this.currentUser.id,
         updateDTO: {},

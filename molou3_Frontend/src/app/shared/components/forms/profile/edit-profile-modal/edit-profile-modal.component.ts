@@ -29,7 +29,7 @@ export class EditProfileModalComponent {
     EXPERT: 'Expert'
   };
 
-  constructor(private fb: FormBuilder, private store: Store<AppState>,private notificationService: NotificationService) {
+  constructor(private fb: FormBuilder, private store: Store<AppState>) {
     this.editForm = this.fb.group({});
   }
 
@@ -75,7 +75,6 @@ export class EditProfileModalComponent {
         logoFile: undefined
       }));
       this.saveProfile.emit(formData);
-      this.notificationService.showNotification('Profil mis à jour avec succès !', 'success'); 
       this.closeModal.emit();
     } else {
       this.editForm.markAllAsTouched();

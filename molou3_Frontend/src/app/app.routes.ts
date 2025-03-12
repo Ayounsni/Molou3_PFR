@@ -9,6 +9,9 @@ import { ColombophileDashboardComponent } from './features/colombophile/colombop
 import { AuthGuard } from './core/guards/auth.guard';
 import { LoggedInGuard } from './core/guards/logged-in.guard';
 import { ProfileComponent } from './features/auth/profile/profile.component';
+import { EditionComponent } from './features/programme/edition/edition.component';
+import { EtapeComponent } from './features/programme/etape/etape.component';
+import { CompetitionComponent } from './features/programme/competition/competition.component';
 
 
 
@@ -37,6 +40,18 @@ export const routes: Routes = [
           {
             path: 'dashboard',
             component: AssociationDashboardComponent
+          },
+          {
+            path: 'edition',
+            component: EditionComponent
+          },
+          {
+            path: 'etape',
+            component: EtapeComponent
+          },
+          {
+            path: 'competition',
+            component: CompetitionComponent
           }
         ]
       },
