@@ -75,6 +75,13 @@ export class AuthService {
     return this.http.get<LoginResponse>(`${this.apiUrl}/public/current-user`);
   }
 
+  changePassword(oldPassword: string, newPassword: string): Observable<string> {
+    const body = { oldPassword, newPassword };
+    return this.http.post<string>(`${this.apiUrl}/public/updatePassword`, body, {
+      headers: { 'Content-Type': 'application/json' }
+    });
+  }
+
   setToken(token: string): void {
     localStorage.setItem('jwt_token', token);
   }

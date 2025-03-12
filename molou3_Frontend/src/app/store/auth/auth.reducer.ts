@@ -12,6 +12,8 @@ export interface AuthState {
   token: string | null;
   loginLoading: boolean;
   loginError: string | null;
+  changePasswordLoading: boolean; 
+  changePasswordError: string | null; 
 }
 
 export const initialState: AuthState = {
@@ -22,6 +24,8 @@ export const initialState: AuthState = {
   token: null,
   loginLoading: false,
   loginError: null,
+  changePasswordLoading: false,
+  changePasswordError: null
 };
 
 export const authReducer = createReducer(
@@ -77,5 +81,20 @@ export const authReducer = createReducer(
     ...state,
     loading: false,
     error
+  })),
+  on(AuthActions.changePassword, (state) => ({
+    ...state,
+    changePasswordLoading: true,
+    changePasswordError: null
+  })),
+  on(AuthActions.changePasswordSuccess, (state, { message }) => ({
+    ...state,
+    changePasswordLoading: false,
+    changePasswordError: null
+  })),
+  on(AuthActions.changePasswordFailure, (state, { error }) => ({
+    ...state,
+    changePasswordLoading: false,
+    changePasswordError: error
   }))
 );

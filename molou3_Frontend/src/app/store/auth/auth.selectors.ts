@@ -41,3 +41,13 @@ export const selectToken = createSelector(
   (state) => state.token
 );
 
+export const selectChangePasswordLoading = createSelector(
+  selectAuthState,
+  (state) => state.changePasswordLoading
+);
+
+export const selectChangePasswordError = createSelector(
+  selectAuthState,
+  (state) => state.changePasswordError
+);
+

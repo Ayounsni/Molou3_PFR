@@ -12,10 +12,18 @@ import { NotificationComponent } from "../../../shared/components/notification/n
 import { NotificationService } from '../../../core/services/notification.service';
 import { Subscription } from 'rxjs';
 import { Actions, ofType } from '@ngrx/effects';
+import { ChangePasswordModalComponent } from '../../../shared/components/forms/profile/change-password-modal/change-password-modal.component';
 
 @Component({
   selector: 'app-profile',
-  imports: [SidebarComponent, CommonModule, ExperienceLabelPipe, EditProfileModalComponent, NotificationComponent],
+  imports: [
+    SidebarComponent,
+    CommonModule,
+    ExperienceLabelPipe,
+    EditProfileModalComponent,
+    NotificationComponent,
+    ChangePasswordModalComponent
+  ],
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.css'],
   standalone: true
@@ -26,22 +34,37 @@ export class ProfileComponent implements OnInit, OnDestroy {
   colombophile = 'assets/user1.jpg';
   association = 'assets/assoc.jpg';
   showEditModal: boolean = false;
+  showChangePasswordModal: boolean = false;
   @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
   private subscription: Subscription = new Subscription();
 
-  constructor(private store: Store<AppState>,private actions$: Actions,private notificationService: NotificationService) {}
+  constructor(
+    private store: Store<AppState>,
+    private actions$: Actions,
+    private notificationService: NotificationService
+  ) {}
 
   ngOnInit() {
     this.store.select(selectCurrentUser).subscribe(user => {
       this.currentUser = user;
     });
 
+    // Gestion updateProfile
     this.subscription.add(
       this.actions$.pipe(
         ofType(AuthActions.updateProfileSuccess)
       ).subscribe(() => {
         this.isLoading = false;
         this.notificationService.showNotification( 'Photo de profil mise à jour avec succès !','success');
+      })
+    );
+
+    this.subscription.add(
+      this.actions$.pipe(
+        ofType(AuthActions.updateProfileFailure)
+      ).subscribe(({ error }) => {
+        this.isLoading = false;
+        this.notificationService.showNotification( error,'error');
       })
     );
   }
@@ -60,14 +83,13 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
   handleSaveProfile(updatedData: any): void {
     this.showEditModal = false;
-    // Optionnel : Mettre à jour localement si nécessaire
     if (this.currentUser) {
       this.currentUser = { ...this.currentUser, ...updatedData };
     }
   }
 
   triggerFileInput(): void {
-    this.fileInput.nativeElement.click(); // Déclenche le clic sur l'input file
+    this.fileInput.nativeElement.click();
   }
 
   onFileSelected(event: Event): void {
@@ -84,5 +106,13 @@ export class ProfileComponent implements OnInit, OnDestroy {
     } else {
       console.log('No file selected or user ID missing');
     }
+  }
+
+  openChangePasswordModal(): void {
+    this.showChangePasswordModal = true;
+  }
+
+  closeChangePasswordModal(): void {
+    this.showChangePasswordModal = false;
   }
 }

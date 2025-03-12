@@ -59,3 +59,18 @@ export const updateProfileFailure = createAction(
   props<{ error: string }>()
 );
 
+export const changePassword = createAction(
+  '[Auth] Change Password',
+  props<{ oldPassword: string; newPassword: string }>()
+);
+
+export const changePasswordSuccess = createAction(
+  '[Auth] Change Password Success',
+  props<{ message: string }>()
+);
+
+export const changePasswordFailure = createAction(
+  '[Auth] Change Password Failure',
+  props<{ error: string }>()
+);
+

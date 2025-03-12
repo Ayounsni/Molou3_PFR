@@ -204,6 +204,21 @@ export class AuthEffects {
     )
   );
 
+  changePassword$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(AuthActions.changePassword),
+      mergeMap(({ oldPassword, newPassword }) =>
+        this.authService.changePassword(oldPassword, newPassword).pipe(
+          map((response) => AuthActions.changePasswordSuccess({ message: response })),
+          catchError((error) => {
+            console.error('Erreur lors du changement de mot de passe:', error);
+            return of(AuthActions.changePasswordFailure({ error: error.error?.message || 'Erreur lors du changement de mot de passe' }));
+          })
+        )
+      )
+    )
+  );
+
   private getDashboardRoute(role: string): string {
     switch (role) {
       case 'ROLE_ADMIN': return '/admin/dashboard';
