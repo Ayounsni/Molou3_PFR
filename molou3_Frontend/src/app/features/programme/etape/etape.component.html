@@ -1,12 +1,139 @@
 <app-sidebar></app-sidebar>
-<div class="ml-70 bg-[#dddddd] flex justify-center items-center min-h-screen">
-    <div class="bg-[#F8F8F8] min-h-screen w-10/12">
-        <!-- Image avec effet sombre -->
+<div class="ml-70 bg-[#f5f5f5] flex justify-center items-center min-h-screen">
+    <div class="bg-white min-h-screen w-10/12">
+        <!-- En-tête -->
         <div class="relative">
             <img [attr.src]="bg" alt="bg" class="w-full h-72 object-cover brightness-50" />
-            <!-- Vous pouvez ajouter du texte ou d'autres éléments par-dessus l'image si nécessaire -->
-            <div class="absolute inset-0 flex items-center justify-center">
-                <h1 class="text-white text-5xl font-bold">Gestion Étape</h1>
+            <div class="absolute inset-0 flex items-center justify-center bg-black/20">
+                <h1 class="text-white text-5xl font-bold drop-shadow-lg">Gestion des Étapes</h1>
+            </div>
+        </div>
+
+        <!-- Contenu principal -->
+        <div class="px-8 py-5 space-y-8">
+            <!-- Sélecteur d'édition et bouton Ajouter une étape -->
+            <div class="flex justify-between items-center">
+                <!-- Sélecteur d'édition -->
+                <div class="flex items-center gap-4">
+                    <label class="text-gray-700 font-medium ">Sélectionner une édition :</label>
+                    <select class="px-3.5 py-1.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-blue-400 ">
+                        <option value="2023">Édition 2023</option>
+                        <option value="2022">Édition 2022</option>
+                        <option value="2021">Édition 2021</option>
+                    </select>
+                </div>
+
+                <!-- Bouton Ajouter une étape -->
+                <button
+                    class="group relative flex items-center gap-2 px-4 py-2 rounded-lg bg-gradient-to-br from-blue-400 to-blue-500 hover:from-blue-500 hover:to-blue-600 text-white font-semibold transition-all duration-300 shadow-lg hover:shadow-xl"
+                >
+                    <svg
+                        class="w-5 h-5 text-white transition-transform group-hover:rotate-90"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                    >
+                        <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M12 4v16m8-8H4"
+                        />
+                    </svg>
+                    Ajouter une étape
+                </button>
+            </div>
+            <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">Étapes de l'édition sélectionnée</h2>
+
+            <!-- Tableau des étapes -->
+            <div class="bg-white rounded-xl shadow-lg border border-gray-100 overflow-hidden">
+                <table class="w-full">
+                    <thead class="bg-gray-100">
+                        <tr>
+                            <th class="px-6 py-4 text-left text-sm font-semibold text-gray-700 uppercase">Type d'étape</th>
+                            <th class="px-6 py-4 text-left text-sm font-semibold text-gray-700 uppercase">Intervalle de distance</th>
+                            <th class="px-6 py-4 text-left text-sm font-semibold text-gray-700 uppercase">Classement</th>
+                            <th class="px-6 py-4 text-left text-sm font-semibold text-gray-700 uppercase">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-100">
+                        <!-- Exemple d'étape : Vitesse -->
+                        <tr class="hover:bg-gray-50 transition-colors">
+                            <td class="px-6 py-4 text-base text-gray-800 font-medium">Vitesse</td>
+                            <td class="px-6 py-4 text-base text-gray-600">100 - 200 km</td>
+                            <td class="px-6 py-4 text-base text-gray-600">
+                                <button
+                                    class="flex items-center gap-2 px-4 py-2 bg-blue-100 text-sm text-blue-600 rounded-lg hover:bg-blue-200 transition-colors"
+                                >
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                                    </svg>
+                                    Voir le classement
+                                </button>
+                            </td>
+                            <td class="px-6 py-4 text-base text-gray-600">
+                                <div class="flex gap-2">
+                                    <button class="p-2 text-blue-500 hover:bg-blue-50 rounded-lg">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/>
+                                        </svg>
+                                    </button>
+                                    <button class="p-2 text-red-500 hover:bg-red-50 rounded-lg">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                                        </svg>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!-- Exemple d'étape : Demi-fond -->
+                        <tr class="hover:bg-gray-50 transition-colors">
+                            <td class="px-6 py-4 text-base text-gray-800 font-medium">Demi-fond</td>
+                            <td class="px-6 py-4 text-base text-gray-600">200 - 400 km</td>
+                            <td class="px-6 py-4 text-base text-gray-600">
+                                <span class="text-gray-500 text-sm italic">Classement non disponible</span>
+                            </td>
+                            <td class="px-6 py-4 text-base text-gray-600">
+                                <div class="flex gap-2">
+                                    <button class="p-2 text-blue-500 hover:bg-blue-50 rounded-lg">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/>
+                                        </svg>
+                                    </button>
+                                    <button class="p-2 text-red-500 hover:bg-red-50 rounded-lg">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                                        </svg>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!-- Exemple d'étape : Fond -->
+                        <tr class="hover:bg-gray-50 transition-colors">
+                            <td class="px-6 py-4 text-base text-gray-800 font-medium">Fond</td>
+                            <td class="px-6 py-4 text-base text-gray-600">400 - 600 km</td>
+                            <td class="px-6 py-4 text-base text-gray-600">
+                                <span class="text-gray-500 text-sm italic">Classement non disponible</span>
+                            </td>
+                            <td class="px-6 py-4 text-base text-gray-600">
+                                <div class="flex gap-2">
+                                    <button class="p-2 text-blue-500 hover:bg-blue-50 rounded-lg">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/>
+                                        </svg>
+                                    </button>
+                                    <button class="p-2 text-red-500 hover:bg-red-50 rounded-lg">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                                        </svg>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
