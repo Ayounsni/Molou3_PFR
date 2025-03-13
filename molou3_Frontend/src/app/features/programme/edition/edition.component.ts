@@ -11,11 +11,19 @@ import { NotificationService } from '../../../core/services/notification.service
 import { NotificationComponent } from '../../../shared/components/notification/notification.component';
 import { EditionFormComponent } from '../../../shared/components/forms/programme/edition-form/edition-form.component';
 import { DeleteConfirmationModalComponent } from "../../../shared/components/delete-confirmation-modal/delete-confirmation-modal.component";
+import { PaginationComponent } from '../../../shared/components/pagination/pagination.component';
 
 @Component({
   selector: 'app-edition',
   standalone: true,
-  imports: [SidebarComponent, CommonModule, NotificationComponent, EditionFormComponent, DeleteConfirmationModalComponent],
+  imports: [
+    SidebarComponent,
+    CommonModule,
+    NotificationComponent,
+    EditionFormComponent,
+    DeleteConfirmationModalComponent,
+    PaginationComponent 
+  ],
   templateUrl: './edition.component.html',
   styleUrls: ['./edition.component.css']
 })
@@ -29,8 +37,10 @@ export class EditionComponent implements OnInit {
   editionToDeleteId: number | null = null;
   errorMessage: string | null = null;
   currentPage = 1;
-  pageSize = 6; // Nombre d'éléments par page
-  totalPages = 3;
+  pageSize = 6;
+  totalPages = 0;
+  totalElements = 0;
+  isLastPage = false;
 
   constructor(
     private programmeEditionService: ProgrammeEditionService,
@@ -57,16 +67,26 @@ export class EditionComponent implements OnInit {
       console.log('Aucun utilisateur connecté');
       return;
     }
-    this.programmeEditionService.getAllProgrammeEditions().subscribe({
-      next: (editions) => {
-        console.log('Éditions brutes de l\'API:', editions);
-        this.editions = editions.filter(edition => 
-          Number(edition.association?.id) === this.currentUser?.id
-        );
-        console.log('Éditions filtrées:', this.editions);
+    this.programmeEditionService.getAllProgrammeEditions(this.currentPage - 1, this.pageSize, this.currentUser.id).subscribe({
+      next: (pageData) => {
+        console.log('Données paginées du backend:', pageData);
+        this.editions = pageData.content;
+        this.totalPages = pageData.totalPages;
+        this.totalElements = pageData.totalElements;
+        this.pageSize = pageData.pageSize;
+        this.isLastPage = pageData.last;
+        this.currentPage = pageData.pageNumber + 1;
+
+        if (this.editions.length === 0 && this.currentPage > 1) {
+          this.currentPage--;
+          this.loadEditions();
+        }
+        console.log('Éditions chargées:', this.editions);
       },
       error: (error) => {
         console.error('Erreur lors du chargement des éditions:', error);
+        this.errorMessage = 'Erreur lors du chargement des éditions';
+        this.notificationService.showNotification(this.errorMessage, 'error');
       }
     });
   }
@@ -77,36 +97,6 @@ export class EditionComponent implements OnInit {
     this.errorMessage = null;
   }
 
-  get totalPagesArray(): number[] {
-    return Array.from({length: this.totalPages}, (_, i) => i + 1);
-  }
-  
-  getPaginatedEditions(): any[] {
-    // Simulation de pagination statique
-    return this.editions.slice(
-      (this.currentPage - 1) * this.pageSize,
-      this.currentPage * this.pageSize
-    );
-  }
-  
-  setPage(page: number): void {
-    this.currentPage = page;
-  }
-  
-  previousPage(): void {
-    if (this.currentPage > 1) {
-      this.currentPage--;
-    }
-  }
-  
-  nextPage(): void {
-    if (this.currentPage < this.totalPages) {
-      this.currentPage++;
-    }
-  }
-
-
-
   closeEditionModal(): void {
     this.showEditionModal = false;
     this.currentEdition = null;
@@ -114,16 +104,15 @@ export class EditionComponent implements OnInit {
 
   handleEditionSaved(edition: ProgrammeEdition): void {
     if (this.currentEdition) {
-      // Mode édition : mise à jour de l'édition existante
       const index = this.editions.findIndex(e => e.id === edition.id);
       if (index !== -1) {
         this.editions[index] = edition;
       }
     } else {
-      // Mode ajout : ajout de la nouvelle édition
       this.editions.push(edition);
     }
-    this.editions = [...this.editions]; // Rafraîchir la liste
+    this.editions = [...this.editions];
+    this.loadEditions();
   }
 
   openDeleteConfirmation(editionId: number | undefined): void {
@@ -133,9 +122,7 @@ export class EditionComponent implements OnInit {
     } else {
       console.error('Impossible de supprimer : ID de l\'édition non défini');
       this.errorMessage = 'Erreur : Cette édition ne peut pas être supprimée (ID manquant)';
-      if (this.errorMessage) {
-        this.notificationService.showNotification(this.errorMessage, 'error');
-      }
+      this.notificationService.showNotification(this.errorMessage, 'error');
     }
   }
 
@@ -148,18 +135,20 @@ export class EditionComponent implements OnInit {
     if (this.editionToDeleteId && this.currentUser) {
       this.programmeEditionService.deleteProgrammeEdition(this.editionToDeleteId).subscribe({
         next: () => {
-          this.editions = [...this.editions.filter(e => e.id !== this.editionToDeleteId)];
-          this.closeDeleteConfirmation();
           this.notificationService.showNotification('Édition supprimée avec succès', 'success');
+          this.closeDeleteConfirmation();
+          this.loadEditions();
         },
         error: (error) => {
           this.errorMessage = error.message || 'Erreur lors de la suppression';
-          if (this.errorMessage) {
-            this.notificationService.showNotification(this.errorMessage, 'error');
-          }
           this.closeDeleteConfirmation();
         }
       });
     }
+  }
+
+  onPageChange(page: number): void {
+    this.currentPage = page;
+    this.loadEditions();
   }
 }

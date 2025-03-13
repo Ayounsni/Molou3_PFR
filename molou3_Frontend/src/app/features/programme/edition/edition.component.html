@@ -8,7 +8,7 @@
         <h1 class="text-white text-5xl font-bold drop-shadow-lg">Gestion des Éditions</h1>
       </div>
     </div>
-    <div class="px-8 py-5 space-y-8">
+    <div class="px-8 py-5 mb-10 space-y-8">
       <div class="flex justify-end">
         <button (click)="openEditionModal()"
           class="group relative flex items-center gap-2 px-4 py-2 rounded-lg bg-gradient-to-br from-blue-400 to-blue-500 hover:from-blue-500 hover:to-blue-600 text-white font-semibold transition-all duration-300 shadow-lg hover:shadow-xl">
@@ -40,58 +40,17 @@
           </div>
         </div>
       </div>
-      <div class="mt-8 flex justify-center items-center gap-3">
-        <!-- Bouton Précédent -->
-        <button 
-          class="w-9 h-9 rounded-full bg-gradient-to-br from-gray-100 to-gray-200 text-gray-700 hover:from-gray-200 hover:to-gray-300 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 shadow-md hover:shadow-lg flex items-center justify-center"
-          (click)="previousPage()"
-          [disabled]="currentPage === 1"
-          title="Page précédente">
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
-          </svg>
-        </button>
-      
-        <!-- Numéros de pages -->
-        <div class="flex items-center gap-2">
-          <ng-container *ngFor="let page of totalPagesArray">
-            <button 
-              class="w-9 h-9 rounded-full transition-all duration-300 font-semibold text-sm relative overflow-hidden group"
-              [class.bg-gradient-to-br]="currentPage === page"
-              [class.from-blue-500]="currentPage === page"
-              [class.to-blue-600]="currentPage === page"
-              [class.text-white]="currentPage === page"
-              [class.shadow-lg]="currentPage === page"
-              [class.bg-white]="currentPage !== page"
-              [class.text-gray-700]="currentPage !== page"
-              [class.hover:bg-gray-100]="currentPage !== page"
-              [class.border]="currentPage !== page"
-              [class.border-gray-200]="currentPage !== page"
-              (click)="setPage(page)">
-              <span class="relative z-10">{{ page }}</span>
-              <!-- Effet de survol subtil -->
-              <span *ngIf="currentPage !== page" class="absolute inset-0 bg-blue-500 opacity-0 group-hover:opacity-10 transition-opacity duration-300"></span>
-            </button>
-          </ng-container>
-        </div>
-      
-        <!-- Bouton Suivant -->
-        <button 
-          class="w-9 h-9 rounded-full bg-gradient-to-br from-gray-100 to-gray-200 text-gray-700 hover:from-gray-200 hover:to-gray-300 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 shadow-md hover:shadow-lg flex items-center justify-center"
-          (click)="nextPage()"
-          [disabled]="currentPage === totalPages"
-          title="Page suivante">
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-          </svg>
-        </button>
-      </div>
-    </div>
 
-      <!-- Message quand il n'y a pas d'éditions -->
+      <app-pagination
+        [currentPage]="currentPage"
+        [totalPages]="totalPages"
+        [isLastPage]="isLastPage"
+        (pageChange)="onPageChange($event)"
+      ></app-pagination>
+
       <ng-template #noEditions>
         <div class="text-center text-gray-600 text-lg py-10">
-          <svg class="w-16 h-16 mx-auto mb-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg class="w-14 h-14 mx-auto mb-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 13h6m-3-3v6m5 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
           </svg>
           Aucune édition trouvée pour votre association.
@@ -99,7 +58,6 @@
       </ng-template>
     </div>
 
-    <!-- Modal Édition -->
     <app-edition-form
       [edition]="currentEdition"
       [currentUser]="currentUser"
@@ -108,14 +66,14 @@
       (editionSaved)="handleEditionSaved($event)"
     ></app-edition-form>
 
-    <!-- Modal Suppression -->
     <app-delete-confirmation-modal
-    [showModal]="showDeleteConfirmation"
-    [title]="'Confirmer la suppression'"
-    [message]="'Êtes-vous sûr de vouloir supprimer cette édition ?'"
-    [confirmButtonText]="'Oui'"
-    [cancelButtonText]="'Non'"
-    (closeModal)="closeDeleteConfirmation()"
-    (confirmDelete)="confirmDelete()"
-  ></app-delete-confirmation-modal>
+      [showModal]="showDeleteConfirmation"
+      [title]="'Confirmer la suppression'"
+      [message]="'Êtes-vous sûr de vouloir supprimer cette édition ?'"
+      [confirmButtonText]="'Oui'"
+      [cancelButtonText]="'Non'"
+      (closeModal)="closeDeleteConfirmation()"
+      (confirmDelete)="confirmDelete()"
+    ></app-delete-confirmation-modal>
   </div>
+</div>
