@@ -12,6 +12,7 @@ import { ProfileComponent } from './features/auth/profile/profile.component';
 import { EditionComponent } from './features/programme/edition/edition.component';
 import { EtapeComponent } from './features/programme/etape/etape.component';
 import { CompetitionComponent } from './features/programme/competition/competition.component';
+import { ResultatComponent } from './features/programme/resultat/resultat.component';
 
 
 
@@ -52,6 +53,10 @@ export const routes: Routes = [
           {
             path: 'competition',
             component: CompetitionComponent
+          },
+          {
+            path: 'resultat',
+            component: ResultatComponent
           }
         ]
       },
