@@ -1,0 +1,36 @@
+<div *ngIf="showModal" class="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+    <div class="bg-gray-900 rounded-xl shadow-xl w-full max-w-md relative border border-gray-700">
+      <!-- En-tête du modal -->
+      <div class="px-6 py-5 border-b border-gray-800 flex justify-between items-center">
+        <h3 class="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-red-300 to-red-400">
+          {{ title || 'Confirmer la suppression' }}
+        </h3>
+        <button (click)="close()" class="text-gray-400 hover:text-gray-200 transition-colors">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+          </svg>
+        </button>
+      </div>
+  
+      <!-- Corps du modal -->
+      <div class="p-6">
+        <p class="text-gray-300 mb-6">{{ message || 'Êtes-vous sûr de vouloir supprimer cet élément ?' }}</p>
+        
+        <!-- Boutons d'action -->
+        <div class="flex justify-end gap-3">
+          <button 
+            (click)="close()"
+            class="px-4 py-1.5 bg-gray-700 text-white rounded-md font-semibold hover:bg-gray-600 transition-all duration-200"
+          >
+            {{ cancelButtonText || 'Non' }}
+          </button>
+          <button 
+            (click)="confirm()"
+            class="px-4 py-1.5 bg-gradient-to-br from-red-300/90 to-red-400/80 rounded-md font-semibold text-gray-900 hover:from-red-300 hover:to-red-400 transition-all duration-200 shadow-md shadow-red-300/10 hover:shadow-red-300/20"
+          >
+            {{ confirmButtonText || 'Oui' }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>

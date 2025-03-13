@@ -1,157 +1,121 @@
 <app-sidebar></app-sidebar>
+<app-notification></app-notification>
 <div class="ml-70 bg-[#f5f5f5] flex justify-center items-center min-h-screen">
-    <div class="bg-white min-h-screen w-10/12">
-        <!-- En-tête -->
-        <div class="relative">
-            <img [attr.src]="bg" alt="bg" class="w-full h-72 object-cover brightness-50" />
-            <div class="absolute inset-0 flex items-center justify-center bg-black/20">
-                <h1 class="text-white text-5xl font-bold drop-shadow-lg">Gestion des Éditions</h1>
-            </div>
-        </div>
-
-        <!-- Contenu principal -->
-        <div class="px-8 py-5 space-y-8">
-            <!-- Bouton pour ajouter une nouvelle édition -->
-            <div class="flex justify-end">
-                <button
-                    class="group relative flex items-center gap-2 px-4 py-2 rounded-lg bg-gradient-to-br from-blue-400 to-blue-500 hover:from-blue-500 hover:to-blue-600 text-white font-semibold transition-all duration-300 shadow-lg hover:shadow-xl"
-                >
-                    <svg
-                        class="w-5 h-5 text-white transition-transform group-hover:rotate-90"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                    >
-                        <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            stroke-width="2"
-                            d="M12 4v16m8-8H4"
-                        />
-                    </svg>
-                    Nouvelle Édition
-                </button>
-            </div>
-
-            <!-- Liste des éditions existantes -->
-
-                <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">Historique des éditions de programme</h2>
-                
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    <!-- Carte d'édition (exemple statique) -->
-                    <div class="relative bg-gray-50 rounded-xl shadow-sm hover:shadow-md transition-shadow duration-300 border border-gray-100">
-                        <div class="p-6">
-                            <h3 class="font-semibold text-blue-600 text-lg">Édition 2023</h3>
-                            <p class="text-sm text-gray-600 mt-2">Compétition annuelle des pigeons voyageurs - Phase finale en octobre</p>
-                        </div>
-                        <div class="absolute top-4 right-4 flex gap-2">
-                            <button class="p-2 text-blue-500 hover:bg-blue-50 rounded-lg">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        stroke-width="2"
-                                        d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
-                                    />
-                                </svg>
-                            </button>
-                            <button class="p-2 text-red-500 hover:bg-red-50 rounded-lg">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        stroke-width="2"
-                                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                                    />
-                                </svg>
-                            </button>
-                        </div>
-                    </div>
-                    <div class="relative bg-gray-50 rounded-xl shadow-sm hover:shadow-md transition-shadow duration-300 border border-gray-100">
-                        <div class="p-6">
-                            <h3 class="font-semibold text-blue-600 text-lg">Édition 2023</h3>
-                            <p class="text-sm text-gray-600 mt-2">Compétition annuelle des pigeons voyageurs - Phase finale en octobre</p>
-                        </div>
-                        <div class="absolute top-4 right-4 flex gap-2">
-                            <button class="p-2 text-blue-500 hover:bg-blue-50 rounded-lg">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        stroke-width="2"
-                                        d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
-                                    />
-                                </svg>
-                            </button>
-                            <button class="p-2 text-red-500 hover:bg-red-50 rounded-lg">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        stroke-width="2"
-                                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                                    />
-                                </svg>
-                            </button>
-                        </div>
-                    </div>
-                    <div class="relative bg-gray-50 rounded-xl shadow-sm hover:shadow-md transition-shadow duration-300 border border-gray-100">
-                        <div class="p-6">
-                            <h3 class="font-semibold text-blue-600 text-lg">Édition 2023</h3>
-                            <p class="text-sm text-gray-600 mt-2">Compétition annuelle des pigeons voyageurs - Phase finale en octobre</p>
-                        </div>
-                        <div class="absolute top-4 right-4 flex gap-2">
-                            <button class="p-2 text-blue-500 hover:bg-blue-50 rounded-lg">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        stroke-width="2"
-                                        d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
-                                    />
-                                </svg>
-                            </button>
-                            <button class="p-2 text-red-500 hover:bg-red-50 rounded-lg">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        stroke-width="2"
-                                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                                    />
-                                </svg>
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- Autre carte d'édition -->
-                    <div class="relative bg-gray-50 rounded-xl shadow-sm hover:shadow-md transition-shadow duration-300 border border-gray-100">
-                        <div class="p-6">
-                            <h3 class="font-semibold text-blue-600 text-lg">Édition 2022</h3>
-                            <p class="text-sm text-gray-600 mt-2">Tournoi international avec participants de 12 pays</p>
-                        </div>
-                        <div class="absolute top-4 right-4 flex gap-2">
-                            <button class="p-2 text-blue-500 hover:bg-blue-50 rounded-lg">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        stroke-width="2"
-                                        d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
-                                    />
-                                </svg>
-                            </button>
-                            <button class="p-2 text-red-500 hover:bg-red-50 rounded-lg">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        stroke-width="2"
-                                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                                    />
-                                </svg>
-                            </button>
-                        </div>
-                    </div>
+  <div class="bg-white min-h-screen w-10/12">
+    <div class="relative">
+      <img [attr.src]="bg" alt="bg" class="w-full h-72 object-cover brightness-50" />
+      <div class="absolute inset-0 flex items-center justify-center bg-black/20">
+        <h1 class="text-white text-5xl font-bold drop-shadow-lg">Gestion des Éditions</h1>
+      </div>
     </div>
-</div>
+    <div class="px-8 py-5 space-y-8">
+      <div class="flex justify-end">
+        <button (click)="openEditionModal()"
+          class="group relative flex items-center gap-2 px-4 py-2 rounded-lg bg-gradient-to-br from-blue-400 to-blue-500 hover:from-blue-500 hover:to-blue-600 text-white font-semibold transition-all duration-300 shadow-lg hover:shadow-xl">
+          <svg class="w-5 h-5 text-white transition-transform group-hover:rotate-90" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+          </svg>
+          Nouvelle Édition
+        </button>
+      </div>
+
+      <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">Historique des éditions de programme</h2>
+      <div *ngIf="editions.length > 0; else noEditions" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div *ngFor="let edition of editions" class="relative bg-gray-50 rounded-xl shadow-sm hover:shadow-md transition-shadow duration-300 border border-gray-100">
+          <div class="p-6">
+            <h3 class="font-semibold text-blue-600 text-lg">Édition {{ edition.annee }}</h3>
+            <p class="text-sm text-gray-600 mt-2">{{ edition.description || 'Aucune description' }}</p>
+          </div>
+          <div class="absolute top-4 right-4 flex gap-2">
+            <button (click)="openEditionModal(edition)" class="p-2 text-blue-500 hover:bg-blue-50 rounded-lg">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+              </svg>
+            </button>
+            <button (click)="openDeleteConfirmation(edition.id)" class="p-2 text-red-500 hover:bg-red-50 rounded-lg">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="mt-8 flex justify-center items-center gap-3">
+        <!-- Bouton Précédent -->
+        <button 
+          class="w-9 h-9 rounded-full bg-gradient-to-br from-gray-100 to-gray-200 text-gray-700 hover:from-gray-200 hover:to-gray-300 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 shadow-md hover:shadow-lg flex items-center justify-center"
+          (click)="previousPage()"
+          [disabled]="currentPage === 1"
+          title="Page précédente">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+          </svg>
+        </button>
+      
+        <!-- Numéros de pages -->
+        <div class="flex items-center gap-2">
+          <ng-container *ngFor="let page of totalPagesArray">
+            <button 
+              class="w-9 h-9 rounded-full transition-all duration-300 font-semibold text-sm relative overflow-hidden group"
+              [class.bg-gradient-to-br]="currentPage === page"
+              [class.from-blue-500]="currentPage === page"
+              [class.to-blue-600]="currentPage === page"
+              [class.text-white]="currentPage === page"
+              [class.shadow-lg]="currentPage === page"
+              [class.bg-white]="currentPage !== page"
+              [class.text-gray-700]="currentPage !== page"
+              [class.hover:bg-gray-100]="currentPage !== page"
+              [class.border]="currentPage !== page"
+              [class.border-gray-200]="currentPage !== page"
+              (click)="setPage(page)">
+              <span class="relative z-10">{{ page }}</span>
+              <!-- Effet de survol subtil -->
+              <span *ngIf="currentPage !== page" class="absolute inset-0 bg-blue-500 opacity-0 group-hover:opacity-10 transition-opacity duration-300"></span>
+            </button>
+          </ng-container>
+        </div>
+      
+        <!-- Bouton Suivant -->
+        <button 
+          class="w-9 h-9 rounded-full bg-gradient-to-br from-gray-100 to-gray-200 text-gray-700 hover:from-gray-200 hover:to-gray-300 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 shadow-md hover:shadow-lg flex items-center justify-center"
+          (click)="nextPage()"
+          [disabled]="currentPage === totalPages"
+          title="Page suivante">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+      <!-- Message quand il n'y a pas d'éditions -->
+      <ng-template #noEditions>
+        <div class="text-center text-gray-600 text-lg py-10">
+          <svg class="w-16 h-16 mx-auto mb-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 13h6m-3-3v6m5 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+          </svg>
+          Aucune édition trouvée pour votre association.
+        </div>
+      </ng-template>
+    </div>
+
+    <!-- Modal Édition -->
+    <app-edition-form
+      [edition]="currentEdition"
+      [currentUser]="currentUser"
+      [showModal]="showEditionModal"
+      (closeModal)="closeEditionModal()"
+      (editionSaved)="handleEditionSaved($event)"
+    ></app-edition-form>
+
+    <!-- Modal Suppression -->
+    <app-delete-confirmation-modal
+    [showModal]="showDeleteConfirmation"
+    [title]="'Confirmer la suppression'"
+    [message]="'Êtes-vous sûr de vouloir supprimer cette édition ?'"
+    [confirmButtonText]="'Oui'"
+    [cancelButtonText]="'Non'"
+    (closeModal)="closeDeleteConfirmation()"
+    (confirmDelete)="confirmDelete()"
+  ></app-delete-confirmation-modal>
+  </div>

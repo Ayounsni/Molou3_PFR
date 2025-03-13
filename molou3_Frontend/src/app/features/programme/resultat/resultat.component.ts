@@ -8,6 +8,6 @@ import { SidebarComponent } from "../../../shared/components/sidebar/sidebar.com
   styleUrl: './resultat.component.css'
 })
 export class ResultatComponent {
-  bg = 'assets/bg7.png'; 
+  bg = 'assets/bg9.png'; 
 
 }
