@@ -52,6 +52,37 @@ public class ProgrammeEditionService extends GenericService<ProgrammeEdition,Cre
         return programmeEditionMapper.toDTO(programmeEditionRepository.save(user)) ;
     }
 
+    @Override
+    public ResponseProgrammeEditionDTO update(Long id, UpdateProgrammeEditionDTO updateDTO) {
+        if (updateDTO == null) {
+            throw new NullPointerException("The DTO cannot be null");
+        }
+
+        // Récupérer l'entité existante
+        ProgrammeEdition existingEntity = programmeEditionRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("ProgrammeEdition avec l'ID " + id + " n'existe pas"));
+
+        // Vérifier l'unicité de l'année pour cette association
+        List<ProgrammeEdition> editionsForAssociation = programmeEditionRepository
+                .findAllByAssociationId(existingEntity.getAssociation().getId());
+
+        boolean anneeExists = editionsForAssociation.stream()
+                .anyMatch(edition ->
+                        edition.getAnnee().equals(updateDTO.getAnnee()) &&
+                                !edition.getId().equals(id) // Exclure l'entité actuelle
+                );
+
+        if (anneeExists) {
+            throw new IllegalArgumentException("Un programme pour l'année " + updateDTO.getAnnee()
+                    + " existe déjà pour cette association.");
+        }
+
+        // Mettre à jour l'entité avec les nouvelles données
+        ProgrammeEdition updatedEntity = mapper.updateEntityFromDTO(updateDTO, existingEntity);
+        updatedEntity = programmeEditionRepository.save(updatedEntity);
+        return mapper.toDTO(updatedEntity);
+    }
+
 
 
 }

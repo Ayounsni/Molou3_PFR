@@ -14,7 +14,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Validated
 @RestController
@@ -48,9 +50,16 @@ public class ProgrammeEditionController {
         return new ResponseEntity<>(programmeEditions, HttpStatus.OK);
     }
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteProgrammeEdition(@Exists(entity = ProgrammeEdition.class , message = "Ce programme Edition n'existe pas.") @PathVariable("id") Long id) {
-            programmeEditionService.deleteById(id);
-            return new ResponseEntity<>("ProgrammeEdition est supprimé avec succès", HttpStatus.OK);
+    public ResponseEntity<Map<String, String>> deleteProgrammeEdition(
+            @Exists(entity = ProgrammeEdition.class, message = "Ce programme Edition n'existe pas.")
+            @PathVariable("id") Long id) {
+
+        programmeEditionService.deleteById(id);
+
+        Map<String, String> response = new HashMap<>();
+        response.put("message", "ProgrammeEdition est supprimé avec succès");
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @PutMapping("/{id}")

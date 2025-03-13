@@ -25,7 +25,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 @Validated
@@ -93,15 +95,12 @@ public class AppUserController {
     @GetMapping("/public/current-user")
     public ResponseEntity<ResponseLoginDTO> getCurrentUser(@RequestHeader("Authorization") String authorizationHeader) {
         try {
-            // Vérifier la présence et le format de l’en-tête Authorization
             if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
             }
 
-            // Extraire le token de l’en-tête
             String token = authorizationHeader.substring(7); // Retire "Bearer "
 
-            // Appeler le service pour récupérer les données de l’utilisateur
             ResponseLoginDTO response = appUserService.getCurrentUser(token);
 
             return ResponseEntity.ok(response);
@@ -131,10 +130,12 @@ public class AppUserController {
 
 
 
-    @PostMapping("/updatePassword")
-    public ResponseEntity<String> updatePassword(@Valid @RequestBody ChangePasswordDTO changePasswordDTO) {
+    @PostMapping("/public/updatePassword")
+    public ResponseEntity<Map<String, String>> updatePassword(@Valid @RequestBody ChangePasswordDTO changePasswordDTO) {
         appUserService.changePassword(changePasswordDTO);
-        return new ResponseEntity<>("Mot de passe changé avec succès.", HttpStatus.OK);
+        Map<String, String> response = new HashMap<>();
+        response.put("message", "Mot de passe changé avec succès.");
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }
 

@@ -6,6 +6,7 @@ import com.it.molou3_backend.services.interfaces.IGenericService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
@@ -58,8 +59,7 @@ public class GenericService<Entity, CreateDTO, UpdateDTO, ResponseDTO> implement
 
     @Override
     public List<ResponseDTO> findAll() {
-        List<Entity> pagedResult = repository.findAll();
-
+        List<Entity> pagedResult = repository.findAll(Sort.by(Sort.Direction.ASC, "id"));
         return pagedResult
                 .stream()
                 .map(mapper::toDTO)

@@ -114,22 +114,17 @@ public class AppUserService implements IAppUserService {
     }
     @Override
     public ResponseLoginDTO getCurrentUser(String token) {
-        // Extraire l’email du token
         if (!jwtUtils.validateJwtToken(token)) {
             throw new RuntimeException("Token invalide ou expiré");
         }
 
-        // Extraire l’email du token
         String email = jwtUtils.getUsernameFromJwtToken(token);
 
-        // Récupérer l’utilisateur depuis la base de données
         AppUser user = appUserRepository.findByEmail(email)
                 .orElseThrow(() -> new RuntimeException("Utilisateur non trouvé"));
 
-        // Création de la réponse DTO
         ResponseLoginDTO response = new ResponseLoginDTO();
 
-        // Remplir les champs communs à tous les utilisateurs
         response.setId(user.getId());
         response.setEmail(user.getEmail());
         response.setRole(user.getRole().getRoleName()); // Assurez-vous que getRole() renvoie un objet avec getAuthority()
@@ -141,7 +136,6 @@ public class AppUserService implements IAppUserService {
         response.setEnabled(user.isEnabled());
         response.setToken(token); // Réutiliser le token existant
 
-        // Vérifier le type de l’utilisateur en utilisant `dtype`
         if ("Colombophile".equals(user.getDtype())) {
             Colombophile colombophile = (Colombophile) user;
             response.setNomComplet(colombophile.getNomComplet());
@@ -156,7 +150,6 @@ public class AppUserService implements IAppUserService {
             response.setPreuveLegalePath(association.getPreuveLegalePath());
         }else if ("Admin".equals(user.getDtype())) {
             response.setRole("ROLE_ADMIN"); // Forcer le rôle pour Admin, comme dans login
-            // Ajouter d'autres champs spécifiques à Admin si nécessaire
         } else {
             throw new RuntimeException("Type d'utilisateur non pris en charge : " + user.getDtype());
         }
