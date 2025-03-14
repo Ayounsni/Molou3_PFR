@@ -56,12 +56,18 @@ public class EtapeCompetitionController {
             return new ResponseEntity<>("EtapeCompetition est supprimé avec succès", HttpStatus.OK);
     }
 
+    @DeleteMapping("/etapeClassement/{id}")
+    public ResponseEntity<String> deleteEtapeCompetitionClassement(@Exists(entity = EtapeCompetition.class , message = "Cette etapeCompetition n'existe pas.") @PathVariable("id") Long id) {
+        etapeCompetitionService.deleteClassement(id);
+        return new ResponseEntity<>("Classement est supprimé avec succès", HttpStatus.OK);
+    }
+
     @PutMapping(value = "/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<ResponseEtapeCompetitionDTO> updateEtapeCompetition(
             @Exists(entity = EtapeCompetition.class, message = "Cette étape de compétition n'existe pas.")
             @PathVariable("id") Long id,
             @Valid @RequestPart(value = "updateDTO", required = false) UpdateEtapeCompetitionDTO updateEtapeCompetitionDTO,
-            @RequestPart(value = "pdfClassement", required = false) MultipartFile pdfClassementFile) throws IOException {
+            @RequestPart(value = "classementFile", required = false) MultipartFile pdfClassementFile) throws IOException {
 
         if (updateEtapeCompetitionDTO == null && pdfClassementFile == null) {
             throw new IllegalArgumentException("Aucune donnée fournie pour la mise à jour.");

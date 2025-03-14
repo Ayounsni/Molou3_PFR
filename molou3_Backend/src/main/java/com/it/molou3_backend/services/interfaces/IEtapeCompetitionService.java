@@ -9,5 +9,6 @@ import java.io.IOException;
 
 public interface IEtapeCompetitionService extends IGenericService<CreateEtapeCompetitionDTO,UpdateEtapeCompetitionDTO,ResponseEtapeCompetitionDTO> {
     ResponseEtapeCompetitionDTO update(Long id, UpdateEtapeCompetitionDTO updateEtapeCompetitionDTO, MultipartFile pdfClassementFile) throws IOException;
+    void deleteClassement(Long id);
 
 }

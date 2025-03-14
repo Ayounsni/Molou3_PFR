@@ -82,5 +82,14 @@ public class EtapeCompetitionService extends GenericService<EtapeCompetition,Cre
         return mapper.toDTO(updatedEntity);
     }
 
+    @Override
+    public void deleteClassement(Long id) {
+        EtapeCompetition entity = etapeCompetitionRepository.findById(id).orElseThrow(() ->
+                new IllegalArgumentException("L'étape de compétition avec cet ID n'existe pas.")
+        );
+        entity.setPdfClassement(null);
+        etapeCompetitionRepository.save(entity);
+    }
+
 
 }
