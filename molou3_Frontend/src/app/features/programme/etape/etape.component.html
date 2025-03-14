@@ -1,143 +1,229 @@
 <app-sidebar></app-sidebar>
+<app-notification></app-notification>
 <div class="ml-70 bg-[#f5f5f5] flex justify-center items-center min-h-screen">
-    <div class="bg-white min-h-screen w-10/12">
-        <!-- En-tête -->
-        <div class="relative">
-            <img [attr.src]="bg" alt="bg" class="w-full h-72 object-cover brightness-50" />
-            <div class="absolute inset-0 flex items-center justify-center bg-black/20">
-                <h1 class="text-white text-5xl font-bold drop-shadow-lg">Gestion des Étapes</h1>
-            </div>
-        </div>
-
-        <!-- Contenu principal -->
-        <div class="px-8 py-5 space-y-8">
-            <!-- Sélecteur d'édition et bouton Ajouter une étape -->
-            <div class="flex justify-between items-center">
-                <!-- Sélecteur d'édition -->
-                <div class="flex items-center gap-4">
-                    <label class="text-gray-700 font-medium">Sélectionner une édition :</label>
-                    <select
-                      class="px-3.5 py-1.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-blue-400"
-                    >
-                      <option value="" disabled selected>Sélectionner une édition</option>
-                      <option *ngFor="let edition of editions" [value]="edition.annee">
-                        Édition {{ edition.annee }}
-                      </option>
-                    </select>
-                  </div>
-
-                <!-- Bouton Ajouter une étape -->
-                <button
-                    class="group relative flex items-center gap-2 px-4 py-2 rounded-lg bg-gradient-to-br from-blue-400 to-blue-500 hover:from-blue-500 hover:to-blue-600 text-white font-semibold transition-all duration-300 shadow-lg hover:shadow-xl"
-                >
-                    <svg
-                        class="w-5 h-5 text-white transition-transform group-hover:rotate-90"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                    >
-                        <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            stroke-width="2"
-                            d="M12 4v16m8-8H4"
-                        />
-                    </svg>
-                    Ajouter une étape
-                </button>
-            </div>
-            <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">Étapes de l'édition sélectionnée</h2>
-
-            <!-- Tableau des étapes -->
-            <div class="bg-white rounded-xl shadow-lg border border-gray-100 overflow-hidden">
-                <table class="w-full">
-                    <thead class="bg-gray-100">
-                        <tr>
-                            <th class="px-6 py-4 text-left text-sm font-semibold text-gray-700 uppercase">Type d'étape</th>
-                            <th class="px-6 py-4 text-left text-sm font-semibold text-gray-700 uppercase">Intervalle de distance</th>
-                            <th class="px-6 py-4 text-left text-sm font-semibold text-gray-700 uppercase">Classement</th>
-                            <th class="px-6 py-4 text-left text-sm font-semibold text-gray-700 uppercase">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody class="divide-y divide-gray-100">
-                        <!-- Exemple d'étape : Vitesse -->
-                        <tr class="hover:bg-gray-50 transition-colors">
-                            <td class="px-6 py-4 text-base text-gray-800 font-medium">Vitesse</td>
-                            <td class="px-6 py-4 text-base text-gray-600">100 - 200 km</td>
-                            <td class="px-6 py-4 text-base text-gray-600">
-                                <button
-                                    class="flex items-center gap-2 px-4 py-2 bg-blue-100 text-sm text-blue-600 rounded-lg hover:bg-blue-200 transition-colors"
-                                >
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
-                                    </svg>
-                                    Voir le classement
-                                </button>
-                            </td>
-                            <td class="px-6 py-4 text-base text-gray-600">
-                                <div class="flex gap-2">
-                                    <button class="p-2 text-blue-500 hover:bg-blue-50 rounded-lg">
-                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/>
-                                        </svg>
-                                    </button>
-                                    <button class="p-2 text-red-500 hover:bg-red-50 rounded-lg">
-                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
-                                        </svg>
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-
-                        <!-- Exemple d'étape : Demi-fond -->
-                        <tr class="hover:bg-gray-50 transition-colors">
-                            <td class="px-6 py-4 text-base text-gray-800 font-medium">Demi-fond</td>
-                            <td class="px-6 py-4 text-base text-gray-600">200 - 400 km</td>
-                            <td class="px-6 py-4 text-base text-gray-600">
-                                <span class="text-gray-500 text-sm italic">Classement non disponible</span>
-                            </td>
-                            <td class="px-6 py-4 text-base text-gray-600">
-                                <div class="flex gap-2">
-                                    <button class="p-2 text-blue-500 hover:bg-blue-50 rounded-lg">
-                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/>
-                                        </svg>
-                                    </button>
-                                    <button class="p-2 text-red-500 hover:bg-red-50 rounded-lg">
-                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
-                                        </svg>
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-
-                        <!-- Exemple d'étape : Fond -->
-                        <tr class="hover:bg-gray-50 transition-colors">
-                            <td class="px-6 py-4 text-base text-gray-800 font-medium">Fond</td>
-                            <td class="px-6 py-4 text-base text-gray-600">400 - 600 km</td>
-                            <td class="px-6 py-4 text-base text-gray-600">
-                                <span class="text-gray-500 text-sm italic">Classement non disponible</span>
-                            </td>
-                            <td class="px-6 py-4 text-base text-gray-600">
-                                <div class="flex gap-2">
-                                    <button class="p-2 text-blue-500 hover:bg-blue-50 rounded-lg">
-                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/>
-                                        </svg>
-                                    </button>
-                                    <button class="p-2 text-red-500 hover:bg-red-50 rounded-lg">
-                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
-                                        </svg>
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
+  <div class="bg-white min-h-screen w-10/12">
+    <div class="relative">
+      <img [attr.src]="bg" alt="bg" class="w-full h-72 object-cover brightness-50" />
+      <div class="absolute inset-0 flex items-center justify-center bg-black/20">
+        <h1 class="text-white text-5xl font-bold drop-shadow-lg">Gestion des Étapes</h1>
+      </div>
     </div>
+
+    <div class="px-8 py-5 space-y-8">
+      <div class="flex justify-between items-center">
+        <div class="flex items-center gap-4">
+          <label class="text-gray-700 font-medium">Sélectionner une édition :</label>
+          <select
+            [(ngModel)]="selectedEditionId"
+            (change)="onEditionChange()"
+            class="px-3.5 py-1.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-blue-400"
+          >
+            <option value="" disabled>Sélectionner une édition</option>
+            <option *ngFor="let edition of editions" [value]="edition.id">
+              Édition {{ edition.annee }}
+            </option>
+          </select>
+        </div>
+
+        <button
+          (click)="openEtapeModal(false)"
+          class="group relative flex items-center gap-2 px-4 py-2 rounded-lg bg-gradient-to-br from-blue-400 to-blue-500 hover:from-blue-500 hover:to-blue-600 text-white font-semibold transition-all duration-300 shadow-lg hover:shadow-xl"
+        >
+          <svg
+            class="w-5 h-5 text-white transition-transform group-hover:rotate-90"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+          </svg>
+          Ajouter une étape
+        </button>
+      </div>
+      <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">Étapes de l'édition sélectionnée</h2>
+
+      <div class="bg-white rounded-xl shadow-lg border border-gray-100 overflow-hidden">
+        <table class="w-full">
+          <thead class="bg-gray-100">
+            <tr>
+              <th class="px-6 py-4 text-left text-sm font-semibold text-gray-700 uppercase">Type d'étape</th>
+              <th class="px-6 py-4 text-left text-sm font-semibold text-gray-700 uppercase">Intervalle de distance</th>
+              <th class="px-6 py-4 text-left text-sm font-semibold text-gray-700 uppercase">Classement</th>
+              <th class="px-6 py-4 text-left text-sm font-semibold text-gray-700 uppercase">Actions</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-gray-100">
+            <tr *ngFor="let etape of selectedEtapes" class="hover:bg-gray-50 transition-colors">
+              <td class="px-6 py-4 text-base text-gray-800 font-medium">{{ etape.typeEtape }}</td>
+              <td class="px-6 py-4 text-base text-gray-600">{{ getDistanceInterval(etape.typeEtape) }}</td>
+              <td class="px-6 py-4 text-base text-gray-600">
+                <button
+                  *ngIf="etape.pdfClassement"
+                  class="flex items-center gap-2 px-4 py-2 bg-blue-100 text-sm text-blue-600 rounded-lg hover:bg-blue-200 transition-colors"
+                >
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                  </svg>
+                  Voir le classement
+                </button>
+                <span *ngIf="!etape.pdfClassement" class="text-gray-500 text-sm italic">Classement non disponible</span>
+              </td>
+              <td class="px-6 py-4 text-base text-gray-600">
+                <div class="flex gap-2">
+                  <button (click)="openEtapeModal(true, etape)" class="p-2 text-blue-500 hover:bg-blue-50 rounded-lg">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                    </svg>
+                  </button>
+                  <button (click)="openDeleteModal(etape)" class="p-2 text-red-500 hover:bg-red-50 rounded-lg">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                    </svg>
+                  </button>
+                </div>
+              </td>
+            </tr>
+            <tr *ngIf="selectedEtapes.length === 0" class="bg-gray-50">
+              <td colspan="4" class="px-6 py-12 text-center">
+                <div class="flex flex-col items-center justify-center">
+                  <svg class="w-14 h-14 text-gray-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                  </svg>
+                  <h3 class="text-lg font-semibold text-gray-700">Aucune étape disponible</h3>
+                  <p class="text-sm text-gray-500 mt-1 max-w-md">
+                    Il semble qu'aucune étape n'ait été ajoutée pour cette édition. Cliquez sur "Ajouter une étape" pour commencer.
+                  </p>
+                  <button
+                    (click)="openEtapeModal(false)"
+                    class="mt-4 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-all duration-200 shadow-md hover:shadow-lg"
+                  >
+                    Ajouter une étape
+                  </button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal pour ajouter/modifier une étape -->
+  <div *ngIf="showEtapeModal" class="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+    <div class="bg-gray-900 rounded-xl shadow-xl w-full max-w-xl relative border border-gray-700">
+      <!-- En-tête -->
+      <div class="px-6 py-5 border-b border-gray-800 flex justify-between items-center">
+        <h3 class="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-300 to-blue-400">
+          {{ isEditMode ? 'Modifier une étape' : 'Ajouter une étape' }}
+        </h3>
+        <button (click)="closeEtapeModal()" class="text-gray-400 hover:text-gray-200 transition-colors">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+
+      <!-- Formulaire -->
+      <form [formGroup]="etapeForm" (ngSubmit)="onSubmitEtape()" class="p-6 space-y-6">
+        <div *ngIf="errorMessage" class="bg-red-500/20 border text-sm border-red-500 text-red-100 p-3 rounded-md flex items-center">
+            <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
+            </svg>
+            {{ errorMessage }}
+          </div>
+        <!-- Select Édition -->
+        <div>
+          <label class="text-gray-300 text-sm mb-1 block">Édition</label>
+          <div class="relative flex items-center bg-gray-800 rounded-md border border-gray-700 focus-within:border-blue-400 focus-within:ring-2 focus-within:ring-blue-400/20 transition-all duration-200 p-3">
+            <svg class="w-4 h-4 text-blue-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <select
+              formControlName="programmeEditionId"
+              class="w-full bg-transparent text-gray-100 outline-none text-sm appearance-none pr-6 cursor-pointer"
+            >
+              <option value="" disabled>Sélectionnez une édition</option>
+              <option *ngFor="let edition of editions" [value]="edition.id">
+                Édition {{ edition.annee }}
+              </option>
+            </select>
+            <div class="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none">
+              <svg class="w-4 h-4 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+              </svg>
+            </div>
+          </div>
+          <p
+            *ngIf="etapeForm.get('programmeEditionId')?.invalid && etapeForm.get('programmeEditionId')?.touched"
+            class="text-red-400 text-xs mt-1 flex items-center"
+          >
+            <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
+            </svg>
+            Sélectionnez une édition
+          </p>
+        </div>
+
+        <!-- Select Type d'étape -->
+        <div>
+          <label class="text-gray-300 text-sm mb-1 block">Type d'étape</label>
+          <div class="relative flex items-center bg-gray-800 rounded-md border border-gray-700 focus-within:border-blue-400 focus-within:ring-2 focus-within:ring-blue-400/20 transition-all duration-200 p-3">
+            <svg class="w-4 h-4 text-blue-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <select
+              formControlName="typeEtape"
+              class="w-full bg-transparent text-gray-100 outline-none text-sm appearance-none pr-6 cursor-pointer"
+            >
+              <option value="" disabled>Sélectionnez un type</option>
+              <option *ngFor="let type of typeEtapeOptions" [value]="type">
+                {{ type }}
+              </option>
+            </select>
+            <div class="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none">
+              <svg class="w-4 h-4 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+              </svg>
+            </div>
+          </div>
+          <p
+            *ngIf="etapeForm.get('typeEtape')?.invalid && etapeForm.get('typeEtape')?.touched"
+            class="text-red-400 text-xs mt-1 flex items-center"
+          >
+            <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
+            </svg>
+            Sélectionnez un type d'étape
+          </p>
+        </div>
+
+        <!-- Boutons -->
+        <div class="flex justify-end gap-3 pt-2">
+          <button
+            type="button"
+            (click)="closeEtapeModal()"
+            class="px-6 py-2 bg-gray-700 text-white rounded-md font-semibold hover:bg-gray-600 transition-all duration-200"
+          >
+            Annuler
+          </button>
+          <button
+            type="submit"
+            class="px-6 py-2 bg-gradient-to-br from-blue-300/90 to-blue-400/80 rounded-md font-semibold text-gray-900 hover:from-blue-300 hover:to-blue-400 transition-all duration-200 shadow-md shadow-blue-300/10 hover:shadow-blue-300/20"
+            [disabled]="!etapeForm.valid"
+          >
+            {{ isEditMode ? "Modifier l'étape" : "Créer l'étape" }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
 </div>
+<app-delete-confirmation-modal
+  [showModal]="showDeleteModal"
+  title="Confirmer la suppression"
+  message="Êtes-vous sûr de vouloir supprimer cette étape ?"
+  confirmButtonText="Oui"
+  cancelButtonText="Non"
+  (closeModal)="closeDeleteModal()"
+  (confirmDelete)="confirmDelete()"
+></app-delete-confirmation-modal>
