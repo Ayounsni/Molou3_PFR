@@ -1,5 +1,6 @@
 package com.it.molou3_backend.services.implementation;
 
+import com.it.molou3_backend.models.dtos.Pagination.PageDTO;
 import com.it.molou3_backend.models.dtos.ProgrammeEdition.CreateProgrammeEditionDTO;
 import com.it.molou3_backend.models.dtos.ProgrammeEdition.ResponseProgrammeEditionDTO;
 import com.it.molou3_backend.models.dtos.ProgrammeEdition.CreateProgrammeEditionDTO;
@@ -14,6 +15,9 @@ import com.it.molou3_backend.repository.ProgrammeEditionRepository;
 import com.it.molou3_backend.security.services.implementations.HaveIBeenPwnedService;
 import com.it.molou3_backend.services.interfaces.IProgrammeEditionService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -81,6 +85,22 @@ public class ProgrammeEditionService extends GenericService<ProgrammeEdition,Cre
         ProgrammeEdition updatedEntity = mapper.updateEntityFromDTO(updateDTO, existingEntity);
         updatedEntity = programmeEditionRepository.save(updatedEntity);
         return mapper.toDTO(updatedEntity);
+    }
+    @Override
+    public PageDTO<ResponseProgrammeEditionDTO> findByAssociationId(Long associationId, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<ProgrammeEdition> editionsPage = programmeEditionRepository.findByAssociationId(associationId, pageable);
+        List<ResponseProgrammeEditionDTO> dtos = editionsPage.getContent().stream()
+                .map(mapper::toDTO) // Assurez-vous d'avoir une méthode pour convertir l'entité en DTO
+                .collect(Collectors.toList());
+        return new PageDTO<>(
+                dtos,
+                editionsPage.getNumber(),
+                editionsPage.getSize(),
+                editionsPage.getTotalElements(),
+                editionsPage.getTotalPages(),
+                editionsPage.isLast()
+        );
     }
 
 

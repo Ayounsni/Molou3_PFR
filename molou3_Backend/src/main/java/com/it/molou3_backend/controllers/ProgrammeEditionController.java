@@ -39,9 +39,15 @@ public class ProgrammeEditionController {
     @GetMapping
     public ResponseEntity<PageDTO<ResponseProgrammeEditionDTO>> getAllProgrammeEditionsPaginated(
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "3") int size
+            @RequestParam(defaultValue = "3") int size,
+            @RequestParam(required = false) Long associationId
     ) {
-        PageDTO<ResponseProgrammeEditionDTO> programmeEditions = programmeEditionService.findAll(page, size);
+        PageDTO<ResponseProgrammeEditionDTO> programmeEditions;
+        if (associationId != null) {
+            programmeEditions = programmeEditionService.findByAssociationId(associationId, page, size);
+        } else {
+            programmeEditions = programmeEditionService.findAll(page, size);
+        }
         return new ResponseEntity<>(programmeEditions, HttpStatus.OK);
     }
     @GetMapping("/all")
