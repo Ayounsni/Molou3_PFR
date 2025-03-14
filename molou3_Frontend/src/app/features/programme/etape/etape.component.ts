@@ -8,16 +8,24 @@ import { ProgrammeEdition } from '../../../shared/models/programme-edition.model
 import { EtapeCompetition } from '../../../shared/models/etape-competition.model';
 import { User } from '../../../shared/models/user.model';
 import { CommonModule } from '@angular/common';
-import { FormsModule, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import { EtapeCompetitionService } from '../../../core/services/etape-competition.service';
 import { NotificationService } from '../../../core/services/notification.service';
 import { NotificationComponent } from "../../../shared/components/notification/notification.component";
 import { DeleteConfirmationModalComponent } from "../../../shared/components/delete-confirmation-modal/delete-confirmation-modal.component";
+import { EtapeFormComponent } from '../../../shared/components/forms/programme/etape-form/etape-form.component';
 
 @Component({
   selector: 'app-etape',
   standalone: true,
-  imports: [SidebarComponent, CommonModule, ReactiveFormsModule, FormsModule, NotificationComponent, DeleteConfirmationModalComponent],
+  imports: [
+    SidebarComponent,
+    CommonModule,
+    FormsModule,
+    NotificationComponent,
+    DeleteConfirmationModalComponent,
+    EtapeFormComponent
+  ],
   templateUrl: './etape.component.html',
   styleUrls: ['./etape.component.css']
 })
@@ -26,32 +34,25 @@ export class EtapeComponent implements OnInit {
   editions: ProgrammeEdition[] = [];
   currentUser: User | null = null;
   showEtapeModal = false;
-  etapeForm!: FormGroup;
   typeEtapeOptions = ['FOND', 'DEMI_FOND', 'VITESSE'];
   selectedEditionId: number | null = null;
   selectedEtapes: EtapeCompetition[] = [];
   isEditMode = false;
   currentEtapeId: number | null = null;
   errorMessage: string | null = null;
-  pdfClassementFile: File | null = null;
   showDeleteModal = false;
   etapeToDelete: EtapeCompetition | null = null;
+  currentEtape: EtapeCompetition | null = null;
 
   constructor(
     private store: Store<AppState>,
     private programmeEditionService: ProgrammeEditionService,
     private etapeCompetitionService: EtapeCompetitionService,
-    private fb: FormBuilder,
     private notificationService: NotificationService
   ) {}
 
   ngOnInit(): void {
     this.loadCurrentUser();
-    this.etapeForm = this.fb.group({
-      programmeEditionId: ['', Validators.required],
-      typeEtape: ['', Validators.required],
-      pdfClassement: [null]
-    });
   }
 
   loadCurrentUser(): void {
@@ -77,7 +78,7 @@ export class EtapeComponent implements OnInit {
           String(edition.association?.id) === String(this.currentUser!.id)
         );
         this.editions.sort((a, b) => a.annee - b.annee);
-        this.onEditionChange(); // Rafraîchir les étapes sélectionnées
+        this.onEditionChange();
         console.log('Filtered Editions:', this.editions);
       },
       error: (err) => {
@@ -126,10 +127,10 @@ export class EtapeComponent implements OnInit {
         next: () => {
           this.notificationService.showNotification('Étape supprimée avec succès', 'success');
           this.closeDeleteModal();
-          this.loadEditions(); // Recharger les données depuis le backend
+          this.loadEditions();
         },
         error: (err) => {
-          const errorMsg = err.error?.message || err.message || 'Erreur lors de la suppression';
+          const errorMsg = err || err.message || 'Erreur lors de la suppression';
           this.notificationService.showNotification(errorMsg, 'error');
           this.closeDeleteModal();
         }
@@ -137,112 +138,98 @@ export class EtapeComponent implements OnInit {
     }
   }
 
-  onFileChange(event: any): void {
-    if (event.target.files && event.target.files.length) {
-      this.pdfClassementFile = event.target.files[0];
-    }
-  }
-
   openEtapeModal(isEditMode: boolean, etape?: EtapeCompetition): void {
     this.isEditMode = isEditMode;
     this.showEtapeModal = true;
+    this.currentEtape = etape || null;
+    this.currentEtapeId = etape?.id || null;
     this.errorMessage = null;
-    this.pdfClassementFile = null;
-
-    if (isEditMode && etape) {
-      this.currentEtapeId = etape.id ?? null;
-      this.etapeForm.patchValue({
-        programmeEditionId: this.selectedEditionId,
-        typeEtape: etape.typeEtape,
-        pdfClassement: null
-      });
-    } else {
-      this.etapeForm.reset();
-      this.currentEtapeId = null;
-      if (this.selectedEditionId) {
-        this.etapeForm.patchValue({
-          programmeEditionId: this.selectedEditionId
-        });
-      }
-    }
   }
 
   closeEtapeModal(): void {
     this.showEtapeModal = false;
-    this.etapeForm.reset();
-    this.isEditMode = false;
+    this.currentEtape = null;
+    this.currentEtapeId = null;
     this.errorMessage = null;
-    this.pdfClassementFile = null;
   }
 
-  onSubmitEtape(): void {
-    if (this.etapeForm.valid) {
-      const etapeData: any = {
-        programmeEditionId: Number(this.etapeForm.value.programmeEditionId),
-        typeEtape: this.etapeForm.value.typeEtape
+  onSubmitEtape(event: { data: any, pdfClassementFile?: File }): void {
+    const { data, pdfClassementFile } = event;
+    if (this.isEditMode && this.currentEtapeId) {
+      this.etapeCompetitionService.updateEtapeCompetition(
+        this.currentEtapeId,
+        data,
+        pdfClassementFile
+      ).subscribe({
+        next: (response) => {
+          console.log('Étape modifiée avec succès:', response);
+          this.notificationService.showNotification('Étape modifiée avec succès', 'success');
+          this.closeEtapeModal();
+          this.loadEditions();
+        },
+        error: (err) => {
+          const errorMsg = err || err.message || 'Erreur lors de la modification';
+          this.errorMessage = errorMsg;
+        }
+      });
+    } else {
+      this.etapeCompetitionService.createEtapeCompetition(data).subscribe({
+        next: (response) => {
+          console.log('Étape créée avec succès:', response);
+          this.notificationService.showNotification('Étape créée avec succès', 'success');
+          this.closeEtapeModal();
+          this.loadEditions();
+        },
+        error: (err) => {
+          const errorMsg = err || err.message || 'Erreur lors de la création';
+          this.errorMessage = errorMsg;
+        }
+      });
+    }
+  }
+
+  // Méthode pour déclencher l'input file
+  openFileInput(etape: EtapeCompetition): void {
+    const fileInput = document.createElement('input');
+    fileInput.type = 'file';
+    fileInput.accept = 'application/pdf,image/*'; // Accepte PDF et images
+    fileInput.onchange = (event) => this.uploadClassement(etape, event);
+    fileInput.click();
+  }
+
+  // Méthode pour gérer l'upload du classement
+  uploadClassement(etape: EtapeCompetition, event: any): void {
+    const file = event.target.files[0];
+    if (file && etape.id) {
+      const data = {
+        programmeEditionId: etape.programmeEdition?.id || this.selectedEditionId,
+        typeEtape: etape.typeEtape
       };
-
-      if (this.isEditMode && this.currentEtapeId) {
-        this.etapeCompetitionService.updateEtapeCompetition(
-          this.currentEtapeId,
-          etapeData,
-          this.pdfClassementFile || undefined
-        ).subscribe({
-          next: (response) => {
-            console.log('Étape modifiée avec succès:', response);
-            this.notificationService.showNotification('Étape modifiée avec succès', 'success');
-            this.closeEtapeModal();
-            this.loadEditions(); // Recharger après modification
-          },
-          error: (err) => {
-            const errorMsg = err.error?.message || err.message || 'Erreur lors de la modification';
-            this.errorMessage = errorMsg;
-            this.notificationService.showNotification(errorMsg, 'error');
-          }
-        });
-      } else {
-        this.etapeCompetitionService.createEtapeCompetition(etapeData).subscribe({
-          next: (response) => {
-            console.log('Étape créée avec succès:', response);
-            this.notificationService.showNotification('Étape créée avec succès', 'success');
-            this.closeEtapeModal();
-            this.loadEditions(); // Recharger après création
-          },
-          error: (err) => {
-            const errorMsg = err.error?.message || err.message || 'Erreur lors de la création';
-            this.errorMessage = errorMsg;
-            this.notificationService.showNotification(errorMsg, 'error');
-          }
-        });
-      }
+      this.etapeCompetitionService.updateEtapeCompetition(etape.id, data, file).subscribe({
+        next: (response) => {
+          this.notificationService.showNotification('Classement uploadé avec succès', 'success');
+          this.loadEditions(); // Recharger les données
+        },
+        error: (err) => {
+          const errorMsg = err.error?.message || err.message || 'Erreur lors de l\'upload du classement';
+          this.notificationService.showNotification(errorMsg, 'error');
+        }
+      });
     }
   }
 
-  private addLocalEtape(newEtape: any): void {
-    const edition = this.editions.find(e => e.id === newEtape.programmeEdition?.id || newEtape.programmeEditionId);
-    if (edition) {
-      edition.etapeCompetitions = edition.etapeCompetitions || [];
-      edition.etapeCompetitions.push(newEtape);
-      this.onEditionChange();
-    }
-  }
-
-  private updateLocalEtape(updatedEtape: any): void {
-    const edition = this.editions.find(e => e.id === updatedEtape.programmeEdition?.id || updatedEtape.programmeEditionId);
-    if (edition && edition.etapeCompetitions) {
-      const index = edition.etapeCompetitions.findIndex(e => e.id === updatedEtape.id);
-      if (index !== -1) {
-        edition.etapeCompetitions[index] = { ...edition.etapeCompetitions[index], ...updatedEtape };
-        this.onEditionChange();
-      }
-    }
-  }
-
-  private removeLocalEtape(etapeId: number): void {
-    const edition = this.editions.find(e => e.id === this.selectedEditionId);
-    if (edition && edition.etapeCompetitions) {
-      edition.etapeCompetitions = edition.etapeCompetitions.filter(e => e.id !== etapeId);
-      this.onEditionChange();
+  deleteClassement(etape: EtapeCompetition): void {
+    if (etape.id) {
+      this.etapeCompetitionService.deleteEtapeClassement(etape.id).subscribe({
+        next: () => {
+          this.notificationService.showNotification('Classement supprimé avec succès', 'success');
+          this.loadEditions();  
+        },
+        error: (err) => {
+          const errorMsg = err || err.message || 'Erreur lors de la suppression du classement';
+          this.notificationService.showNotification(errorMsg, 'error');
+        }
+      });
     }
   }
 }

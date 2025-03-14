@@ -24,13 +24,13 @@ export class EtapeCompetitionService {
   }
 
   // Mettre à jour une étape de compétition
-  updateEtapeCompetition(id: number, data: any, pdfClassementFile?: File): Observable<EtapeCompetition> {
+  updateEtapeCompetition(id: number, data: any, classementFile?: File): Observable<EtapeCompetition> {
     const formData = new FormData();
     if (data) {
       formData.append('updateDTO', new Blob([JSON.stringify(data)], { type: 'application/json' }));
     }
-    if (pdfClassementFile) {
-      formData.append('pdfClassement', pdfClassementFile);
+    if (classementFile) {
+      formData.append('classementFile', classementFile); // Nom ajusté pour plus de clarté, à vérifier côté backend
     }
     return this.http.put<EtapeCompetition>(`${this.apiUrl}/${id}`, formData).pipe(
       catchError(error => {
@@ -39,10 +39,19 @@ export class EtapeCompetitionService {
     );
   }
 
+  // Supprimer une étape de compétition
   deleteEtapeCompetition(id: number): Observable<string> {
     return this.http.delete<string>(`${this.apiUrl}/${id}`, { responseType: 'text' as 'json' }).pipe(
       catchError(error => {
         return throwError(() => error.error?.message || 'Erreur lors de la suppression de l\'étape');
+      })
+    );
+  }
+
+  deleteEtapeClassement(id: number): Observable<string> {
+    return this.http.delete<string>(`${this.apiUrl}/etapeClassement/${id}`, { responseType: 'text' as 'json' }).pipe(
+      catchError(error => {
+        return throwError(() => error.error?.message || 'Erreur lors de la suppression du classement');
       })
     );
   }
