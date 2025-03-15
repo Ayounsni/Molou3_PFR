@@ -1,173 +1,176 @@
 <app-sidebar></app-sidebar>
-<div class="ml-70 bg-[#dddddd] flex justify-center items-center min-h-screen">
-    <div class="bg-[#F8F8F8] min-h-screen w-10/12">
-        <!-- Image avec effet sombre -->
-        <div class="relative">
-            <img [attr.src]="bg" alt="bg" class="w-full h-72 object-cover brightness-50" />
-            <!-- Vous pouvez ajouter du texte ou d'autres éléments par-dessus l'image si nécessaire -->
-            <div class="absolute inset-0 flex items-center justify-center">
-                <h1 class="text-white text-5xl font-bold">Gestion Competition</h1>
-            </div>
-        </div>
-        <div class="px-8 py-5 space-y-8">
-            <!-- Sélecteur d'édition et bouton Ajouter une étape -->
-            <div class="flex justify-between items-center">
-                <!-- Sélecteur d'édition -->
-                <div class="flex items-center gap-4">
-                    <label class="text-gray-700 font-medium ">Sélectionner une édition :</label>
-                    <select class="px-3.5 py-1.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-blue-400 ">
-                        <option value="2023">Édition 2023</option>
-                        <option value="2022">Édition 2022</option>
-                        <option value="2021">Édition 2021</option>
-                    </select>
-                </div>
-
-                <!-- Bouton Ajouter une étape -->
-                <button
-                    class="group relative flex items-center gap-2 px-4 py-2 rounded-lg bg-gradient-to-br from-blue-400 to-blue-500 hover:from-blue-500 hover:to-blue-600 text-white font-semibold transition-all duration-300 shadow-lg hover:shadow-xl"
-                >
-                    <svg
-                        class="w-5 h-5 text-white transition-transform group-hover:rotate-90"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                    >
-                        <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            stroke-width="2"
-                            d="M12 4v16m8-8H4"
-                        />
-                    </svg>
-                    Ajouter une compétition
-                </button>
-            </div>
-            <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">Compétitions de l'édition sélectionnée</h2>
-
-            <!-- Tableau des étapes -->
-            <div class="bg-white rounded-xl shadow-lg border border-gray-100 overflow-hidden">
-                <table class="w-full">
-                    <thead class="bg-gray-100">
-                        <tr>
-                            <th class="px-6 py-4 text-left text-sm font-semibold text-gray-700 uppercase">Ville</th>
-                            <th class="px-6 py-4 text-left text-sm font-semibold text-gray-700 uppercase">Distance (km)</th>
-                            <th class="px-6 py-4 text-left text-sm font-semibold text-gray-700 uppercase">Dates clés</th>
-                            <th class="px-6 py-4 text-left text-sm font-semibold text-gray-700 uppercase">Classement</th>
-                            <th class="px-6 py-4 text-left text-sm font-semibold text-gray-700 uppercase">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody class="divide-y divide-gray-100">
-                        <!-- Exemple de compétition -->
-                        <tr class="hover:bg-gray-50 transition-colors">
-                            <td class="px-6 py-4 text-base text-gray-800 font-medium">Rabat</td>
-                            <td class="px-6 py-4 text-base text-gray-600">450</td>
-                            <td class="px-6 py-4">
-                                <div class="flex flex-col gap-3">
-                                    <div class="flex items-center gap-3">
-                                        <div class="p-2 bg-blue-100 rounded-lg">
-                                            <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
-                                            </svg>
-                                        </div>
-                                        <div>
-                                            <p class="text-sm text-gray-500">Compétition</p>
-                                            <p class=" font-semibold text-gray-800">15 Oct 2023</p>
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="flex items-center gap-3">
-                                        <div class="p-2 bg-green-100 rounded-lg">
-                                            <svg class="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
-                                            </svg>
-                                        </div>
-                                        <div>
-                                            <p class="text-sm text-gray-500">Réunion</p>
-                                            <p class=" font-semibold text-gray-800">12 Oct 2023</p>
-                                            <p class="text-sm text-gray-500">08h30</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="px-6 py-4 text-sm text-gray-600">
-                                <button
-                                    class="flex items-center gap-2 px-4 py-2 bg-blue-100 text-blue-600 rounded-lg hover:bg-blue-200 transition-colors"
-                                >
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
-                                    </svg>
-                                    Voir le classement
-                                </button>
-                            </td>
-                            <td class="px-6 py-4 text-base text-gray-600">
-                                <div class="flex gap-2">
-                                    <button class="p-2 text-blue-500 hover:bg-blue-50 rounded-lg">
-                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/>
-                                        </svg>
-                                    </button>
-                                    <button class="p-2 text-red-500 hover:bg-red-50 rounded-lg">
-                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
-                                        </svg>
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-
-                        <!-- Autre exemple -->
-                        <tr class="hover:bg-gray-50 transition-colors">
-                            <td class="px-6 py-4 text-base text-gray-800 font-medium">Casablanca</td>
-                            <td class="px-6 py-4 text-base text-gray-600">380</td>
-                            <td class="px-6 py-4">
-                                <div class="flex flex-col gap-3">
-                                    <div class="flex items-center gap-3">
-                                        <div class="p-2 bg-blue-100 rounded-lg">
-                                            <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
-                                            </svg>
-                                        </div>
-                                        <div>
-                                            <p class="text-sm text-gray-500">Compétition</p>
-                                            <p class=" font-semibold text-gray-800">15 Oct 2023</p>
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="flex items-center gap-3">
-                                        <div class="p-2 bg-green-100 rounded-lg">
-                                            <svg class="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
-                                            </svg>
-                                        </div>
-                                        <div>
-                                            <p class="text-sm text-gray-500">Réunion</p>
-                                            <p class=" font-semibold text-gray-800">12 Oct 2023</p>
-                                            <p class="text-sm text-gray-500">08h30</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="px-6 py-4 text-base text-gray-600">
-                                <span class="text-gray-500 text-sm italic">Classement non disponible</span>
-                            </td>
-                            <td class="px-6 py-4 text-base text-gray-600">
-                                <div class="flex gap-2">
-                                    <button class="p-2 text-blue-500 hover:bg-blue-50 rounded-lg">
-                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/>
-                                        </svg>
-                                    </button>
-                                    <button class="p-2 text-red-500 hover:bg-red-50 rounded-lg">
-                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
-                                        </svg>
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
+<app-notification></app-notification>
+<div class="ml-70 bg-[#f5f5f5] flex justify-center items-center min-h-screen">
+  <div class="bg-white min-h-screen w-10/12">
+    <div class="relative">
+      <img [attr.src]="bg" alt="bg" class="w-full h-72 object-cover brightness-50" />
+      <div class="absolute inset-0 flex items-center justify-center bg-black/20">
+        <h1 class="text-white text-5xl font-bold drop-shadow-lg">Gestion des Compétitions</h1>
+      </div>
     </div>
+
+    <div class="px-8 py-5 space-y-8">
+      <div class="flex justify-between items-center">
+        <div class="flex items-center gap-4">
+          <label class="text-gray-700 font-medium">Sélectionner une édition :</label>
+          <select
+            [(ngModel)]="selectedEditionId"
+            (change)="onEditionChange()"
+            class="px-3.5 py-1.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-blue-400"
+          >
+            <option value="" disabled>Sélectionner une édition</option>
+            <option *ngFor="let edition of editions" [value]="edition.id">
+              Édition {{ edition.annee }}
+            </option>
+          </select>
+        </div>
+
+        <button
+          (click)="openCompetitionModal(false)"
+          class="group relative flex items-center gap-2 px-4 py-2 rounded-lg bg-gradient-to-br from-blue-400 to-blue-500 hover:from-blue-500 hover:to-blue-600 text-white font-semibold transition-all duration-300 shadow-lg hover:shadow-xl"
+        >
+          <svg
+            class="w-5 h-5 text-white transition-transform group-hover:rotate-90"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+          </svg>
+          Ajouter une compétition
+        </button>
+      </div>
+
+      <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">Compétitions de l'édition sélectionnée</h2>
+
+      <div class="bg-white rounded-xl shadow-lg border border-gray-100 overflow-hidden">
+        <table class="w-full">
+          <thead class="bg-gray-100">
+            <tr>
+              <th class="px-6 py-4 text-left text-sm font-semibold text-gray-700 uppercase">Ville</th>
+              <th class="px-6 py-4 text-left text-sm font-semibold text-gray-700 uppercase">Distance (km)</th>
+              <th class="px-6 py-4 text-left text-sm font-semibold text-gray-700 uppercase">Dates clés</th>
+              <th class="px-6 py-4 text-left text-sm font-semibold text-gray-700 uppercase">Classement</th>
+              <th class="px-6 py-4 text-left text-sm font-semibold text-gray-700 uppercase">Actions</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-gray-100">
+            <tr *ngFor="let competition of selectedCompetitions" class="hover:bg-gray-50 transition-colors">
+              <td class="px-6 py-4 text-base text-gray-800 font-medium">{{ competition.ville }}</td>
+              <td class="px-6 py-4 text-base text-gray-600">{{ competition.distance }}</td>
+              <td class="px-6 py-4">
+                <div class="flex flex-col gap-3">
+                  <div class="flex items-center gap-3">
+                    <div class="p-2 bg-blue-100 rounded-lg">
+                      <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                      </svg>
+                    </div>
+                    <div>
+                      <p class="text-sm text-gray-500">Compétition</p>
+                      <p class="font-semibold text-gray-800">{{ competition.competitionDate | date:'mediumDate' }}</p>
+                    </div>
+                  </div>
+                  <div class="flex items-center gap-3">
+                    <div class="p-2 bg-green-100 rounded-lg">
+                      <svg class="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
+                      </svg>
+                    </div>
+                    <div>
+                      <p class="text-sm text-gray-500">Réunion</p>
+                      <p class="font-semibold text-gray-800">{{ competition.reunionDate | date:'mediumDate' }}</p>
+                      <p class="text-sm text-gray-500">{{ competition.reunionHoraire | date:'shortTime' }}</p>
+                    </div>
+                  </div>
+                </div>
+              </td>
+              <td class="px-6 py-4 text-base text-gray-600">
+                <div *ngIf="competition.pdfClassement" class="flex gap-1">
+                  <a
+                    [attr.href]="competition.pdfClassement"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="flex items-center gap-2 w-fit px-4 py-2 bg-blue-100 text-sm text-blue-600 rounded-lg hover:bg-blue-200 transition-colors"
+                  >
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                    </svg>
+                    Voir le classement
+                  </a>
+                  <div class="flex gap-0.5">
+                    <button (click)="openFileInput(competition)" class="p-1 text-blue-500 hover:bg-blue-50 rounded-lg">
+                      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                      </svg>
+                    </button>
+                    <button (click)="deleteClassement(competition)" class="p-1 text-red-500 hover:bg-red-50 rounded-lg">
+                      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+                <button
+                  *ngIf="!competition.pdfClassement"
+                  (click)="openFileInput(competition)"
+                  class="flex items-center gap-2 px-4 py-2 bg-gray-100 text-gray-600 rounded-lg hover:bg-gray-200 transition-colors group"
+                >
+                  <svg class="w-4 h-4 text-gray-500 group-hover:text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/>
+                  </svg>
+                </button>
+              </td>
+              <td class="px-6 py-4 text-base text-gray-600">
+                <div class="flex gap-2">
+                  <button (click)="openCompetitionModal(true, competition)" class="p-2 text-blue-500 hover:bg-blue-50 rounded-lg">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/>
+                    </svg>
+                  </button>
+                  <button (click)="openDeleteModal(competition)" class="p-2 text-red-500 hover:bg-red-50 rounded-lg">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                    </svg>
+                  </button>
+                </div>
+              </td>
+            </tr>
+            <tr *ngIf="selectedCompetitions.length === 0" class="bg-gray-50">
+              <td colspan="5" class="px-6 py-12 text-center">
+                <div class="flex flex-col items-center justify-center">
+                  <svg class="w-14 h-14 text-gray-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                  </svg>
+                  <h3 class="text-lg font-semibold text-gray-700">Aucune compétition disponible</h3>
+                  <p class="text-sm text-gray-500 mt-1 max-w-md">
+                    Il semble qu'aucune compétition n'ait été ajoutée pour cette édition.
+                  </p>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
 </div>
+<app-competition-form
+  [showModal]="showCompetitionModal"
+  [isEditMode]="isEditMode"
+  [competition]="currentCompetition"
+  [editions]="editions"
+  [selectedEditionId]="selectedEditionId"
+  [errorMessage]="errorMessage"
+  (closeModal)="closeCompetitionModal()"
+  (submitCompetition)="onSubmitCompetition($event)"
+></app-competition-form>
+<app-delete-confirmation-modal
+  [showModal]="showDeleteModal"
+  title="Confirmer la suppression"
+  message="Êtes-vous sûr de vouloir supprimer cette compétition ?"
+  confirmButtonText="Oui"
+  cancelButtonText="Non"
+  (closeModal)="closeDeleteModal()"
+  (confirmDelete)="confirmDelete()"
+></app-delete-confirmation-modal>

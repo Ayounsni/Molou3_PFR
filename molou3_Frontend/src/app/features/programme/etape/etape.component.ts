@@ -83,8 +83,7 @@ export class EtapeComponent implements OnInit {
       },
       error: (err) => {
         console.error('Error fetching editions:', err);
-        this.errorMessage = 'Erreur lors du chargement des éditions';
-        this.notificationService.showNotification(this.errorMessage, 'error');
+        this.notificationService.showNotification(err, 'error');
       }
     });
   }
@@ -188,7 +187,6 @@ export class EtapeComponent implements OnInit {
     }
   }
 
-  // Méthode pour déclencher l'input file
   openFileInput(etape: EtapeCompetition): void {
     const fileInput = document.createElement('input');
     fileInput.type = 'file';
@@ -197,7 +195,6 @@ export class EtapeComponent implements OnInit {
     fileInput.click();
   }
 
-  // Méthode pour gérer l'upload du classement
   uploadClassement(etape: EtapeCompetition, event: any): void {
     const file = event.target.files[0];
     if (file && etape.id) {

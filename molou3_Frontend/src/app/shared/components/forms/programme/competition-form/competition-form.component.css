@@ -1,0 +1,17 @@
+  /* Style du dropdown */
+  select::-ms-expand {
+    display: none; /* Supprime la flèche par défaut sur IE */
+  }
+  
+  select option {
+    background: #1f2937; /* bg-gray-800 */
+    color: #f3f4f6; /* text-gray-100 */
+  }
+  
+  select option:hover {
+    background: #374151 !important; /* bg-gray-700 */
+  }
+  
+  select:focus option:checked {
+    background: #3b82f6; /* bg-blue-500 */
+  }
