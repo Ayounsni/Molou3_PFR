@@ -1,5 +1,6 @@
 package com.it.molou3_backend.models.entities;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -9,6 +10,7 @@ import lombok.Setter;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,7 +40,8 @@ public class Competition {
     private LocalDate reunionDate;  // Date du rassemblement des pigeons
 
 
-    private LocalDateTime reunionHoraire;  // Heure du rassemblement des pigeons
+    @JsonFormat(pattern = "HH:mm")
+    private LocalTime reunionHoraire;  // Heure du rassemblement des pigeons
 
     private String pdfClassement;
 

@@ -5,6 +5,7 @@ import com.it.molou3_backend.models.dtos.Competition.ResponseCompetitionDTO;
 import com.it.molou3_backend.models.dtos.Competition.UpdateCompetitionDTO;
 import com.it.molou3_backend.models.dtos.Pagination.PageDTO;
 import com.it.molou3_backend.models.entities.Competition;
+import com.it.molou3_backend.models.entities.EtapeCompetition;
 import com.it.molou3_backend.services.implementation.CompetitionService;
 import com.it.molou3_backend.validation.annotations.Exists;
 import jakarta.validation.Valid;
@@ -61,7 +62,7 @@ public class CompetitionController {
             @Exists(entity = Competition.class, message = "Cette compétition n'existe pas.")
             @PathVariable("id") Long id,
             @Valid @RequestPart(value = "updateDTO", required = false) UpdateCompetitionDTO updateCompetitionDTO,
-            @RequestPart(value = "pdfClassement", required = false) MultipartFile pdfClassementFile) throws IOException {
+            @RequestPart(value = "classementFile", required = false) MultipartFile pdfClassementFile) throws IOException {
 
         if (updateCompetitionDTO == null && pdfClassementFile == null) {
             throw new IllegalArgumentException("Aucune donnée fournie pour la mise à jour.");
@@ -70,6 +71,12 @@ public class CompetitionController {
         assert updateCompetitionDTO != null;
         ResponseCompetitionDTO updatedCompetition = competitionService.update(id, updateCompetitionDTO, pdfClassementFile);
         return new ResponseEntity<>(updatedCompetition, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/competitionClassement/{id}")
+    public ResponseEntity<String> deleteCompetitionClassement(@Exists(entity = Competition.class , message = "Cette Competition n'existe pas.") @PathVariable("id") Long id) {
+        competitionService.deleteClassement(id);
+        return new ResponseEntity<>("Classement est supprimé avec succès", HttpStatus.OK);
     }
 
 }

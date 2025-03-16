@@ -1,6 +1,7 @@
 package com.it.molou3_backend.models.dtos.EtapeCompetition;
 
 import com.it.molou3_backend.models.dtos.Competition.EmbeddableCompetitionDTO;
+import com.it.molou3_backend.models.dtos.Competition.EmbeddableCompetitionEditionDTO;
 import com.it.molou3_backend.models.enums.TypeEtape;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -19,5 +20,5 @@ public class ProgrammeEtapeCompetitionDTO {
 
     private String pdfClassement;
 
-    private List<EmbeddableCompetitionDTO> competitions;
+    private List<EmbeddableCompetitionEditionDTO> competitions;
 }

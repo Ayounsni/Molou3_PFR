@@ -9,5 +9,6 @@ import java.io.IOException;
 
 public interface ICompetitionService extends IGenericService<CreateCompetitionDTO,UpdateCompetitionDTO,ResponseCompetitionDTO> {
     ResponseCompetitionDTO update(Long id, UpdateCompetitionDTO updateCompetitionDTO, MultipartFile pdfClassementFile) throws IOException;
+    void deleteClassement(Long id);
 
 }

@@ -66,7 +66,7 @@ public class CompetitionService extends GenericService<Competition,CreateCompeti
         String ville = createCompetitionDTO.getVille();
         Long programmeEditionId = etapeCompetition.getProgrammeEdition().getId();
 
-        boolean villeExists = competitionRepository.existsByVilleAndEtapeCompetition_ProgrammeEdition_Id(ville, programmeEditionId);
+        boolean villeExists = competitionRepository.existsByVilleAndEtapeCompetition_ProgrammeEdition_Id(ville.toLowerCase(), programmeEditionId);
         if (villeExists) {
             throw new IllegalArgumentException("La ville '" + ville + "' existe déjà dans ce programme édition.");
         }
@@ -119,7 +119,7 @@ public class CompetitionService extends GenericService<Competition,CreateCompeti
 
         Long programmeEditionId = newEtapeCompetition.getProgrammeEdition().getId();
         boolean villeExists = competitionRepository
-                .existsByVilleAndEtapeCompetition_ProgrammeEdition_IdAndIdNot(newVille, programmeEditionId, entity.getId());
+                .existsByVilleAndEtapeCompetition_ProgrammeEdition_IdAndIdNot(newVille.toLowerCase(), programmeEditionId, entity.getId());
         if (villeExists) {
             throw new IllegalArgumentException("La ville '" + newVille + "' existe déjà dans ce programme édition.");
         }
@@ -135,6 +135,15 @@ public class CompetitionService extends GenericService<Competition,CreateCompeti
 
         updatedEntity = competitionRepository.save(updatedEntity);
         return mapper.toDTO(updatedEntity);
+    }
+
+    @Override
+    public void deleteClassement(Long id) {
+        Competition entity = competitionRepository.findById(id).orElseThrow(() ->
+                new IllegalArgumentException("L'étape de compétition avec cet ID n'existe pas.")
+        );
+        entity.setPdfClassement(null);
+        competitionRepository.save(entity);
     }
 
 
