@@ -1,10 +1,11 @@
+import { WeatherService } from './../../../core/services/weather.service';
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { Store } from '@ngrx/store';
 import * as AuthActions from '../../../store/auth/auth.actions';
-import { Observable } from 'rxjs';
+import { debounceTime, distinctUntilChanged, Observable, Subject, switchMap } from 'rxjs';
 import { NiveauExperience } from '../../../shared/models/enums/enums';
 import { Colombophile } from '../../../shared/models/colombophile.model';
 import { Association } from '../../../shared/models/association.model';
@@ -36,13 +37,18 @@ export class RegisterComponent {
   fileError: string | null = null;
   uploadedFiles: { [key: string]: File | undefined } = {};
 
+    searchResults: any[] = []; // Pour stocker les suggestions de villes
+    showSuggestions = false; // Pour afficher ou masquer les suggestions
+    private searchTerms = new Subject<string>(); // Pour gérer les entrées de l'utilisateur
+
   registerForm: FormGroup;
 
   constructor(
     private fb: FormBuilder,
     private store: Store<AppState>,
     private router: Router,
-    private authService: AuthService
+    private authService: AuthService,
+    private weatherService : WeatherService
   ) {
     this.registerForm = this.fb.group({
       email: ['', [Validators.required, Validators.email], [uniqueEmailValidator(this.authService)]],
@@ -66,6 +72,22 @@ export class RegisterComponent {
     this.loading$ = this.store.select(selectLoading);
     this.error$ = this.store.select(selectError);
     this.registeredUser$ = this.store.select(selectRegisteredUser);
+
+        this.searchTerms.pipe(
+          debounceTime(300), // Attendre 300ms avant d'envoyer la requête
+          distinctUntilChanged(), // Ne pas envoyer si la valeur n'a pas changé
+          switchMap(query => this.weatherService.getAutocomplete(query)) // Appeler l'API
+        ).subscribe({
+          next: (results) => {
+            this.searchResults = results;
+            this.showSuggestions = true;
+          },
+          error: (err) => {
+            console.error(err);
+            this.searchResults = [];
+            this.showSuggestions = false;
+          }
+        });
   }
 
   passwordMatchValidator(control: AbstractControl) {
@@ -230,4 +252,26 @@ export class RegisterComponent {
       this.markGroupTouched(Object.keys(this.registerForm.controls));
     }
   }
+
+    onVilleInput(): void {
+      const query = this.registerForm.get('ville')?.value;
+      if (query && query.length > 2) {
+        this.searchTerms.next(query);
+      } else {
+        this.searchResults = [];
+        this.showSuggestions = false;
+      }
+    }
+  
+    selectCity(city: any): void {
+      this.registerForm.patchValue({ ville: city.name }); 
+      this.showSuggestions = false;
+    }
+  
+    @HostListener('document:click', ['$event'])
+    onClickOutside(event: Event): void {
+      if (!(event.target as HTMLElement).closest('.ville-container')) {
+        this.showSuggestions = false;
+      }
+    }
 }

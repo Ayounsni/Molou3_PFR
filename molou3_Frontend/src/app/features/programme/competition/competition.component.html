@@ -80,7 +80,7 @@
                     <div>
                       <p class="text-sm text-gray-500">Réunion</p>
                       <p class="font-semibold text-gray-800">{{ competition.reunionDate | date:'mediumDate' }}</p>
-                      <p class="text-sm text-gray-500">{{ competition.reunionHoraire | date:'shortTime' }}</p>
+                      <p class="text-sm text-gray-500">{{ formatTime(competition.reunionHoraire) }}</p>
                     </div>
                   </div>
                 </div>

@@ -91,7 +91,8 @@ export class CompetitionComponent implements OnInit {
     const selectedEdition = this.editions.find(edition => edition.id === Number(this.selectedEditionId));
     if (selectedEdition && selectedEdition.etapeCompetitions) {
       this.selectedCompetitions = selectedEdition.etapeCompetitions
-        .flatMap(etape => etape.competitions || []);
+        .flatMap(etape => etape.competitions || [])
+        .sort((a, b) => a.distance - b.distance);
     } else {
       this.selectedCompetitions = [];
     }
@@ -104,6 +105,12 @@ export class CompetitionComponent implements OnInit {
     this.currentCompetition = competition || null;
     this.currentCompetitionId = competition?.id || null;
     this.errorMessage = null;
+    console.log('Opening modal - isEditMode:', this.isEditMode, 'currentCompetitionId:', this.currentCompetitionId);
+  }
+
+  formatTime(time: string | undefined): string {
+    if (!time) return '';
+    return time.split(':').slice(0, 2).join(':'); 
   }
 
   closeCompetitionModal(): void {
@@ -128,7 +135,7 @@ export class CompetitionComponent implements OnInit {
           this.loadEditions();
         },
         error: (err) => {
-          const errorMsg = err.error?.message || err.message || 'Erreur lors de la modification';
+          const errorMsg = err || err.message || 'Erreur lors de la modification';
           this.errorMessage = errorMsg;
         }
       });

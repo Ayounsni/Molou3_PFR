@@ -168,6 +168,7 @@ export class AuthEffects {
                     dateNaissance: response.dateNaissance || currentUser.dateNaissance,
                     niveauExperience: response.niveauExperience || currentUser.niveauExperience,
                     adresse: response.adresse || currentUser.adresse,
+                    ville: response.ville || currentUser.ville,
                     description: response.description || currentUser.description,
                     telephone: response.telephone || currentUser.telephone,
                     photoUrl: response.photoUrl || currentUser.photoUrl
@@ -185,6 +186,7 @@ export class AuthEffects {
                     responsable: response.responsable || currentUser.responsable,
                     dateCreation: response.dateCreation || currentUser.dateCreation,
                     adresse: response.adresse || currentUser.adresse,
+                    ville: response.ville || currentUser.ville,
                     description: response.description || currentUser.description,
                     telephone: response.telephone || currentUser.telephone,
                     photoUrl: response.photoUrl || currentUser.photoUrl

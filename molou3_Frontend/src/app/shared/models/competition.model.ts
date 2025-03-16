@@ -7,7 +7,7 @@ export interface Competition {
   distance: number;
   competitionDate: string | Date;
   reunionDate: string | Date;
-  reunionHoraire?: string | Date;
+  reunionHoraire?: string | undefined;
   pdfClassement?: string;
   etapeCompetition?: EtapeCompetition;
   participations?: Participation[];
