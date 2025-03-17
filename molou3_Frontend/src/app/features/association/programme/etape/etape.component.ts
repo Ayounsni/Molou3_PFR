@@ -78,7 +78,14 @@ export class EtapeComponent implements OnInit {
           String(edition.association?.id) === String(this.currentUser!.id)
         );
         this.editions.sort((a, b) => a.annee - b.annee);
-        this.onEditionChange();
+        // Sélection automatique de la première édition si disponible
+        if (this.editions.length > 0 && this.editions[0].id !== undefined) {
+          this.selectedEditionId = this.editions[0].id as number;
+          this.onEditionChange();
+        } else {
+          this.selectedEditionId = null;
+          this.selectedEtapes = [];
+        }
         console.log('Filtered Editions:', this.editions);
       },
       error: (err) => {
