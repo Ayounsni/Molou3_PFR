@@ -19,6 +19,7 @@ import { AnnonceComponent } from './features/association/annonce/annonce.compone
 
 export const routes: Routes = [
     { path: '', component: HomeComponent },
+    { path: 'association/dashboard', component: AssociationDashboardComponent },
     { path: 'meteo', component: WeatherComponent },
     { path: 'register', component: RegisterComponent, canActivate: [LoggedInGuard] },
     { path: 'login', component: LoginComponent, canActivate: [LoggedInGuard] },

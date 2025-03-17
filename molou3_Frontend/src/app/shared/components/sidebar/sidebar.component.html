@@ -132,12 +132,12 @@
   <div class="absolute bottom-0 left-0 w-full p-4 border-t border-gray-700">
     <div class="flex items-center gap-3">
       <img
-        [attr.src]="logo"
+      [src]="currentUser?.photoUrl || association"
         alt="Avatar"
-        class="w-10 h-10 rounded-full border-2 border-blue-400/20"
+        class="w-10 h-10 bg-white rounded-full border-2 border-blue-400/20"
       />
       <div>
-        <p class="text-sm font-medium">Nom de l'association</p>
+        <p class="text-sm font-medium">{{currentUser?.nomAssociation || 'x' }}</p>
         <p class="text-xs text-gray-400">Association</p>
       </div>
     </div>
