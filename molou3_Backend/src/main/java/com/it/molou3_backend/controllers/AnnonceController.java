@@ -37,9 +37,15 @@ public class AnnonceController {
     @GetMapping
     public ResponseEntity<PageDTO<ResponseAnnonceDTO>> getAllAnnoncesPaginated(
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "3") int size
+            @RequestParam(defaultValue = "3") int size,
+            @RequestParam(required = false) Long associationId
     ) {
-        PageDTO<ResponseAnnonceDTO> annonces = annonceService.findAll(page, size);
+        PageDTO<ResponseAnnonceDTO> annonces;
+        if (associationId != null) {
+            annonces = annonceService.findByAssociationId(associationId, page, size);
+        } else {
+            annonces = annonceService.findAll(page, size);
+        }
         return new ResponseEntity<>(annonces, HttpStatus.OK);
     }
     @GetMapping("/all")
