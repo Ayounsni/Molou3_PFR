@@ -28,6 +28,9 @@ public class ProgrammeEdition {
     @Column(columnDefinition = "TEXT")
     private String description;
 
+    @Column(nullable = false)
+    private boolean enabled;
+
     @ManyToOne
     private Association association;
 

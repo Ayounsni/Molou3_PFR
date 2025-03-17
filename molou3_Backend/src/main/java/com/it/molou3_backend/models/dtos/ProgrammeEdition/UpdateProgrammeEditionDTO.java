@@ -16,5 +16,7 @@ public class UpdateProgrammeEditionDTO {
     @Max(value = 2100, message = "L'année ne peut pas dépasser 2050.")
     private Integer annee;
 
+    private boolean enabled;
+
     private String description;
 }

@@ -20,6 +20,8 @@ public class CreateProgrammeEditionDTO {
 
     private String description;
 
+    private boolean enabled = false;
+
     @NotNull
     @Exists(entity = Association.class, message = "Cette association n'existe pas.")
     private Long associationId;

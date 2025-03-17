@@ -21,5 +21,7 @@ public class ResponseProgrammeEditionDTO {
 
     private EmbeddableAssociationDTO association;
 
+    private boolean enabled;
+
     private List<ProgrammeEtapeCompetitionDTO> etapeCompetitions;
 }
