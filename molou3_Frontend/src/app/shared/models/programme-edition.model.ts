@@ -5,6 +5,7 @@ import { User } from './user.model';
 export interface ProgrammeEdition {
   id?: number;
   annee: number;
+  enabled: boolean;
   description?: string;
   association?: User;
   etapeCompetitions?: EtapeCompetition[];

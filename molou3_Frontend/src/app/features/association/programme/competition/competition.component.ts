@@ -1,19 +1,19 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { SidebarComponent } from '../../../shared/components/sidebar/sidebar.component';
+import { SidebarComponent } from '../../../../shared/components/sidebar/sidebar.component';
 import { Store } from '@ngrx/store';
-import { AppState } from '../../../store/app.state';
-import { selectCurrentUser } from '../../../store/auth/auth.selectors';
-import { ProgrammeEditionService } from '../../../core/services/programme-edition.service';
-import { CompetitionService } from '../../../core/services/competition.service'; // Service à créer
-import { NotificationService } from '../../../core/services/notification.service';
-import { ProgrammeEdition } from '../../../shared/models/programme-edition.model';
-import { User } from '../../../shared/models/user.model';
-import { Competition } from '../../../shared/models/competition.model';
-import { NotificationComponent } from '../../../shared/components/notification/notification.component';
-import { DeleteConfirmationModalComponent } from '../../../shared/components/delete-confirmation-modal/delete-confirmation-modal.component';
-import { CompetitionFormComponent } from '../../../shared/components/forms/programme/competition-form/competition-form.component'; // À créer
+import { AppState } from '../../../../store/app.state';
+import { selectCurrentUser } from '../../../../store/auth/auth.selectors';
+import { ProgrammeEditionService } from '../../../../core/services/programme-edition.service';
+import { CompetitionService } from '../../../../core/services/competition.service'; // Service à créer
+import { NotificationService } from '../../../../core/services/notification.service';
+import { ProgrammeEdition } from '../../../../shared/models/programme-edition.model';
+import { User } from '../../../../shared/models/user.model';
+import { Competition } from '../../../../shared/models/competition.model';
+import { NotificationComponent } from '../../../../shared/components/notification/notification.component';
+import { DeleteConfirmationModalComponent } from '../../../../shared/components/delete-confirmation-modal/delete-confirmation-modal.component';
+import { CompetitionFormComponent } from '../../../../shared/components/forms/programme/competition-form/competition-form.component'; // À créer
 
 @Component({
   selector: 'app-competition',

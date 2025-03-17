@@ -9,10 +9,11 @@ import { ColombophileDashboardComponent } from './features/colombophile/colombop
 import { AuthGuard } from './core/guards/auth.guard';
 import { LoggedInGuard } from './core/guards/logged-in.guard';
 import { ProfileComponent } from './features/auth/profile/profile.component';
-import { EditionComponent } from './features/programme/edition/edition.component';
-import { EtapeComponent } from './features/programme/etape/etape.component';
-import { CompetitionComponent } from './features/programme/competition/competition.component';
-import { ResultatComponent } from './features/programme/resultat/resultat.component';
+import { EditionComponent } from './features/association/programme/edition/edition.component';
+import { EtapeComponent } from './features/association/programme/etape/etape.component';
+import { CompetitionComponent } from './features/association/programme/competition/competition.component';
+import { ResultatComponent } from './features/association/programme/resultat/resultat.component';
+import { AnnonceComponent } from './features/association/annonce/annonce.component';
 
 
 
@@ -57,6 +58,10 @@ export const routes: Routes = [
           {
             path: 'resultat',
             component: ResultatComponent
+          },
+          {
+            path: 'annonce',
+            component: AnnonceComponent
           }
         ]
       },

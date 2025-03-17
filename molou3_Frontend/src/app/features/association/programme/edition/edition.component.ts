@@ -1,17 +1,17 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { SidebarComponent } from "../../../shared/components/sidebar/sidebar.component";
-import { ProgrammeEdition } from '../../../shared/models/programme-edition.model';
-import { User } from '../../../shared/models/user.model';
+import { SidebarComponent } from "../../../../shared/components/sidebar/sidebar.component";
+import { ProgrammeEdition } from '../../../../shared/models/programme-edition.model';
+import { User } from '../../../../shared/models/user.model';
 import { Store } from '@ngrx/store';
-import { AppState } from '../../../store/app.state';
-import { ProgrammeEditionService } from '../../../core/services/programme-edition.service';
-import { selectCurrentUser } from '../../../store/auth/auth.selectors';
-import { NotificationService } from '../../../core/services/notification.service';
-import { NotificationComponent } from '../../../shared/components/notification/notification.component';
-import { EditionFormComponent } from '../../../shared/components/forms/programme/edition-form/edition-form.component';
-import { DeleteConfirmationModalComponent } from "../../../shared/components/delete-confirmation-modal/delete-confirmation-modal.component";
-import { PaginationComponent } from '../../../shared/components/pagination/pagination.component';
+import { AppState } from '../../../../store/app.state';
+import { ProgrammeEditionService } from '../../../../core/services/programme-edition.service';
+import { selectCurrentUser } from '../../../../store/auth/auth.selectors';
+import { NotificationService } from '../../../../core/services/notification.service';
+import { NotificationComponent } from '../../../../shared/components/notification/notification.component';
+import { EditionFormComponent } from '../../../../shared/components/forms/programme/edition-form/edition-form.component';
+import { DeleteConfirmationModalComponent } from "../../../../shared/components/delete-confirmation-modal/delete-confirmation-modal.component";
+import { PaginationComponent } from '../../../../shared/components/pagination/pagination.component';
 
 @Component({
   selector: 'app-edition',

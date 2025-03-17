@@ -1,4 +1,5 @@
 <app-sidebar></app-sidebar>
+<app-notification></app-notification>
 <div class="ml-70 bg-[#dddddd] flex justify-center items-center min-h-screen">
   <div class="bg-[#F8F8F8] min-h-screen w-10/12">
     <!-- Image avec effet sombre -->
@@ -28,14 +29,22 @@
       <!-- Titre dynamique -->
       <h2 class="text-2xl font-bold text-gray-800 mb-3 text-center">Programme Annuel {{ selectedEdition?.annee || '' }}</h2>
 
+      <!-- Bouton de publication/dépublication -->
       <div class="flex justify-end">
-        <button class="group relative flex items-center gap-2 px-2 py-2 text-sm rounded-lg bg-gradient-to-br from-green-400 to-green-500 hover:from-green-500 hover:to-green-600 text-white font-semibold transition-all duration-300 shadow-lg hover:shadow-xl">
-            <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-            </svg>
-            Publier le Programme
-        </button>
-    </div>
+        <button
+        (click)="togglePublish()"
+        [ngClass]="{
+          'from-green-400 to-green-500 hover:from-green-500 hover:to-green-600': selectedEdition?.enabled === false,
+          'from-red-400 to-red-500 hover:from-red-500 hover:to-red-600': selectedEdition?.enabled === true
+        }"
+        class="group relative flex items-center gap-2 px-2 py-2 text-sm rounded-lg bg-gradient-to-br text-white font-semibold transition-all duration-300 shadow-lg hover:shadow-xl"
+      >
+        <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+        </svg>
+        {{ selectedEdition?.enabled ? 'Retirer le Programme' : 'Publier le Programme' }}
+      </button>
+      </div>
 
       <!-- Tableau des résultats -->
       <div class="bg-white rounded-xl shadow-lg border border-gray-100 overflow-hidden">
@@ -85,15 +94,17 @@
                 </td>
                 <td class="px-4 py-3 text-sm text-gray-600 text-center">
                   <a
-                  [attr.href]="competition.pdfClassement"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                   *ngIf="competition.pdfClassement" class="flex items-center justify-center gap-1 w-fit p-1.5 text-blue-500 hover:bg-blue-50 rounded-lg mx-auto">
+                    [attr.href]="competition.pdfClassement"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    *ngIf="competition.pdfClassement"
+                    class="flex items-center justify-center gap-1 w-fit p-1.5 text-blue-500 hover:bg-blue-50 rounded-lg mx-auto"
+                  >
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
                     </svg>
                     <span class="text-sm">Classement</span>
-                </a>
+                  </a>
                   <button *ngIf="!competition.pdfClassement" class="flex items-center justify-center gap-1 p-1.5 text-gray-400 cursor-not-allowed mx-auto">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"/>
@@ -102,12 +113,18 @@
                   </button>
                 </td>
                 <td *ngIf="i === 0" class="px-4 py-3 text-sm text-gray-600 text-center" [attr.rowspan]="getCompetitionsForEtape(etape).length">
-                  <button *ngIf="etape.pdfClassement" class="flex items-center justify-center gap-1 p-1.5 text-blue-500 hover:bg-blue-50 rounded-lg mx-auto">
+                  <a
+                    [attr.href]="etape.pdfClassement"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    *ngIf="etape.pdfClassement"
+                    class="flex items-center justify-center gap-1 p-1.5 text-blue-500 hover:bg-blue-50 rounded-lg mx-auto"
+                  >
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
                     </svg>
                     <span class="text-sm">Classement</span>
-                  </button>
+                  </a>
                   <button *ngIf="!etape.pdfClassement" class="flex items-center justify-center gap-1 p-1.5 text-gray-400 cursor-not-allowed mx-auto">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"/>

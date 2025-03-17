@@ -1,21 +1,22 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { SidebarComponent } from '../../../shared/components/sidebar/sidebar.component';
+import { SidebarComponent } from '../../../../shared/components/sidebar/sidebar.component';
 import { Store } from '@ngrx/store';
-import { AppState } from '../../../store/app.state';
-import { selectCurrentUser } from '../../../store/auth/auth.selectors';
-import { ProgrammeEditionService } from '../../../core/services/programme-edition.service';
-import { NotificationService } from '../../../core/services/notification.service';
-import { ProgrammeEdition } from '../../../shared/models/programme-edition.model';
-import { User } from '../../../shared/models/user.model';
-import { EtapeCompetition } from '../../../shared/models/etape-competition.model';
-import { Competition } from '../../../shared/models/competition.model';
+import { AppState } from '../../../../store/app.state';
+import { selectCurrentUser } from '../../../../store/auth/auth.selectors';
+import { ProgrammeEditionService } from '../../../../core/services/programme-edition.service';
+import { NotificationService } from '../../../../core/services/notification.service';
+import { ProgrammeEdition } from '../../../../shared/models/programme-edition.model';
+import { User } from '../../../../shared/models/user.model';
+import { EtapeCompetition } from '../../../../shared/models/etape-competition.model';
+import { Competition } from '../../../../shared/models/competition.model';
+import { NotificationComponent } from "../../../../shared/components/notification/notification.component";
 
 @Component({
   selector: 'app-resultat',
   standalone: true,
-  imports: [CommonModule, FormsModule, SidebarComponent],
+  imports: [CommonModule, FormsModule, SidebarComponent, NotificationComponent],
   templateUrl: './resultat.component.html',
   styleUrls: ['./resultat.component.css']
 })
@@ -35,6 +36,7 @@ export class ResultatComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadCurrentUser();
+    
   }
 
   /** Charge l'utilisateur actuel depuis le store NgRx */
@@ -59,11 +61,12 @@ export class ResultatComponent implements OnInit {
       next: (editions: ProgrammeEdition[]) => {
         this.editions = editions.filter(edition => 
           String(edition.association?.id) === String(this.currentUser!.id)
+          
         );
+        console.log(this.editions);
         this.editions.sort((a, b) => a.annee - b.annee);
-        // Vérifie si editions contient des éléments et si le premier id est défini
         if (this.editions.length > 0 && this.editions[0].id !== undefined) {
-          this.selectedEditionId = this.editions[0].id as number; // Cast en number si non undefined
+          this.selectedEditionId = this.editions[0].id as number;
           this.onEditionChange();
         } else {
           this.selectedEditionId = null;
@@ -95,5 +98,42 @@ export class ResultatComponent implements OnInit {
   formatTime(time: string | undefined): string {
     if (!time) return '';
     return time.split(':').slice(0, 2).join(':');
+  }
+
+
+  /** Inverse l'état de publication de l'édition sélectionnée */
+  togglePublish(): void {
+    if (!this.selectedEdition || this.selectedEdition.id === undefined) {
+      this.notificationService.showNotification('Aucune édition sélectionnée', 'error');
+      return;
+    }
+
+    // Crée une copie de l'édition avec la propriété enabled inversée
+    const updatedEdition = { ...this.selectedEdition, enabled: !this.selectedEdition.enabled };
+
+    // Appel au service pour mettre à jour dans la base de données
+    this.programmeEditionService.updateProgrammeEdition(this.selectedEdition.id, updatedEdition).subscribe({
+      next: (response) => {
+        // Met à jour l'édition sélectionnée avec la réponse du serveur
+        this.selectedEdition = response;
+        // Met à jour la liste des éditions pour refléter le changement
+        const index = this.editions.findIndex(e => e.id === response.id);
+        if (index !== -1) {
+          this.editions[index] = response;
+        }
+        // Affiche une notification de succès
+        this.notificationService.showNotification(
+          `Programme ${response.enabled ? 'publié' : 'retiré'} avec succès`,
+          'success'
+        );
+      },
+      error: (err) => {
+        // Affiche une notification en cas d'erreur
+        this.notificationService.showNotification(
+          err.message || 'Erreur lors de la mise à jour de l\'édition',
+          'error'
+        );
+      }
+    });
   }
 }

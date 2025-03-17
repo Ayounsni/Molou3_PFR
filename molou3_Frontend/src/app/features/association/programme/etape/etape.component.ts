@@ -1,19 +1,19 @@
 import { Component, OnInit } from '@angular/core';
-import { SidebarComponent } from "../../../shared/components/sidebar/sidebar.component";
+import { SidebarComponent } from "../../../../shared/components/sidebar/sidebar.component";
 import { Store } from '@ngrx/store';
-import { AppState } from '../../../store/app.state';
-import { selectCurrentUser } from '../../../store/auth/auth.selectors';
-import { ProgrammeEditionService } from '../../../core/services/programme-edition.service';
-import { ProgrammeEdition } from '../../../shared/models/programme-edition.model';
-import { EtapeCompetition } from '../../../shared/models/etape-competition.model';
-import { User } from '../../../shared/models/user.model';
+import { AppState } from '../../../../store/app.state';
+import { selectCurrentUser } from '../../../../store/auth/auth.selectors';
+import { ProgrammeEditionService } from '../../../../core/services/programme-edition.service';
+import { ProgrammeEdition } from '../../../../shared/models/programme-edition.model';
+import { EtapeCompetition } from '../../../../shared/models/etape-competition.model';
+import { User } from '../../../../shared/models/user.model';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { EtapeCompetitionService } from '../../../core/services/etape-competition.service';
-import { NotificationService } from '../../../core/services/notification.service';
-import { NotificationComponent } from "../../../shared/components/notification/notification.component";
-import { DeleteConfirmationModalComponent } from "../../../shared/components/delete-confirmation-modal/delete-confirmation-modal.component";
-import { EtapeFormComponent } from '../../../shared/components/forms/programme/etape-form/etape-form.component';
+import { EtapeCompetitionService } from '../../../../core/services/etape-competition.service';
+import { NotificationService } from '../../../../core/services/notification.service';
+import { NotificationComponent } from "../../../../shared/components/notification/notification.component";
+import { DeleteConfirmationModalComponent } from "../../../../shared/components/delete-confirmation-modal/delete-confirmation-modal.component";
+import { EtapeFormComponent } from '../../../../shared/components/forms/programme/etape-form/etape-form.component';
 
 @Component({
   selector: 'app-etape',
