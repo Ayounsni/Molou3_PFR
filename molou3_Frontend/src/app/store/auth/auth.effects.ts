@@ -224,8 +224,8 @@ export class AuthEffects {
   private getDashboardRoute(role: string): string {
     switch (role) {
       case 'ROLE_ADMIN': return '/admin/dashboard';
-      case 'ROLE_COLOMBOPHILE': return '/colombophile/dashboard';
-      case 'ROLE_ASSOCIATION': return '/association/dashboard';
+      case 'ROLE_COLOMBOPHILE': return '/profile';
+      case 'ROLE_ASSOCIATION': return '/profile';
       default: return '/';
     }
   }

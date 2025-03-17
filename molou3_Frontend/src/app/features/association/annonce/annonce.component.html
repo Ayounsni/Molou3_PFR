@@ -4,17 +4,18 @@
   <div class="bg-white min-h-screen w-10/12">
     <!-- En-tête avec image -->
     <div class="relative">
-        <img [attr.src]="bg" alt="bg" class="w-full h-72 object-cover brightness-50" />
-        <div class="absolute inset-0 flex items-center justify-center bg-black/20">
+      <img [attr.src]="bg" alt="bg" class="w-full h-72 object-cover brightness-50" />
+      <div class="absolute inset-0 flex items-center justify-center bg-black/20">
         <h1 class="text-white text-5xl font-bold drop-shadow-lg">Gestion des Annonces</h1>
       </div>
     </div>
 
     <!-- Contenu principal -->
-    <div class="px-8 py-5 mb-5 space-y-8">
+    <div class="px-8 py-5 mb-7 space-y-8">
       <!-- Bouton d'ajout -->
       <div class="flex justify-end">
-        <button class="group relative flex items-center gap-2 px-4 py-2 rounded-lg bg-gradient-to-br from-blue-400 to-blue-500 hover:from-blue-500 hover:to-blue-600 text-white font-semibold transition-all duration-300 shadow-lg hover:shadow-xl">
+        <button (click)="openAnnonceModal()"
+          class="group relative flex items-center gap-2 px-4 py-2 rounded-lg bg-gradient-to-br from-blue-400 to-blue-500 hover:from-blue-500 hover:to-blue-600 text-white font-semibold transition-all duration-300 shadow-lg hover:shadow-xl">
           <svg class="w-5 h-5 text-white transition-transform group-hover:rotate-90" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
           </svg>
@@ -22,115 +23,78 @@
         </button>
       </div>
 
-      <!-- Grille des annonces -->
-      <div class="flex flex-col justify-center items-center gap-7 w-full">
-        <!-- Annonce 1 -->
-        <div class="relative w-4xl bg-white rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 border border-gray-100">
-          <div class="p-6 space-y-4">
-            <div class="flex justify-between items-start">
-              <h3 class="text-xl font-bold text-gray-800">Tournoi de printemps</h3>
-              <div class="flex gap-2">
-                <button class="p-1.5 text-blue-500 hover:bg-blue-50 rounded-lg">
-                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/>
-                  </svg>
-                </button>
-                <button class="p-1.5 text-red-500 hover:bg-red-50 rounded-lg">
-                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
-                  </svg>
-                </button>
-              </div>
-            </div>
-            <p class="text-gray-600 line-clamp-3">Les inscriptions pour le tournoi annuel de printemps sont ouvertes ! Date limite d'inscription : 15 mars 2024.</p>
-            <div class="flex justify-end">
-                <div class="flex items-center gap-2 text-sm text-gray-500 font-semibold">
-                  <svg class="w-4 h-4 " fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
-                  </svg>
-                  <span>Publié le 10 févr. 2024</span>
-                </div>
-            </div>
-          </div>
-        </div>
+      <!-- Titre -->
+      <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">Historique des annonces</h2>
 
-        <!-- Annonce 2 -->
-        <div class="relative w-4xl bg-white rounded-md shadow-lg hover:shadow-xl transition-shadow duration-300 border border-gray-100">
+      <!-- Liste des annonces -->
+      <div *ngIf="annonces.length > 0; else noAnnonces" class="flex flex-col justify-center items-center gap-7">
+        <div *ngFor="let annonce of annonces" class="relative bg-gray-50 w-4xl rounded-md shadow-sm hover:shadow-md transition-shadow duration-300 border border-gray-100">
           <div class="p-6 space-y-4">
             <div class="flex justify-between items-start">
-              <h3 class="text-xl font-bold text-gray-800">Nouveaux horaires</h3>
+              <h3 class="font-semibold text-blue-600 text-xl">{{ annonce.titre }}</h3>
               <div class="flex gap-2">
-                <button class="p-1.5 text-blue-500 hover:bg-blue-50 rounded-lg">
+                <button (click)="openAnnonceModal(annonce)" class="p-2 text-blue-500 hover:bg-blue-50 rounded-lg">
                   <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
                   </svg>
                 </button>
-                <button class="p-1.5 text-red-500 hover:bg-red-50 rounded-lg">
+                <button (click)="openDeleteConfirmation(annonce.id)" class="p-2 text-red-500 hover:bg-red-50 rounded-lg">
                   <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                   </svg>
                 </button>
               </div>
             </div>
-            <p class="text-gray-600 line-clamp-3">À partir du 1er mars, les entraînements du jeudi soir seront décalés de 30 minutes.</p>
+            <p class=" text-gray-600 line-clamp-3">{{ annonce.contenu || 'Aucune description' }}</p>
             <div class="flex justify-end">
-                <div class="flex items-center gap-2 text-sm text-gray-500 font-semibold">
-                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
-                  </svg>
-                  <span>Publié le 10 févr. 2024</span>
-                </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Annonce 3 -->
-        <div class="relative w-4xl bg-white rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 border border-gray-100">
-          <div class="p-6 space-y-4">
-            <div class="flex justify-between items-start">
-              <h3 class="text-xl font-bold text-gray-800">Bénévoles recherchés</h3>
-              <div class="flex gap-2">
-                <button class="p-1.5 text-blue-500 hover:bg-blue-50 rounded-lg">
-                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/>
-                  </svg>
-                </button>
-                <button class="p-1.5 text-red-500 hover:bg-red-50 rounded-lg">
-                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
-                  </svg>
-                </button>
+              <div class="flex items-center gap-2 text-sm text-gray-500 font-semibold">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                </svg>
+                <span> Publié le {{ annonce.datePublication| date:'dd MMM yyyy' }}</span>
               </div>
             </div>
-            <p class="text-gray-600 line-clamp-3">Nous recherchons des bénévoles pour l'organisation du prochain événement. Contactez-nous !</p>
-            <div class="flex justify-end">
-            <div class="flex items-center gap-2 text-sm text-gray-500 font-semibold">
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
-              </svg>
-              <span>Publié le 10 févr. 2024</span>
-            </div>
-        </div>
           </div>
         </div>
       </div>
+
+      <!-- Pagination -->
+      <app-pagination
+        [currentPage]="currentPage"
+        [totalPages]="totalPages"
+        [isLastPage]="isLastPage"
+        (pageChange)="onPageChange($event)"
+      ></app-pagination>
 
       <!-- État vide -->
-      <div *ngIf="false" class="text-center py-12">
-        <div class="max-w-md mx-auto">
+      <ng-template #noAnnonces>
+        <div class="text-center text-gray-600 text-lg py-10">
           <svg class="w-14 h-14 mx-auto mb-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 13h6m-3-3v6m5 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
           </svg>
-          <h3 class="text-lg font-semibold text-gray-700">Aucune annonce publiée</h3>
-          <p class="text-gray-500 mt-1">Commencez par créer votre première annonce</p>
+          Aucune annonce trouvée pour votre association.
         </div>
-      </div>
-      <app-pagination
-      [currentPage]="currentPage"
-      [totalPages]="totalPages"
-      [isLastPage]="isLastPage"
-      (pageChange)="onPageChange($event)"
-    ></app-pagination>
+      </ng-template>
     </div>
+
+    <!-- Modale du formulaire d'annonce -->
+    <app-annonce-form
+      [annonce]="currentAnnonce"
+      [currentUser]="currentUser"
+      [showModal]="showAnnonceModal"
+      (closeModal)="closeAnnonceModal()"
+      (editionSaved)="handleAnnonceSaved($event)"
+    ></app-annonce-form>
+
+    <!-- Modale de confirmation de suppression -->
+    <app-delete-confirmation-modal
+      [showModal]="showDeleteConfirmation"
+      [title]="'Confirmer la suppression'"
+      [message]="'Êtes-vous sûr de vouloir supprimer cette annonce ?'"
+      [confirmButtonText]="'Oui'"
+      [cancelButtonText]="'Non'"
+      (closeModal)="closeDeleteConfirmation()"
+      (confirmDelete)="confirmDelete()"
+    ></app-delete-confirmation-modal>
   </div>
 </div>

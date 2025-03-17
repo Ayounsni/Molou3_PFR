@@ -1,8 +1,10 @@
 <nav
-  class="w-full flex justify-between items-center px-5 py-2.5 bg-gray-800 text-white text-[15px] shadow font-semibold "
+  class="w-full flex justify-between items-center px-5 py-2.5 bg-gray-800 text-white text-[15px] shadow font-semibold"
 >
   <div>
+    <a routerLink="/">
     <img [attr.src]="imagepath" alt="Logo" class="w-36" />
+  </a>
   </div>
 
   <div *ngIf="!currentUser" class="flex justify-between items-center gap-32">
@@ -239,103 +241,25 @@
 
   <div
     *ngIf="currentUser && currentUser.role?.roleName === 'ROLE_ASSOCIATION'"
-    class="flex justify-between items-center gap-32"
+    class="flex justify-between items-center gap-64"
   >
-    <div class="flex justify-end pt-1 gap-16 relative">
+    <div class="flex justify-end pt-1 gap-32 relative">
+      <a
+      routerLink="/association/edition"
+        class="px-2.5 py-1.5 rounded-sm hover:bg-gray-700"
+        >Gestion</a
+      >
+
       <a
         routerLink="/associations"
         class="px-2.5 py-1.5 rounded-sm hover:bg-gray-700"
-        >Consulter Associations</a
+        >Associations</a
       >
 
-      <div class="relative">
-        <button
-          (click)="toggleDropdown('weather')"
-          class="weather-dropdown-trigger px-2.5 py-1.5 rounded-sm hover:bg-gray-700 flex items-center"
-        >
-          Consulter Météo
-          <span
-            class="ml-1.5 transition-transform text-sm"
-            [class.rotate-180]="isDropdownOpen === 'weather'"
-            >⮟</span
-          >
-        </button>
-        <div
-          *ngIf="isDropdownOpen === 'weather'"
-          class="weather-dropdown-trigger absolute left-0 mt-[16px] w-52 bg-white text-black rounded-b-xl py-2 z-50"
-        >
-          <ul class="space-y-2 text-[#959595]">
-            <li>
-              <a
-                href="#"
-                class="block px-4 py-2 hover:bg-gray-100 hover:text-gray-800"
-                >Prévisions</a
-              >
-            </li>
-            <li>
-              <a
-                href="#"
-                class="block px-4 py-2 hover:bg-gray-100 hover:text-gray-800"
-                >Alertes Météo</a
-              >
-            </li>
-            <li>
-              <a
-                href="#"
-                class="block px-4 py-2 hover:bg-gray-100 hover:text-gray-800"
-                >Tendances</a
-              >
-            </li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="relative">
-        <button
-          (click)="toggleDropdown('association')"
-          class="association-dropdown-trigger px-2.5 py-1.5 rounded-sm hover:bg-gray-700 flex items-center"
-        >
-          Gestion
-          <span
-            class="ml-1.5 transition-transform text-sm"
-            [class.rotate-180]="isDropdownOpen === 'association'"
-            >⮟</span
-          >
-        </button>
-        <div
-          *ngIf="isDropdownOpen === 'association'"
-          class="association-dropdown-trigger absolute left-0 mt-[16px] w-52 bg-white text-black rounded-b-xl py-2 z-50"
-        >
-          <ul class="space-y-2 text-[#959595]">
-            <li>
-              <a
-                routerLink="/association/annonces"
-                class="block px-4 py-2 hover:bg-gray-100 hover:text-gray-800"
-                >Gérer Annonces</a
-              >
-            </li>
-            <li>
-              <a
-                routerLink="/association/programme"
-                class="block px-4 py-2 hover:bg-gray-100 hover:text-gray-800"
-                >Gérer Programme Annuel</a
-              >
-            </li>
-            <li>
-              <a
-                routerLink="/association/classement"
-                class="block px-4 py-2 hover:bg-gray-100 hover:text-gray-800"
-                >Gérer Classement</a
-              >
-            </li>
-          </ul>
-        </div>
-      </div>
-
       <a
-        routerLink="/competitions/classement"
+        routerLink="/meteo"
         class="px-2.5 py-1.5 rounded-sm hover:bg-gray-700"
-        >Classement Compétition</a
+        >Météo</a
       >
     </div>
 
