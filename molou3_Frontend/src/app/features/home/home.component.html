@@ -1,13 +1,13 @@
 <div class="relative">
-  <div class="flex flex-row-reverse relative" style="z-index: 1">
-    <img [attr.src]="image" alt="Logo" class="w-[887px]" />
-    <div class="absolute pl-16 top-0 bottom-0 flex items-center w-full">
-      <div class="max-w-2xl">
-        <h1 class="text-6xl font-bold mb-6 leading-tight">
+  <div class="flex flex-col md:flex-row-reverse relative" style="z-index: 1">
+    <img [attr.src]="image" alt="Logo" class="w-full md:w-[887px]" />
+    <div class="absolute pl-4 md:pl-16 top-0 bottom-0 flex items-center w-full">
+      <div class="max-w-2xl text-center md:text-left">
+        <h1 class="text-4xl md:text-6xl font-bold mb-6 leading-tight">
           La communauté des passionnés de
           <span class="text-blue-400">pigeons voyageurs</span>
         </h1>
-        <div class="flex gap-4">
+        <div class="flex flex-col md:flex-row gap-4 justify-center md:justify-start">
           <button
             class="group relative flex items-center gap-2 px-5 py-3 rounded-sm bg-gradient-to-br from-blue-300/90 to-blue-400/80 hover:from-blue-300 hover:to-blue-400 hover:scale-[1.02] text-gray-800 font-semibold transition-all duration-300 shadow-lg shadow-blue-300/20 hover:shadow-blue-300/30"
           >
@@ -49,9 +49,9 @@
     </div>
   </div>
   <div
-    class="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 z-20 flex items-center justify-between bg-gray-800 text-white px-4 py-4 rounded-full shadow-xl w-9/12 mx-auto transition-all duration-300"
+    class="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 z-20 flex flex-col md:flex-row items-center justify-between bg-gray-800 text-white px-4 py-4 rounded-full shadow-xl w-11/12 md:w-9/12 mx-auto transition-all duration-300"
   >
-    <div class="flex-1 text-center group">
+    <div class="flex-1 text-center group mb-4 hidden md:mb-0 md:block">
       <span
         class="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-300 to-blue-400"
         >120+</span
@@ -60,10 +60,8 @@
         Associations
       </p>
     </div>
-
-    <div class="w-px h-10 bg-gray-700"></div>
-
-    <div class="flex-1 text-center group">
+    <div class="w-px h-10 bg-gray-700 hidden md:block"></div>
+    <div class="flex-1 text-center group mb-4 hidden md:mb-0 md:block">
       <span
         class="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-300 to-blue-400"
         >3500+</span
@@ -72,10 +70,8 @@
         Colombophiles
       </p>
     </div>
-
-    <div class="w-px h-10 bg-gray-700"></div>
-
-    <div class="flex-1 text-center group">
+    <div class="w-px h-10 bg-gray-700 hidden md:block"></div>
+    <div class="flex-1 text-center group mb-4 hidden md:mb-0 md:block">
       <span
         class="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-300 to-blue-400"
         >500+</span
@@ -84,10 +80,8 @@
         Compétitions
       </p>
     </div>
-
-    <div class="w-px h-10 bg-gray-700"></div>
-
-    <div class="flex-1 text-center group">
+    <div class="w-px h-10 bg-gray-700 hidden md:block"></div>
+    <div class="flex-1 text-center group hidden  md:block">
       <span
         class="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-300 to-blue-400"
         >250+</span
@@ -101,13 +95,13 @@
 
 <section class="bg-white pb-16 pt-24 px-4">
   <div class="text-center max-w-4xl mx-auto mb-6">
-    <h1 class="text-4xl font-extrabold leading-tight text-gray-900">
+    <h1 class="text-3xl md:text-4xl font-extrabold leading-tight text-gray-900">
       Suivez. Organisez. Progressez.
     </h1>
-    <h2 class="text-4xl font-extrabold text-blue-400 mt-2">
+    <h2 class="text-3xl md:text-4xl font-extrabold text-blue-400 mt-2">
       Tout cela sur une seule plateforme.
     </h2>
-    <p class="text-gray-600 text-sm px-32 font-medium mt-4">
+    <p class="text-gray-600 text-sm px-4 md:px-32 font-medium mt-4">
       <span class="text-blue-500">Distances</span>,
       <span class="text-blue-500">performances</span>,
       <span class="text-blue-500">suivi</span> en temps réel… Rejoignez
@@ -233,65 +227,65 @@
 </section>
 
 <div class="bg-gray-800 text-white py-10">
-  <h2 class="text-center text-3xl font-semibold">
+  <h2 class="text-center text-2xl md:text-3xl font-semibold">
     Associations les plus actives
   </h2>
-  <p class="text-center text-gray-300 mt-2">
+  <p class="text-center text-gray-300 mt-2 text-sm md:text-base">
     Découvrez les associations de compétition de pigeons voyageurs les plus
     actives. Consultez leurs annonces, <br />
     découvrez leurs programmes annuels et suivez les classements des
     compétitions.
   </p>
   <div class="overflow-x-auto whitespace-nowrap px-4 py-6">
-    <div class="flex justify-center gap-12">
+    <div class="flex justify-center gap-6 md:gap-12">
       <div
         *ngFor="let association of associations"
-        class="bg-gray-900 relative py-6 px-3 rounded-sm flex flex-col justify-center items-center"
+        class="bg-gray-900 relative py-6 px-3 rounded-sm flex flex-col justify-center items-center w-48 md:w-auto"
       >
-        <div class="">
+        <div class="relative">
           <img
             [src]="association.photoUrl"
             alt="{{ association.nomAssociation }}"
-            class="rounded-full w-40 h-40 object-cover border-2 border-blue-200"
+            class="rounded-full w-32 h-32 md:w-40 md:h-40 object-cover border-2 border-blue-200"
           />
-          <div class="absolute top-0 right-0 pl-20 rounded-full">
-            <img [attr.src]="verified" alt="Verified" class="w-20" />
+          <div class="absolute top-0 right-0 pl-16 md:pl-20 rounded-full">
+            <img [attr.src]="verified" alt="Verified" class="w-16 md:w-20" />
           </div>
         </div>
-        <p class="text-center font-semibold mt-3 text-white">{{ association.nomAssociation }}</p>
+        <p class="text-center font-semibold mt-3 text-white text-sm md:text-base">{{ association.nomAssociation }}</p>
       </div>
     </div>
   </div>
-
   <div class="mt-7 text-center">
     <button
       routerLink="/association/dashboard"
-      class="bg-gradient-to-br from-blue-300/90 to-blue-400/80 hover:bg-blue-400 text-white px-4 py-2 rounded-sm text-lg font-semibold hover:shadow-lg"
+      class="bg-gradient-to-br from-blue-300/90 to-blue-400/80 hover:bg-blue-400 text-white px-4 py-2 rounded-sm text-base md:text-lg font-semibold hover:shadow-lg"
     >
       Accéder à la liste complète
     </button>
   </div>
 </div>
+
 <h2
-  class="text-4xl text-center font-extrabold leading-tight text-black mb-4 mt-8"
+  class="text-3xl md:text-4xl text-center font-extrabold leading-tight text-black mb-4 mt-8 px-4"
 >
   Découvrez l’univers fascinant des<span class="text-blue-400">
     pigeons voyageurs</span
   >
 </h2>
-<div class="flex justify-between flex-row flex-wrap w-full mb-20 px-28">
+<div class="flex flex-col md:flex-row justify-center flex-wrap w-full mb-20 px-4 md:px-28 gap-6">
   <div
     *ngFor="let video of videoUrls"
-    class="mt-6 flex flex-col justify-center items-center gap-2"
+    class="mt-6 flex flex-col justify-center items-center gap-2 w-full md:w-auto"
   >
     <iframe
       [src]="video.safeUrl"
-      class="rounded-xl w-96 h-56"
+      class="rounded-xl w-full h-48 md:w-96 md:h-56"
       frameborder="0"
       allowfullscreen
     >
     </iframe>
-    <p class="text-center font-bold text-gray-800">{{ video.title }}</p>
+    <p class="text-center font-bold text-gray-800 text-sm md:text-base">{{ video.title }}</p>
   </div>
 </div>
 

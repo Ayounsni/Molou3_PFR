@@ -23,6 +23,7 @@ export class NavbarComponent {
   isDropdownOpen: string | null = null; // Gérer plusieurs dropdowns avec un identifiant
   isProfileDropdownOpen = false;
   currentUser: User | null = null;
+  isMobileMenuOpen = false;
 
   constructor(private store: Store<AppState>) {
     this.store.select(selectCurrentUser).subscribe(user => {
@@ -35,8 +36,14 @@ export class NavbarComponent {
     this.isDropdownOpen = this.isDropdownOpen === type ? null : type;
   }
 
+  toggleMobileMenu() {
+    this.isMobileMenuOpen = !this.isMobileMenuOpen;
+  }
+
   toggleProfileDropdown() {
+    console.log('toggleProfileDropdown appelé');
     this.isProfileDropdownOpen = !this.isProfileDropdownOpen;
+    console.log('isProfileDropdownOpen:', this.isProfileDropdownOpen);
   }
 
   logout() {

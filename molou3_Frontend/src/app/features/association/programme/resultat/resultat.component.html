@@ -31,7 +31,7 @@
 
       <!-- Bouton de publication/dépublication -->
       <div class="flex justify-end">
-        <button
+        <button *ngIf="etapeCompetitions.length !== 0"
         (click)="togglePublish()"
         [ngClass]="{
           'from-green-400 to-green-500 hover:from-green-500 hover:to-green-600': selectedEdition?.enabled === false,

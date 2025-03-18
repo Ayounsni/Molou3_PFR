@@ -1,1 +1,66 @@
-<p>participation-detail works!</p>
+<div class="px-8 py-5 space-y-8">
+    <!-- Sélecteur d'édition -->
+    <div class="flex justify-between items-center">
+      <div class="flex items-center gap-4">
+        <label class="text-gray-700 font-medium">Sélectionner une édition :</label>
+        <select
+          [(ngModel)]="selectedEditionId"
+          (change)="onEditionChange()"
+          class="px-3.5 py-1.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-blue-400"
+        >
+          <option value="" disabled>Sélectionner une édition</option>
+          <option *ngFor="let edition of editions" [value]="edition.id">
+            Édition {{ edition.annee }}
+          </option>
+        </select>
+      </div>
+    </div>
+    <!-- Titre dynamique -->
+    <h2 class="text-2xl font-bold text-gray-800 mb-5 text-center">Participation au Programme Annuel {{ selectedEdition?.annee || '' }}</h2>
+  
+    <!-- Tableau des résultats -->
+    <div class="bg-white rounded-xl shadow-lg border border-gray-100 overflow-hidden">
+      <table class="w-full">
+        <thead class="bg-gray-100">
+          <tr>
+            <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700 uppercase">Étape</th>
+            <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700 uppercase">Ville</th>
+            <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700 uppercase">Distance (km)</th>
+            <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700 uppercase">Participation</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-gray-200">
+          <ng-container *ngFor="let etape of etapeCompetitions">
+            <tr *ngFor="let competition of getCompetitionsForEtape(etape); let i = index" class="hover:bg-gray-50 transition-colors bg-white">
+              <td *ngIf="i === 0" class="px-4 py-3 text-base text-gray-800 font-medium" [attr.rowspan]="getCompetitionsForEtape(etape).length">{{ etape.typeEtape }}</td>
+              <td class="px-4 py-3 text-base text-gray-600">{{ competition.ville }}</td>
+              <td class="px-4 py-3 text-base text-gray-600">{{ competition.distance }}</td>
+              <td class="px-4 py-3 text-start w-fit">
+                <a
+                class="flex items-center w-fit justify-center gap-1 p-1.5 text-blue-500 hover:bg-blue-50 rounded-lg"
+              >
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                </svg>
+                <span class="text-sm">Participé</span>
+              </a>
+              </td>
+            </tr>
+          </ng-container>
+          <tr *ngIf="etapeCompetitions.length === 0" class="bg-gray-50">
+            <td colspan="4" class="px-4 py-12 text-center">
+              <div class="flex flex-col items-center justify-center">
+                <svg class="w-14 h-14 text-gray-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                </svg>
+                <h3 class="text-lg font-semibold text-gray-700">Aucun programme disponible</h3>
+                <p class="text-sm text-gray-500 mt-1 max-w-md">
+                  Il semble qu'aucune étape ou compétition n'ait été ajoutée pour cette édition.
+                </p>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
