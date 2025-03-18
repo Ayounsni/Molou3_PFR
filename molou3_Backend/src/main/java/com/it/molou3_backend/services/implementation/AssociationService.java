@@ -3,6 +3,7 @@ package com.it.molou3_backend.services.implementation;
 import com.it.molou3_backend.models.dtos.Association.CreateAssociationDTO;
 import com.it.molou3_backend.models.dtos.Association.ResponseAssociationDTO;
 import com.it.molou3_backend.models.dtos.Association.UpdateAssociationDTO;
+import com.it.molou3_backend.models.dtos.Search.SearchAssociationDTO;
 import com.it.molou3_backend.models.entities.Association;
 import com.it.molou3_backend.models.mappers.AssociationMapper;
 import com.it.molou3_backend.repository.AssociationRepository;
@@ -23,6 +24,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class AssociationService extends GenericService<Association,CreateAssociationDTO,UpdateAssociationDTO,ResponseAssociationDTO> implements IAssociationService {
@@ -87,5 +90,23 @@ public class AssociationService extends GenericService<Association,CreateAssocia
         updatedEntity = repository.save(updatedEntity);
         return mapper.toDTO(updatedEntity);
     }
+
+    @Override
+    public List<ResponseAssociationDTO> searchAssociation(SearchAssociationDTO searchAssociationDTO) {
+        if ((searchAssociationDTO.getNomAssociation() == null || searchAssociationDTO.getNomAssociation().trim().isEmpty()) &&
+                (searchAssociationDTO.getVille() == null || searchAssociationDTO.getVille().trim().isEmpty())) {
+            throw new IllegalArgumentException("Veuillez fournir au moins un critère de recherche (nom de l'association ou ville).");
+        }
+
+        List<Association> associations = associationRepository.findByNomAssociationOrVille(
+                searchAssociationDTO.getNomAssociation(),
+                searchAssociationDTO.getVille()
+        );
+
+        return associations.stream()
+                .map(associationMapper::toDTO)
+                .collect(Collectors.toList());
+    }
+
 
 }

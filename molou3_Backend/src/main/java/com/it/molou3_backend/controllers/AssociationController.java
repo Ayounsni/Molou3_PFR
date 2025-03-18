@@ -3,6 +3,7 @@ package com.it.molou3_backend.controllers;
 import com.it.molou3_backend.models.dtos.Association.ResponseAssociationDTO;
 import com.it.molou3_backend.models.dtos.Association.UpdateAssociationDTO;
 import com.it.molou3_backend.models.dtos.Pagination.PageDTO;
+import com.it.molou3_backend.models.dtos.Search.SearchAssociationDTO;
 import com.it.molou3_backend.models.entities.Association;
 import com.it.molou3_backend.services.implementation.AssociationService;
 import com.it.molou3_backend.validation.annotations.Exists;
@@ -63,6 +64,13 @@ public class AssociationController {
 
         ResponseAssociationDTO updatedAssociation = associationService.update(id, updateAssociationDTO, preuveLegaleFile, logoFile);
         return new ResponseEntity<>(updatedAssociation, HttpStatus.OK);
+    }
+
+    @PostMapping("/search")
+    public ResponseEntity<List<ResponseAssociationDTO>> searchAssociations(
+            @Valid @RequestBody SearchAssociationDTO searchAssociationDTO) {
+        List<ResponseAssociationDTO> associations = associationService.searchAssociation(searchAssociationDTO);
+        return new ResponseEntity<>(associations, HttpStatus.OK);
     }
 
 
