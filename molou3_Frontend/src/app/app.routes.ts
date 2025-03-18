@@ -1,3 +1,4 @@
+import { ProgrammeDetailComponent } from './features/association/association-details/programme-detail/programme-detail.component';
 import { AssociationDetailsComponent } from './features/association/association-details/association-details.component';
 import { Routes } from '@angular/router';
 import { HomeComponent } from './features/home/home.component';
@@ -15,13 +16,22 @@ import { EtapeComponent } from './features/association/programme/etape/etape.com
 import { CompetitionComponent } from './features/association/programme/competition/competition.component';
 import { ResultatComponent } from './features/association/programme/resultat/resultat.component';
 import { AnnonceComponent } from './features/association/annonce/annonce.component';
+import { ProfileDetailComponent } from './features/association/association-details/profile-detail/profile-detail.component';
+import { AnnonceDetailComponent } from './features/association/association-details/annonce-detail/annonce-detail.component';
+import { ParticipationDetailComponent } from './features/association/association-details/participation-detail/participation-detail.component';
 
 
 
 export const routes: Routes = [
     { path: '', component: HomeComponent },
     { path: 'association/dashboard', component: AssociationDashboardComponent },
-    { path: 'association/details', component: AssociationDetailsComponent },
+    { path: 'association/details/:id', component: AssociationDetailsComponent , children: [
+      { path: '', redirectTo: 'profile', pathMatch: 'full' }, // Redirection par défaut vers le profil
+      { path: 'profile', component: ProfileDetailComponent },
+      { path: 'programme', component: ProgrammeDetailComponent },
+      { path: 'annonce', component: AnnonceDetailComponent },
+      { path: 'participation', component: ParticipationDetailComponent },
+    ]},
     { path: 'meteo', component: WeatherComponent },
     { path: 'register', component: RegisterComponent, canActivate: [LoggedInGuard] },
     { path: 'login', component: LoginComponent, canActivate: [LoggedInGuard] },

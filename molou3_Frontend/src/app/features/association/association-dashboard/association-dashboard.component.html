@@ -79,7 +79,7 @@
               <p class="text-center font-semibold mt-3 text-gray-800 text-xl">{{ association.nomAssociation }}</p>
               <p class="text-center text-sm text-gray-500 mt-1">{{ association.ville }}</p>
               <button
-              routerLink="/association/details"
+              [routerLink]="['/association/details', association.id]"
               class="mt-4 bg-gradient-to-br from-blue-300 to-blue-400 hover:from-blue-400 hover:to-blue-500 text-white px-6 py-2 rounded-full transition-all duration-300 shadow-md hover:shadow-lg">
                 Consulter l'association
               </button>

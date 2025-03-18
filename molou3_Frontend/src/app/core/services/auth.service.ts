@@ -95,6 +95,10 @@ export class AuthService {
     return this.http.post<Association[]>(`${this.apiUrl}/public/association/search`, searchCriteria);
   }
 
+  getAssociationById(id: number): Observable<Association> {
+    return this.http.get<Association>(`${this.apiUrl}/public/association/${id}`);
+  }
+
   setToken(token: string): void {
     localStorage.setItem('jwt_token', token);
   }
