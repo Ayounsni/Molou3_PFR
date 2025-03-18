@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Colombophile } from '../../shared/models/colombophile.model';
@@ -6,6 +6,7 @@ import { Association } from '../../shared/models/association.model';
 import { environment } from '../../environment/environment';
 import { AppUser } from '../../shared/models/app-user.model';
 import { LoginResponse } from '../../shared/models/login-response.model';
+import { PageDTO } from '../../shared/models/dtos/page.model';
 
 @Injectable({
   providedIn: 'root'
@@ -80,6 +81,18 @@ export class AuthService {
     return this.http.post<string>(`${this.apiUrl}/public/updatePassword`, body, {
       headers: { 'Content-Type': 'application/json' }
     });
+  }
+
+  getAllAssociationsPaginated(page: number = 0, size: number = 3): Observable<PageDTO<Association>> {
+    const params = new HttpParams()
+      .set('page', page.toString())
+      .set('size', size.toString());
+    return this.http.get<PageDTO<Association>>(`${this.apiUrl}/public/association`, { params });
+  }
+
+
+  searchAssociations(searchCriteria: any): Observable<Association[]> {
+    return this.http.post<Association[]>(`${this.apiUrl}/public/association/search`, searchCriteria);
   }
 
   setToken(token: string): void {

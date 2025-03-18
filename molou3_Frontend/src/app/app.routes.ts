@@ -1,3 +1,4 @@
+import { AssociationDetailsComponent } from './features/association/association-details/association-details.component';
 import { Routes } from '@angular/router';
 import { HomeComponent } from './features/home/home.component';
 import { WeatherComponent } from './features/weather/weather.component';
@@ -20,6 +21,7 @@ import { AnnonceComponent } from './features/association/annonce/annonce.compone
 export const routes: Routes = [
     { path: '', component: HomeComponent },
     { path: 'association/dashboard', component: AssociationDashboardComponent },
+    { path: 'association/details', component: AssociationDetailsComponent },
     { path: 'meteo', component: WeatherComponent },
     { path: 'register', component: RegisterComponent, canActivate: [LoggedInGuard] },
     { path: 'login', component: LoginComponent, canActivate: [LoggedInGuard] },
