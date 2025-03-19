@@ -19,6 +19,7 @@ import { AnnonceComponent } from './features/association/annonce/annonce.compone
 import { ProfileDetailComponent } from './features/association/association-details/profile-detail/profile-detail.component';
 import { AnnonceDetailComponent } from './features/association/association-details/annonce-detail/annonce-detail.component';
 import { ParticipationDetailComponent } from './features/association/association-details/participation-detail/participation-detail.component';
+import { PigeonComponent } from './features/colombophile/pigeon/pigeon.component';
 
 
 
@@ -86,6 +87,10 @@ export const routes: Routes = [
           {
             path: 'dashboard',
             component: ColombophileDashboardComponent
+          },
+          {
+            path: 'pigeon',
+            component: PigeonComponent
           }
         ]
       },

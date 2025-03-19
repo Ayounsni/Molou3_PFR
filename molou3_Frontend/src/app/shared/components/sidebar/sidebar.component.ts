@@ -4,10 +4,11 @@ import { User } from '../../models/user.model';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../../store/app.state';
 import { selectCurrentUser } from '../../../store/auth/auth.selectors';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-sidebar',
-  imports: [RouterLink],
+  imports: [RouterLink,CommonModule],
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.css'
 })

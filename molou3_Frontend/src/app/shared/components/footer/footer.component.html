@@ -1,147 +1,68 @@
 <img [attr.src]="imagepath" alt="Logo" class="w-full" />
-<footer class="bg-gray-800 pb-8 pt-6 px-36 text-white">
-  <img [attr.src]="logo" alt="Logo" class="w-60 mb-5" />
-  <p class="text-[17px] pb-4 w-fit hover:border-b-2 border-white">
+<footer class="bg-gray-800 pb-8 pt-6 px-6 md:px-36 text-white">
+  <img [attr.src]="logo" alt="Logo" class="w-60 mb-5 mx-auto md:mx-0" />
+  
+  <p class="text-[17px] pb-4 w-fit hover:border-b-2 border-white text-center md:text-left">
     Accédez au centre d aide
   </p>
-  <div class="flex justify-start items-start gap-40 my-7">
-    <div class="flex flex-col gap-3 text-white text-lg">
+
+  <!-- Conteneur principal mobile -->
+  <div class="md:flex md:justify-start md:items-start md:gap-40 my-7 space-y-8 md:space-y-0">
+    <!-- Colonnes -->
+    <div class="flex flex-col gap-3 text-white text-lg text-center md:text-left">
       <p class="text-xl font-semibold">Associations</p>
       <div class="text-[15px] font-light flex flex-col gap-1">
-        <a href="about">
-          <p class="hover:opacity-55 transition-all duration-300">
-            Gestion des annonces
-          </p></a
-        >
-        <a href="media">
-          <p class="hover:opacity-55 transition-all duration-300">
-            Programmes des compétitions
-          </p></a
-        >
-        <a href="webinaires">
-          <p class="hover:opacity-55 transition-all duration-300">
-            Gestion des classements
-          </p></a
-        >
-        <a href="publicite">
-          <p class="hover:opacity-55 transition-all duration-300">
-            Règlements officiels
-          </p></a
-        >
-        <a href="presse">
-          <p class="hover:opacity-55 transition-all duration-300">
-            Communiqués de presse
-          </p></a
-        >
-        <a href="partenaire">
-          <p class="hover:opacity-55 transition-all duration-300">
-            Contact associations
-          </p></a
-        >
-        <a href="/careers">
-          <p class="hover:opacity-55 transition-all duration-300">
-            Carrières
-          </p></a
-        >
-        <a href="/contact">
-          <p class="hover:opacity-55 transition-all duration-300">
-            Contactez-nous
-          </p></a
-        >
+        <!-- Liens gardés identiques -->
+        <a href="about"><p class="hover:opacity-55 transition-all duration-300">Gestion des annonces</p></a>
+        <a href="media"><p class="hover:opacity-55 transition-all duration-300">Programmes des compétitions</p></a>
+        <a href="webinaires"><p class="hover:opacity-55 transition-all duration-300">Gestion des classements</p></a>
+        <a href="publicite"><p class="hover:opacity-55 transition-all duration-300">Règlements officiels</p></a>
+        <a href="presse"><p class="hover:opacity-55 transition-all duration-300">Communiqués de presse</p></a>
+        <a href="partenaire"><p class="hover:opacity-55 transition-all duration-300">Contact associations</p></a>
+        <a href="/careers"><p class="hover:opacity-55 transition-all duration-300">Carrières</p></a>
+        <a href="/contact"><p class="hover:opacity-55 transition-all duration-300">Contactez-nous</p></a>
       </div>
     </div>
-    <div class="flex flex-col gap-3 text-white text-lg">
+
+    <div class="flex flex-col gap-3 text-white text-lg text-center md:text-left">
       <p class="text-xl font-semibold">Colombophiles</p>
       <div class="text-[15px] font-light flex flex-col gap-1">
-        <a href="investir">
-          <p class="hover:opacity-55 transition-all duration-300">
-            Gestion des pigeons
-          </p></a
-        >
-        <a href="marche">
-          <p class="hover:opacity-55 transition-all duration-300">
-            Participation aux compétitions
-          </p></a
-        >
-        <a href="portfolio">
-          <p class="hover:opacity-55 transition-all duration-300">
-            Marketplace
-          </p></a
-        >
-        <a href="/guide"
-          ><p class="hover:opacity-55 transition-all duration-300">
-            Agenda personnel
-          </p></a
-        >
-        <a href="opportunite">
-          <p class="hover:opacity-55 transition-all duration-300">
-            Programmes d'entraînement
-          </p></a
-        >
+        <a href="investir"><p class="hover:opacity-55 transition-all duration-300">Gestion des pigeons</p></a>
+        <a href="marche"><p class="hover:opacity-55 transition-all duration-300">Participation aux compétitions</p></a>
+        <a href="portfolio"><p class="hover:opacity-55 transition-all duration-300">Marketplace</p></a>
+        <a href="/guide"><p class="hover:opacity-55 transition-all duration-300">Agenda personnel</p></a>
+        <a href="opportunite"><p class="hover:opacity-55 transition-all duration-300">Programmes d'entraînement</p></a>
       </div>
     </div>
-    <div class="flex flex-col gap-3 text-white text-lg">
+
+    <!-- Section cachée sur mobile -->
+    <div class="hidden md:flex flex-col gap-3 text-white text-lg">
       <p class="text-xl font-semibold">Compétitions</p>
       <div class="text-[15px] font-light flex flex-col gap-1">
-        <a href="choisir">
-          <p class="hover:opacity-55 transition-all duration-300">
-            Calendrier des épreuves
-          </p></a
-        >
-        <a href="apprendre">
-          <p class="hover:opacity-55 transition-all duration-300">
-            Résultats en direct
-          </p></a
-        >
-        <a href="ressources">
-          <p class="hover:opacity-55 transition-all duration-300">
-            Inscriptions
-          </p></a
-        >
-        <a href="programmes">
-          <p class="hover:opacity-55 transition-all duration-300">
-            Palmarès historique
-          </p></a
-        >
-        <a href="membre">
-          <p class="hover:opacity-55 transition-all duration-300">
-            Règlementation
-          </p></a
-        >
+        <a href="choisir"><p class="hover:opacity-55 transition-all duration-300">Calendrier des épreuves</p></a>
+        <a href="apprendre"><p class="hover:opacity-55 transition-all duration-300">Résultats en direct</p></a>
+        <a href="ressources"><p class="hover:opacity-55 transition-all duration-300">Inscriptions</p></a>
+        <a href="programmes"><p class="hover:opacity-55 transition-all duration-300">Palmarès historique</p></a>
+        <a href="membre"><p class="hover:opacity-55 transition-all duration-300">Règlementation</p></a>
       </div>
     </div>
-    <div class="flex flex-col gap-3 text-white text-lg">
+
+    <!-- Section cachée sur mobile -->
+    <div class="hidden md:flex flex-col gap-3 text-white text-lg">
       <p class="text-xl font-semibold">Ressources</p>
       <div class="text-[15px] font-light flex flex-col gap-1">
-        <a href="articles">
-          <p class="hover:opacity-55 transition-all duration-300">
-            Météo des courses
-          </p></a
-        >
-        <a href="logiciels">
-          <p class="hover:opacity-55 transition-all duration-300">
-            Guides pratiques
-          </p></a
-        >
-        <a href="cas">
-          <p class="hover:opacity-55 transition-all duration-300">
-            Forum communautaire
-          </p></a
-        >
-        <a href="videos">
-          <p class="hover:opacity-55 transition-all duration-300">
-            Outils de gestion
-          </p></a
-        >
-        <a href="forums">
-          <p class="hover:opacity-55 transition-all duration-300">
-            Blog technique
-          </p></a
-        >
+        <a href="articles"><p class="hover:opacity-55 transition-all duration-300">Météo des courses</p></a>
+        <a href="logiciels"><p class="hover:opacity-55 transition-all duration-300">Guides pratiques</p></a>
+        <a href="cas"><p class="hover:opacity-55 transition-all duration-300">Forum communautaire</p></a>
+        <a href="videos"><p class="hover:opacity-55 transition-all duration-300">Outils de gestion</p></a>
+        <a href="forums"><p class="hover:opacity-55 transition-all duration-300">Blog technique</p></a>
       </div>
     </div>
   </div>
-  <div class="flex justify-start gap-3 w-4/12 px-2 items-center">
+
+  <!-- Social Media adapté mobile -->
+  <div class="flex justify-center md:justify-start gap-3 w-full md:w-4/12 px-2 items-center mt-8 md:mt-0">
+    <!-- Icônes sociales gardées identiques -->
     <p class="p-2 rounded-lg hover:bg-gray-700 transition-all duration-200">
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -184,24 +105,20 @@
         />
       </svg>
     </p>
+    <!-- Autres icônes... -->
   </div>
-  <div class="flex justify-between mt-10">
+
+  <!-- Bas de footer adapté mobile -->
+  <div class="flex flex-col md:flex-row justify-between mt-10 space-y-4 md:space-y-0 text-center md:text-left">
     <p class="text-sm">© 2010-2024 Molou3.ma Tous droits réservés</p>
-    <div class="flex items-center gap-6 w-fit text-sm">
-      <a
-        href="https://www.digitalhub.ma/conditions-generales"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        <p class="hover:underline">Termes et conditions</p></a
-      >
-      <a
-        href="https://www.digitalhub.ma/politique-de-confidentialite"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        <p class="hover:underline">Politique de confidentialité</p></a
-      >
+    
+    <div class="flex flex-col md:flex-row items-center gap-3 md:gap-6 w-fit mx-auto md:mx-0 text-sm">
+      <a href="https://www.digitalhub.ma/conditions-generales" target="_blank" rel="noopener noreferrer">
+        <p class="hover:underline">Termes et conditions</p>
+      </a>
+      <a href="https://www.digitalhub.ma/politique-de-confidentialite" target="_blank" rel="noopener noreferrer">
+        <p class="hover:underline">Politique de confidentialité</p>
+      </a>
     </div>
   </div>
 </footer>

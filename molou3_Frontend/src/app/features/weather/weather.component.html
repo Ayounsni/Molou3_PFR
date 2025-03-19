@@ -1,220 +1,215 @@
+<div class="relative">
+  <div class="bg-meteo h-48 md:h-72"></div>
+  <div class="bg-gradient-to-b from-[#5E85B0] to-white flex flex-col items-center justify-center min-h-screen mb-10">
+    <div class="absolute top-1/2 md:top-7/12 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full max-w-md sm:max-w-lg md:max-w-3xl lg:max-w-5xl px-4">
+      
+      <div *ngIf="isLoading" class="text-center py-8">
+        <div class="animate-spin rounded-full h-10 w-10 md:h-12 md:w-12 border-b-2 border-blue-400 mx-auto"></div>
+      </div>
 
-  <div class="relative">
-    <div class="bg-meteo h-72"></div>
-    <div class="bg-gradient-to-b from-[#5E85B0] to-white flex flex-col items-center justify-center min-h-screen mb-10">
-      <div class="absolute top-7/12 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full max-w-5xl">
+      <div *ngIf="hasError" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4 text-sm md:text-base">
+        Erreur de chargement des données météo
+      </div>
+      <div class="mb-4">
+        <div class="p-4 md:p-6 rounded-lg text-white text-center {{ getCompetitionCondition().color }} 
+                    shadow-lg hover:shadow-xl transition-all duration-300 transform">
+          <div class="flex items-center justify-center">
+            <i class="{{ getCompetitionCondition().icon }} text-2xl md:text-3xl mr-3 animate-bounce"></i>
+            <p class="text-lg md:text-2xl font-bold">{{ getCompetitionCondition().message }}</p>
+          </div>
+          <p class="mt-2 text-xs md:text-sm opacity-80">
+            {{ activeTab === 'today' ? "Conditions actuelles." : "Prévisions pour demain." }}
+          </p>
+        </div>
+      </div>
+      <div *ngIf="weatherData && !isLoading" class="w-full bg-gray-800 rounded-lg shadow-lg p-4 md:p-6 transition-all hover:shadow-xl">
+        <h1 class="text-2xl md:text-4xl mb-5 text-center text-white font-bold">
+          Météo pour les Compétitions 🌤️
+        </h1>
+        <div class="search-container relative mb-4">
+          <div class="flex items-center bg-gray-700 py-2 px-4 rounded-lg shadow-md">
+            <span class="text-gray-400 mr-2">
+              <i class="fas fa-search"></i>
+            </span>
+            <input 
+              type="text" 
+              [(ngModel)]="searchQuery"
+              (input)="onSearchInput()"
+              (focus)="searchQuery.length > 2 && (showSuggestions = true)"
+              placeholder="Rechercher une ville..." 
+              class="w-full bg-transparent text-gray-100 placeholder-gray-400 outline-none p-1 md:p-2 text-sm md:text-base">
+            <button 
+              *ngIf="searchQuery.length > 0"
+              (click)="clearSearch()"
+              class="ml-2 text-gray-400 hover:text-red-400 transition-colors cursor-pointer">
+              <i class="fas fa-times"></i>
+            </button>
+          </div>
         
-        <div *ngIf="isLoading" class="text-center py-8">
-          <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-400 mx-auto"></div>
-        </div>
-  
-        <div *ngIf="hasError" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
-          Erreur de chargement des données météo
-        </div>
-        <div class="mb-4">
-            <div class="p-6 rounded-lg text-white text-center {{ getCompetitionCondition().color }} 
-                        shadow-lg hover:shadow-xl transition-all duration-300 transform">
-              <div class="flex items-center justify-center">
-                <i class="{{ getCompetitionCondition().icon }} text-3xl mr-3 animate-bounce"></i>
-                <p class="text-2xl font-bold">{{ getCompetitionCondition().message }}</p>
-              </div>
-              <p class="mt-2 text-sm opacity-80">
-                {{ activeTab === 'today' ? "Conditions actuelles." : "Prévisions pour demain." }}
-              </p>
-            </div>
-          </div>
-        <div *ngIf="weatherData && !isLoading" class="w-full max-w-5xl bg-gray-800 rounded-lg shadow-lg p-6 transition-all hover:shadow-xl">
-          <h1 class="text-4xl mb-5 text-center text-white font-bold">
-             Météo pour les Compétitions 🌤️
-          </h1>
-          <div class="search-container relative mb-4">
-            <div class="flex items-center bg-gray-700 py-2 px-4 rounded-lg shadow-md">
-              <span class="text-gray-400 mr-2">
-                <i class="fas fa-search"></i>
-              </span>
-              <input 
-                type="text" 
-                [(ngModel)]="searchQuery"
-                (input)="onSearchInput()"
-                (focus)="searchQuery.length > 2 && (showSuggestions = true)"
-                placeholder="Rechercher une ville..." 
-                class="w-full bg-transparent text-gray-100 placeholder-gray-400 outline-none p-2">
-              <button 
-                *ngIf="searchQuery.length > 0"
-                (click)="clearSearch()"
-                class="ml-2 text-gray-400 hover:text-red-400 transition-colors cursor-pointer">
-                <i class="fas fa-times"></i>
-              </button>
-              <!-- <button 
-                (click)="onSearch()"
-                class="ml-2 bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md transition-all">
-                Rechercher
-              </button> -->
-            </div>
-          
-            <div *ngIf="showSuggestions && searchResults.length > 0" 
-                 class="absolute z-10 w-full mt-1 bg-gray-800 rounded-lg shadow-lg max-h-60 overflow-y-auto">
-              <div *ngFor="let result of searchResults" 
-                   (click)="selectCity(result)"
-                   class="p-3 hover:bg-gray-700 cursor-pointer transition-colors">
-                <div class="text-gray-100">{{ result.name }}</div>
-                <div class="text-sm text-gray-400">
-                  {{ result.region }}, {{ result.country }}
-                </div>
-              </div>
-            </div>
-          
-            <div *ngIf="showSuggestions && searchResults.length === 0" 
-                 class="absolute z-10 w-full mt-1 bg-gray-800 rounded-lg shadow-lg p-3 text-gray-400">
-              Aucune ville trouvée
-            </div>
-          </div>
-
-          <div class="flex items-center justify-between border-b border-gray-700 pb-4">
-            <div class="flex items-center gap-2">
-              <h1 class="text-xl font-bold text-gray-100">
-                MÉTEO {{ weatherData.location.name | uppercase }}
-              </h1>
-              <span class="text-blue-400 text-sm">
-                ({{ weatherData.location.lat }}°N, {{ weatherData.location.lon }}°E)
-              </span>
-            </div>
-            <div class="flex items-center space-x-6 text-sm text-gray-400">
-                <button class="cursor-pointer"
-                  (click)="activeTab = 'today'"
-                  [class]="activeTab === 'today' ? 'px-2 py-1 rounded-md bg-blue-400/10 text-blue-400 font-semibold hover:bg-blue-400/20 transition-all' : 'hover:text-gray-100 transition-colors'">
-                  AUJOURD'HUI
-                </button>
-                <button  class="cursor-pointer"
-                  (click)="activeTab = 'tomorrow'"
-                  [class]="activeTab === 'tomorrow' ? 'px-2 py-1 rounded-md  bg-blue-400/10 text-blue-400 font-semibold hover:bg-blue-400/20 transition-all' : 'hover:text-gray-100 transition-colors'">
-                  DEMAIN
-                </button>
-              </div>
-          </div>
-
-          <div class="mt-4 flex flex-col md:flex-row justify-between items-start md:items-center">
-            <div class="flex-1 md:pr-8">
-              <div class="text-sm text-gray-400 mb-2">
-                {{ activeTab === 'today' ? (weatherData.location.localtime | date:'EEEE dd MMMM yyyy | HH:mm') : (getTomorrowDate() | date:'EEEE dd MMMM yyyy | HH:mm') }}
-              </div>
-              <div class="flex items-center space-x-4">
-                <div class="w-20 h-20 bg-gray-700 rounded-full flex items-center justify-center">
-                  <img [src]="'https:' + weatherData.current.condition.icon" 
-                       class="w-16 h-16"
-                       [alt]="weatherData.current.condition.text">
-                </div>
-                <div>
-                    <div class="text-6xl font-bold text-gray-100 leading-none">
-                        {{ activeTab === 'today' ? weatherData.current.temp_c : forecastDays[1]?.day?.avgtemp_c }}°
-                      </div>
-                      <p class="text-gray-300 text-lg">
-                        {{ activeTab === 'today' ? weatherData.current.condition.text : forecastDays[1]?.day?.condition.text }}
-                      </p>
-                  <div class="flex gap-4 mt-2">
-                    <p class="text-sm text-gray-400">
-                        🌡️ Ressentie {{ activeTab === 'today' ? weatherData.current.feelslike_c : forecastDays[1]?.day?.avgtemp_c }}°
-                    </p>
-                    <p class="text-sm text-gray-400">
-                        💧 Humidité {{ activeTab === 'today' ? weatherData.current.humidity : forecastDays[1]?.day?.avghumidity }}%
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-            
-            <div class="mt-4 md:mt-0 w-full md:w-auto">
-              <div class="flex flex-col space-y-2 items-end">
-                <div class="flex items-center text-sm space-x-2">
-                  <span class="text-gray-400">🌬️ Vent</span>
-                  <span class="font-semibold text-blue-400">
-                    {{ weatherData.current.wind_kph }} km/h ({{ weatherData.current.wind_dir }})
-                  </span>
-                </div>
-                <div class="flex items-center text-sm space-x-2">
-                  <span class="text-gray-400">👀 Visibilité</span>
-                  <span class="font-semibold text-blue-400">
-                    {{ activeTab === 'today' ? weatherData.current.vis_km : forecastDays[1]?.day?.avgvis_km }} km
-                  </span>
-                </div>
-                <div class="flex items-center text-sm space-x-2">
-                  <span class="text-gray-400">☀️ UV</span>
-                  <span class="font-semibold text-blue-400">
-                    {{ activeTab === 'today' ? weatherData.current.uv : forecastDays[1]?.day.uv }}
-                    ({{ getUvIntensity(activeTab === 'today' ? weatherData.current.uv : forecastDays[1]?.day?.uv) }})
-                  </span>
-                </div>
+          <div *ngIf="showSuggestions && searchResults.length > 0" 
+               class="absolute z-10 w-full mt-1 bg-gray-800 rounded-lg shadow-lg max-h-60 overflow-y-auto">
+            <div *ngFor="let result of searchResults" 
+                 (click)="selectCity(result)"
+                 class="p-2 md:p-3 hover:bg-gray-700 cursor-pointer transition-colors">
+              <div class="text-gray-100 text-sm md:text-base">{{ result.name }}</div>
+              <div class="text-xs md:text-sm text-gray-400">
+                {{ result.region }}, {{ result.country }}
               </div>
             </div>
           </div>
-
-          <div class="mt-6 grid grid-cols-2 md:grid-cols-4 gap-4 text-center text-sm">
-            <div class="bg-gray-700 rounded-lg p-4 hover:bg-gray-600 transition-all">
-              <p class="text-gray-400">🌅 Lever du soleil</p>
-              <p class="font-semibold text-gray-100">
-                {{ activeTab === 'today' ? forecastDays[0]?.astro?.sunrise : forecastDays[1]?.astro?.sunrise }}
-              </p>
-            </div>
-            <div class="bg-gray-700 rounded-lg p-4 hover:bg-gray-600 transition-all">
-              <p class="text-gray-400">🌇 Coucher du soleil</p>
-              <p class="font-semibold text-gray-100">
-                {{ activeTab === 'today' ? forecastDays[0]?.astro?.sunrise : forecastDays[1]?.astro?.sunrise }}
-              </p>
-            </div>
-            <div class="bg-gray-700 rounded-lg p-4 hover:bg-gray-600 transition-all">
-              <p class="text-gray-400">🌡️ Pression atmosphérique</p>
-              <p class="font-semibold text-gray-100">
-                {{ activeTab === 'today' ? weatherData.current.pressure_mb : forecastDays[1]?.hour[0]?.pressure_mb }} hPa
-              </p>
-            </div>
-            <div class="bg-gray-700 rounded-lg p-4 hover:bg-gray-600 transition-all">
-              <p class="text-gray-400">🍃 Qualité de l'air</p>
-              <p class="font-semibold" 
-                 *ngIf="weatherData.current.air_quality?.['us-epa-index'] !== undefined; else noAirQuality"
-                 [ngClass]="{
-                   'text-green-400': weatherData.current.air_quality?.['us-epa-index'] <= 2,
-                   'text-yellow-400': weatherData.current.air_quality?.['us-epa-index'] === 3,
-                   'text-red-400': weatherData.current.air_quality?.['us-epa-index'] >= 4
-                 }">
-                {{ getAirQualityLabel(weatherData.current.air_quality?.['us-epa-index']) }}
-              </p>
-              <ng-template #noAirQuality>
-                <p class="text-gray-400">Non disponible</p>
-              </ng-template>
-            </div>
+        
+          <div *ngIf="showSuggestions && searchResults.length === 0" 
+               class="absolute z-10 w-full mt-1 bg-gray-800 rounded-lg shadow-lg p-2 md:p-3 text-gray-400 text-sm md:text-base">
+            Aucune ville trouvée
           </div>
         </div>
-        <div class="mt-3">
-            <h2 class="text-2xl text-center font-bold text-gray-100 bg-gray-800 py-2 rounded-lg mb-3">Prévisions sur 3 jours</h2>
-            <div class="flex justify-between items-center">
-              <div *ngFor="let day of forecastDays" 
-                   class="bg-gray-800 w-80 rounded-lg p-4 hover:bg-gray-700 transition-all">
-                <p class="text-gray-400  mb-2">
-                  {{ day.date | date:'EEE dd/MM' }}
+
+        <div class="flex flex-col md:flex-row items-center justify-between border-b border-gray-700 pb-4 gap-4 md:gap-0">
+          <div class="flex flex-col md:flex-row items-center gap-2 text-center md:text-left">
+            <h1 class="text-lg md:text-xl font-bold text-gray-100">
+              MÉTEO {{ weatherData.location.name | uppercase }}
+            </h1>
+            <span class="text-blue-400 text-xs md:text-sm">
+              ({{ weatherData.location.lat }}°N, {{ weatherData.location.lon }}°E)
+            </span>
+          </div>
+          <div class="flex items-center space-x-4 md:space-x-6 text-xs md:text-sm text-gray-400">
+            <button class="cursor-pointer"
+              (click)="activeTab = 'today'"
+              [class]="activeTab === 'today' ? 'px-2 py-1 rounded-md bg-blue-400/10 text-blue-400 font-semibold hover:bg-blue-400/20 transition-all' : 'hover:text-gray-100 transition-colors'">
+              AUJOURD'HUI
+            </button>
+            <button class="cursor-pointer"
+              (click)="activeTab = 'tomorrow'"
+              [class]="activeTab === 'tomorrow' ? 'px-2 py-1 rounded-md bg-blue-400/10 text-blue-400 font-semibold hover:bg-blue-400/20 transition-all' : 'hover:text-gray-100 transition-colors'">
+              DEMAIN
+            </button>
+          </div>
+        </div>
+
+        <div class="mt-4 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 md:gap-0">
+          <div class="flex-1 md:pr-8">
+            <div class="text-xs md:text-sm text-gray-400 mb-2">
+              {{ activeTab === 'today' ? (weatherData.location.localtime | date:'EEEE dd MMMM yyyy | HH:mm') : (getTomorrowDate() | date:'EEEE dd MMMM yyyy | HH:mm') }}
+            </div>
+            <div class="flex items-center space-x-4">
+              <div class="w-16 h-16 md:w-20 md:h-20 bg-gray-700 rounded-full flex items-center justify-center">
+                <img [src]="'https:' + weatherData.current.condition.icon" 
+                     class="w-12 h-12 md:w-16 md:h-16"
+                     [alt]="weatherData.current.condition.text">
+              </div>
+              <div>
+                <div class="text-4xl md:text-6xl font-bold text-gray-100 leading-none">
+                  {{ activeTab === 'today' ? weatherData.current.temp_c : forecastDays[1]?.day?.avgtemp_c }}°
+                </div>
+                <p class="text-gray-300 text-sm md:text-lg">
+                  {{ activeTab === 'today' ? weatherData.current.condition.text : forecastDays[1]?.day?.condition.text }}
                 </p>
-                <div class="flex items-center justify-center mb-2">
-                  <img [src]="'https:' + day.day.condition.icon" 
-                       class="w-12 h-12"
-                       [alt]="day.day.condition.text">
-                </div>
-                <div class="text-center">
-                  <p class="text-xl font-bold text-gray-100">
-                    {{ day.day.maxtemp_c }}° / {{ day.day.mintemp_c }}°
+                <div class="flex flex-col md:flex-row gap-2 md:gap-4 mt-2">
+                  <p class="text-xs md:text-sm text-gray-400">
+                    🌡️ Ressentie {{ activeTab === 'today' ? weatherData.current.feelslike_c : forecastDays[1]?.day?.avgtemp_c }}°
                   </p>
-                  <p class="text-gray-300 text-sm mt-1">{{ day.day.condition.text }}</p>
-                  <div class="flex justify-center gap-2 mt-2">
-                    <span class="text-xs bg-blue-400/20 text-blue-400 px-2 py-1 rounded-full">
-                      💨 {{ day.day.maxwind_kph }} km/h
-                    </span>
-                    <span class="text-xs bg-green-400/20 text-green-400 px-2 py-1 rounded-full">
-                      ☔ {{ day.day.daily_chance_of_rain }}%
-                    </span>
-                  </div>
+                  <p class="text-xs md:text-sm text-gray-400">
+                    💧 Humidité {{ activeTab === 'today' ? weatherData.current.humidity : forecastDays[1]?.day?.avghumidity }}%
+                  </p>
                 </div>
               </div>
             </div>
           </div>
+          
+          <div class="w-full md:w-auto">
+            <div class="flex flex-col space-y-2 items-start md:items-end">
+              <div class="flex items-center text-xs md:text-sm space-x-2">
+                <span class="text-gray-400">🌬️ Vent</span>
+                <span class="font-semibold text-blue-400">
+                  {{ weatherData.current.wind_kph }} km/h ({{ weatherData.current.wind_dir }})
+                </span>
+              </div>
+              <div class="flex items-center text-xs md:text-sm space-x-2">
+                <span class="text-gray-400">👀 Visibilité</span>
+                <span class="font-semibold text-blue-400">
+                  {{ activeTab === 'today' ? weatherData.current.vis_km : forecastDays[1]?.day?.avgvis_km }} km
+                </span>
+              </div>
+              <div class="flex items-center text-xs md:text-sm space-x-2">
+                <span class="text-gray-400">☀️ UV</span>
+                <span class="font-semibold text-blue-400">
+                  {{ activeTab === 'today' ? weatherData.current.uv : forecastDays[1]?.day.uv }}
+                  ({{ getUvIntensity(activeTab === 'today' ? weatherData.current.uv : forecastDays[1]?.day?.uv) }})
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-6 grid grid-cols-2 md:grid-cols-4 gap-4 text-center text-xs md:text-sm">
+          <div class="bg-gray-700 rounded-lg p-3 md:p-4 hover:bg-gray-600 transition-all">
+            <p class="text-gray-400">🌅 Lever du soleil</p>
+            <p class="font-semibold text-gray-100">
+              {{ activeTab === 'today' ? forecastDays[0]?.astro?.sunrise : forecastDays[1]?.astro?.sunrise }}
+            </p>
+          </div>
+          <div class="bg-gray-700 rounded-lg p-3 md:p-4 hover:bg-gray-600 transition-all">
+            <p class="text-gray-400">🌇 Coucher du soleil</p>
+            <p class="font-semibold text-gray-100">
+              {{ activeTab === 'today' ? forecastDays[0]?.astro?.sunrise : forecastDays[1]?.astro?.sunrise }}
+            </p>
+          </div>
+          <div class="bg-gray-700 rounded-lg p-3 md:p-4 hover:bg-gray-600 transition-all">
+            <p class="text-gray-400">🌡️ Pression atmosphérique</p>
+            <p class="font-semibold text-gray-100">
+              {{ activeTab === 'today' ? weatherData.current.pressure_mb : forecastDays[1]?.hour[0]?.pressure_mb }} hPa
+            </p>
+          </div>
+          <div class="bg-gray-700 rounded-lg p-3 md:p-4 hover:bg-gray-600 transition-all">
+            <p class="text-gray-400">🍃 Qualité de l'air</p>
+            <p class="font-semibold" 
+               *ngIf="weatherData.current.air_quality?.['us-epa-index'] !== undefined; else noAirQuality"
+               [ngClass]="{
+                 'text-green-400': weatherData.current.air_quality?.['us-epa-index'] <= 2,
+                 'text-yellow-400': weatherData.current.air_quality?.['us-epa-index'] === 3,
+                 'text-red-400': weatherData.current.air_quality?.['us-epa-index'] >= 4
+               }">
+              {{ getAirQualityLabel(weatherData.current.air_quality?.['us-epa-index']) }}
+            </p>
+            <ng-template #noAirQuality>
+              <p class="text-gray-400">Non disponible</p>
+            </ng-template>
+          </div>
+        </div>
+      </div>
+      <div class="mt-3">
+        <h2 class="text-xl md:text-2xl text-center font-bold text-gray-100 bg-gray-800 py-2 rounded-lg mb-3">Prévisions sur 3 jours</h2>
+        <div class="flex flex-col md:flex-row justify-between items-center gap-4">
+          <div *ngFor="let day of forecastDays" 
+               class="bg-gray-800 w-full md:w-80 rounded-lg p-4 hover:bg-gray-700 transition-all">
+            <p class="text-gray-400 text-sm md:text-base mb-2">
+              {{ day.date | date:'EEE dd/MM' }}
+            </p>
+            <div class="flex items-center justify-center mb-2">
+              <img [src]="'https:' + day.day.condition.icon" 
+                   class="w-10 h-10 md:w-12 md:h-12"
+                   [alt]="day.day.condition.text">
+            </div>
+            <div class="text-center">
+              <p class="text-lg md:text-xl font-bold text-gray-100">
+                {{ day.day.maxtemp_c }}° / {{ day.day.mintemp_c }}°
+              </p>
+              <p class="text-gray-300 text-xs md:text-sm mt-1">{{ day.day.condition.text }}</p>
+              <div class="flex justify-center gap-2 mt-2">
+                <span class="text-xs bg-blue-400/20 text-blue-400 px-2 py-1 rounded-full">
+                  💨 {{ day.day.maxwind_kph }} km/h
+                </span>
+                <span class="text-xs bg-green-400/20 text-green-400 px-2 py-1 rounded-full">
+                  ☔ {{ day.day.daily_chance_of_rain }}%
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
+  </div>
+
 </div>
 <app-footer></app-footer>
