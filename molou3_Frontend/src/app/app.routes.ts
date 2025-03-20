@@ -20,6 +20,9 @@ import { ProfileDetailComponent } from './features/association/association-detai
 import { AnnonceDetailComponent } from './features/association/association-details/annonce-detail/annonce-detail.component';
 import { ParticipationDetailComponent } from './features/association/association-details/participation-detail/participation-detail.component';
 import { PigeonComponent } from './features/colombophile/pigeon/pigeon.component';
+import { PigeonDisponibleComponent } from './features/colombophile/pigeon/pigeon-disponible/pigeon-disponible.component';
+import { PigeonPerduComponent } from './features/colombophile/pigeon/pigeon-perdu/pigeon-perdu.component';
+import { PigeonVenduComponent } from './features/colombophile/pigeon/pigeon-vendu/pigeon-vendu.component';
 
 
 
@@ -90,8 +93,14 @@ export const routes: Routes = [
           },
           {
             path: 'pigeon',
-            component: PigeonComponent
-          }
+            component: PigeonComponent,
+            children: [
+              { path: '', redirectTo: 'disponible', pathMatch: 'full' }, // Redirection par défaut vers "disponible"
+              { path: 'disponible', component: PigeonDisponibleComponent },
+              { path: 'perdu', component: PigeonPerduComponent },
+              { path: 'vendu', component: PigeonVenduComponent },
+            ]
+          },
         ]
       },
       { path: '**', redirectTo: '' }

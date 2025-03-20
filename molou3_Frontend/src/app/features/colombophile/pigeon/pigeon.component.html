@@ -4,7 +4,7 @@
   <div class="bg-white min-h-screen w-10/12">
     <!-- En-tête avec image de fond -->
     <div class="relative">
-      <img [attr.src]="bg" alt="bg" class="w-full h-72 object-cover brightness-50" />
+      <img [src]="bg" alt="bg" class="w-full h-72 object-cover brightness-50" />
       <div class="absolute inset-0 flex items-center justify-center bg-black/20">
         <h1 class="text-white text-5xl font-bold drop-shadow-lg">Gestion des Pigeons</h1>
       </div>
@@ -12,365 +12,114 @@
 
     <!-- Contenu principal -->
     <div class="px-8 py-5 space-y-8">
-      <!-- Barre de recherche et filtres -->
-      <div class="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
-        <!-- Barre de recherche -->
-        <div class="relative w-full md:w-1/2">
-          <input
-            type="text"
-            placeholder="Rechercher par série de bague..."
-            class="w-full p-3 pl-10 bg-gray-800 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
-          />
-          <svg
-            class="absolute left-3 top-3 w-5 h-5 text-gray-400"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-            />
-          </svg>
-        </div>
-
-        <!-- Filtres par sexe -->
-        <div class="flex items-center space-x-2 bg-gray-800 p-2 rounded-lg">
-          <label class="flex items-center text-gray-300 hover:text-blue-400 transition-colors cursor-pointer">
-            <input type="checkbox" class="form-checkbox h-4 w-4 text-blue-400 mr-1" />
-            <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M12 2a10 10 0 110 20 10 10 0 010-20zm0 2a8 8 0 100 16 8 8 0 000-16zm0 4a1 1 0 011 1v4a1 1 0 01-2 0V9a1 1 0 011-1zm0 8a1 1 0 110 2 1 1 0 010-2z"/>
-            </svg>
-            <span class="text-sm">Mâle</span>
-          </label>
-          <label class="flex items-center text-gray-300 hover:text-blue-400 transition-colors cursor-pointer">
-            <input type="checkbox" class="form-checkbox h-4 w-4 text-blue-400 mr-1" />
-            <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M12 2a10 10 0 110 20 10 10 0 010-20zm0 2a8 8 0 100 16 8 8 0 000-16zm0 4a1 1 0 011 1v4a1 1 0 01-2 0V9a1 1 0 011-1zm0 8a1 1 0 110 2 1 1 0 010-2z"/>
-            </svg>
-            <span class="text-sm">Femelle</span>
-          </label>
-        </div>
-      </div>
-
-      <!-- Boutons de filtrage par statut -->
+      <!-- Boutons de filtrage par statut avec navigation -->
       <div class="border-b border-gray-700 mb-8">
         <div class="flex space-x-6">
-          <button class="relative px-4 py-3 text-blue-400 font-semibold group transition-all">
+          <!-- Bouton Disponible -->
+          <button
+            [routerLink]="['/colombophile/pigeon/disponible']"
+            class="relative px-4 py-3 font-semibold group transition-all duration-300"
+            [ngClass]="{
+              'text-blue-400': isRouteActive('disponible'),
+              'text-gray-400 hover:text-blue-400': !isRouteActive('disponible')
+            }"
+          >
             <span>Disponible</span>
-            <span class="bg-blue-400 text-gray-900 text-xs ml-2 px-2 py-1 rounded-full">4</span>
-            <div class="absolute bottom-0 left-0 w-full h-1 bg-blue-400 rounded-t opacity-100 transition-opacity"></div>
-            <div class="absolute inset-0 bg-blue-400/10 rounded-t-lg opacity-0 group-hover:opacity-100 transition-opacity"></div>
+            <span
+              class="text-xs ml-2 px-2 py-1 rounded-full transition-colors duration-300"
+              [ngClass]="{
+                'bg-blue-400 text-gray-900': isRouteActive('disponible'),
+                'bg-gray-600 text-gray-300 group-hover:bg-blue-400 group-hover:text-gray-900': !isRouteActive('disponible')
+              }"
+            >4</span>
+            <div
+              class="absolute bottom-0 left-0 w-full h-1 bg-blue-400 rounded-t transition-all duration-300"
+              [ngClass]="{
+                'opacity-100': isRouteActive('disponible'),
+                'opacity-0 group-hover:opacity-50': !isRouteActive('disponible')
+              }"
+            ></div>
+            <div
+              class="absolute inset-0 rounded-t-lg transition-opacity duration-300"
+              [ngClass]="{
+                'bg-blue-400/10': isRouteActive('disponible'),
+                'opacity-0 group-hover:opacity-100 group-hover:bg-blue-400/10': !isRouteActive('disponible')
+              }"
+            ></div>
           </button>
-      
-          <button class="relative px-4 py-3 text-gray-400 hover:text-blue-300 font-semibold group transition-all">
+        
+          <!-- Bouton Perdu -->
+          <button
+            [routerLink]="['/colombophile/pigeon/perdu']"
+            class="relative px-4 py-3 font-semibold group transition-all duration-300"
+            [ngClass]="{
+              'text-blue-400': isRouteActive('perdu'),
+              'text-gray-400 hover:text-blue-400': !isRouteActive('perdu')
+            }"
+          >
             <span>Perdu</span>
-            <span class="bg-gray-600 text-gray-300 text-xs ml-2 px-2 py-1 rounded-full">0</span>
-            <div class="absolute bottom-0 left-0 w-full h-1 bg-blue-400 rounded-t opacity-0 group-hover:opacity-50 transition-opacity"></div>
+            <span
+              class="text-xs ml-2 px-2 py-1 rounded-full transition-colors duration-300"
+              [ngClass]="{
+                'bg-blue-400 text-gray-900': isRouteActive('perdu'),
+                'bg-gray-600 text-gray-300 group-hover:bg-blue-400 group-hover:text-gray-900': !isRouteActive('perdu')
+              }"
+            >0</span>
+            <div
+              class="absolute bottom-0 left-0 w-full h-1 bg-blue-400 rounded-t transition-all duration-300"
+              [ngClass]="{
+                'opacity-100': isRouteActive('perdu'),
+                'opacity-0 group-hover:opacity-50': !isRouteActive('perdu')
+              }"
+            ></div>
+            <div
+              class="absolute inset-0 rounded-t-lg transition-opacity duration-300"
+              [ngClass]="{
+                'bg-blue-400/10': isRouteActive('perdu'),
+                'opacity-0 group-hover:opacity-100 group-hover:bg-blue-400/10': !isRouteActive('perdu')
+              }"
+            ></div>
           </button>
-      
-          <button class="relative px-4 py-3 text-gray-400 hover:text-blue-300 font-semibold group transition-all">
+        
+          <!-- Bouton Vendu -->
+          <button
+            [routerLink]="['/colombophile/pigeon/vendu']"
+            class="relative px-4 py-3 font-semibold group transition-all duration-300"
+            [ngClass]="{
+              'text-blue-400': isRouteActive('vendu'),
+              'text-gray-400 hover:text-blue-400': !isRouteActive('vendu')
+            }"
+          >
             <span>Vendu</span>
-            <span class="bg-gray-600 text-gray-300 text-xs ml-2 px-2 py-1 rounded-full">0</span>
-            <div class="absolute bottom-0 left-0 w-full h-1 bg-blue-400 rounded-t opacity-0 group-hover:opacity-50 transition-opacity"></div>
+            <span
+              class="text-xs ml-2 px-2 py-1 rounded-full transition-colors duration-300"
+              [ngClass]="{
+                'bg-blue-400 text-gray-900': isRouteActive('vendu'),
+                'bg-gray-600 text-gray-300 group-hover:bg-blue-400 group-hover:text-gray-900': !isRouteActive('vendu')
+              }"
+            >0</span>
+            <div
+              class="absolute bottom-0 left-0 w-full h-1 bg-blue-400 rounded-t transition-all duration-300"
+              [ngClass]="{
+                'opacity-100': isRouteActive('vendu'),
+                'opacity-0 group-hover:opacity-50': !isRouteActive('vendu')
+              }"
+            ></div>
+            <div
+              class="absolute inset-0 rounded-t-lg transition-opacity duration-300"
+              [ngClass]="{
+                'bg-blue-400/10': isRouteActive('vendu'),
+                'opacity-0 group-hover:opacity-100 group-hover:bg-blue-400/10': !isRouteActive('vendu')
+              }"
+            ></div>
           </button>
         </div>
       </div>
 
-      <!-- Sections des pigeons -->
-      <div class="space-y-12">
-        <!-- Section Pigeons Disponibles -->
-        <div>
-          <h2 class="text-2xl font-bold text-gray-800 mb-4">Pigeons Disponibles</h2>
-          <div class="flex justify-start items-center flex-wrap gap-10">
-
-            <div class="relative bg-gray-800 w-[210px] rounded-xl shadow-xl overflow-hidden group transition-transform duration-300 ">
-              <!-- Image avec ratio carré -->
-              <div class="relative aspect-square overflow-hidden">
-                <img
-                  src="https://picsum.photos/200/200?random=1"
-                  alt="Pigeon"
-                  class="w-full h-full object-cover transition-all duration-500 group-hover:scale-110"
-                />
-                
-                <!-- Bouton "Voir détails" au survol -->
-                <div class="absolute bottom-0 left-0 right-0  text-center py-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 backdrop-blur-lg z-10 border-t border-blue-400/30">
-                  <a href="#" class="text-gray-800 text-sm font-medium hover:underline">
-                    Voir détails
-                  </a>
-                </div>
-              </div>
-            
-              <!-- Icône Favoris en haut à droite -->
-              <button class="absolute top-3 right-3 p-2 bg-gray-600/80 backdrop-blur-sm rounded-full hover:bg-white/20 transition-all">
-                <svg class="w-5 h-5 text-gray-800 hover:text-yellow-400" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M12 2l2.4 7.2h7.6l-6 4.8 2.4 7.2-6-4.8-6 4.8 2.4-7.2-6-4.8h7.6z"/>
-                </svg>
-              </button>
-            
-              <!-- Menu 3 points en haut à gauche -->
-              <div class="absolute top-3 left-3">
-                <button onclick="toggleMenu('menu1')" class="p-2 bg-gray-600/80 backdrop-blur-sm rounded-full hover:bg-white/20 transition-colors">
-                  <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01"/>
-                  </svg>
-                </button>
-                <div id="menu1" class="hidden absolute left-0 mt-2 w-40 bg-gray-900/90 backdrop-blur-sm rounded-xl shadow-2xl overflow-hidden">
-                  <a href="#" class="flex items-center px-4 py-3 text-sm text-gray-300 hover:bg-white/10">
-                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/>
-                    </svg>
-                    Modifier
-                  </a>
-                  <a href="#" class="flex items-center px-4 py-3 text-sm text-gray-300 hover:bg-white/10">
-                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
-                    </svg>
-                    Supprimer
-                  </a>
-                  <a href="#" class="flex items-center px-4 py-3 text-sm text-gray-300 hover:bg-white/10">
-                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"/>
-                    </svg>
-                    Vendre
-                  </a>
-                </div>
-              </div>
-            
-              <!-- Section infos -->
-              <div class="p-2 bg-gradient-to-b from-gray-900/30 to-gray-900/80 backdrop-blur-sm">
-                <div class="flex justify-between items-center">
-                  <div class="flex items-center space-x-2">
-                    <span class="text-sm font-medium text-white">#ABC123</span>
-                    <div class="w-1 h-1 bg-gray-400 rounded-full"></div>
-                    <svg class="w-4 h-4 text-pink-400" fill="currentColor" viewBox="0 0 16 16">
-                      <path d="M8 1a4 4 0 1 0 0 8 4 4 0 0 0 0-8M3 5a5 5 0 1 1 5.5 4.975V12h2a.5.5 0 0 1 0 1h-2v2.5a.5.5 0 0 1-1 0V13h-2a.5.5 0 0 1 0-1h2V9.975A5 5 0 0 1 3 5"/>
-                    </svg>
-                  </div>
-
-                </div>
-              </div>
-            </div>
-            <div class="relative bg-gray-800 w-[210px] rounded-xl shadow-xl overflow-hidden group transition-transform duration-300 ">
-              <!-- Image avec ratio carré -->
-              <div class="relative aspect-square overflow-hidden">
-                <img
-                  src="https://picsum.photos/200/200?random=1"
-                  alt="Pigeon"
-                  class="w-full h-full object-cover transition-all duration-500 group-hover:scale-110"
-                />
-                
-                <!-- Bouton "Voir détails" au survol -->
-                <div class="absolute bottom-0 left-0 right-0  text-center py-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 backdrop-blur-lg z-10 border-t border-blue-400/30">
-                  <a href="#" class="text-gray-800 text-sm font-medium hover:underline">
-                    Voir détails
-                  </a>
-                </div>
-              </div>
-            
-              <!-- Icône Favoris en haut à droite -->
-              <button class="absolute top-3 right-3 p-2 bg-gray-600/80 backdrop-blur-sm rounded-full hover:bg-white/20 transition-all">
-                <svg class="w-5 h-5 text-gray-800 hover:text-yellow-400" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M12 2l2.4 7.2h7.6l-6 4.8 2.4 7.2-6-4.8-6 4.8 2.4-7.2-6-4.8h7.6z"/>
-                </svg>
-              </button>
-            
-              <!-- Menu 3 points en haut à gauche -->
-              <div class="absolute top-3 left-3">
-                <button onclick="toggleMenu('menu1')" class="p-2 bg-gray-600/80 backdrop-blur-sm rounded-full hover:bg-white/20 transition-colors">
-                  <svg class="w-5 h-5 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01"/>
-                  </svg>
-                </button>
-                <div id="menu1" class="hidden absolute left-0 mt-2 w-40 bg-gray-900/90 backdrop-blur-sm rounded-xl shadow-2xl overflow-hidden">
-                  <a href="#" class="flex items-center px-4 py-3 text-sm text-gray-300 hover:bg-white/10">
-                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/>
-                    </svg>
-                    Modifier
-                  </a>
-                  <a href="#" class="flex items-center px-4 py-3 text-sm text-gray-300 hover:bg-white/10">
-                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
-                    </svg>
-                    Supprimer
-                  </a>
-                  <a href="#" class="flex items-center px-4 py-3 text-sm text-gray-300 hover:bg-white/10">
-                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"/>
-                    </svg>
-                    Vendre
-                  </a>
-                </div>
-              </div>
-            
-              <!-- Section infos -->
-              <div class="p-2 bg-gradient-to-b from-gray-900/30 to-gray-900/80 backdrop-blur-sm">
-                <div class="flex justify-between items-center">
-                  <div class="flex items-center space-x-2">
-                    <span class="text-sm font-medium text-white">Série: <span class="text-blue-500">551123</span></span>
-                    <div class="w-1 h-1 bg-gray-400 rounded-full"></div>
-                    <svg class="w-4 h-4 text-pink-400" fill="currentColor" viewBox="0 0 16 16">
-                      <path d="M8 1a4 4 0 1 0 0 8 4 4 0 0 0 0-8M3 5a5 5 0 1 1 5.5 4.975V12h2a.5.5 0 0 1 0 1h-2v2.5a.5.5 0 0 1-1 0V13h-2a.5.5 0 0 1 0-1h2V9.975A5 5 0 0 1 3 5"/>
-                    </svg>
-                  </div>
-
-                </div>
-              </div>
-            </div>
-            <div class="relative bg-gray-800 w-[210px] rounded-xl shadow-xl overflow-hidden group transition-transform duration-300 ">
-              <!-- Image avec ratio carré -->
-              <div class="relative aspect-square overflow-hidden">
-                <img
-                  src="https://picsum.photos/200/200?random=1"
-                  alt="Pigeon"
-                  class="w-full h-full object-cover transition-all duration-500 group-hover:scale-110"
-                />
-                
-                <!-- Bouton "Voir détails" au survol -->
-                <div class="absolute bottom-0 left-0 right-0  text-center py-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 backdrop-blur-lg z-10 border-t border-blue-400/30">
-                  <a href="#" class="text-gray-800 text-sm font-medium hover:underline">
-                    Voir détails
-                  </a>
-                </div>
-              </div>
-            
-              <!-- Icône Favoris en haut à droite -->
-              <button class="absolute top-3 right-3 p-2 bg-gray-600/80 backdrop-blur-sm rounded-full hover:bg-white/20 transition-all">
-                <svg class="w-5 h-5 text-gray-800 hover:text-yellow-400" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M12 2l2.4 7.2h7.6l-6 4.8 2.4 7.2-6-4.8-6 4.8 2.4-7.2-6-4.8h7.6z"/>
-                </svg>
-              </button>
-            
-              <!-- Menu 3 points en haut à gauche -->
-              <div class="absolute top-3 left-3">
-                <button onclick="toggleMenu('menu1')" class="p-2 bg-gray-600/80 backdrop-blur-sm rounded-full hover:bg-white/20 transition-colors">
-                  <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01"/>
-                  </svg>
-                </button>
-                <div id="menu1" class="hidden absolute left-0 mt-2 w-40 bg-gray-900/90 backdrop-blur-sm rounded-xl shadow-2xl overflow-hidden">
-                  <a href="#" class="flex items-center px-4 py-3 text-sm text-gray-300 hover:bg-white/10">
-                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/>
-                    </svg>
-                    Modifier
-                  </a>
-                  <a href="#" class="flex items-center px-4 py-3 text-sm text-gray-300 hover:bg-white/10">
-                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
-                    </svg>
-                    Supprimer
-                  </a>
-                  <a href="#" class="flex items-center px-4 py-3 text-sm text-gray-300 hover:bg-white/10">
-                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"/>
-                    </svg>
-                    Vendre
-                  </a>
-                </div>
-              </div>
-            
-              <!-- Section infos -->
-              <div class="p-2 bg-gradient-to-b from-gray-900/30 to-gray-900/80 backdrop-blur-sm">
-                <div class="flex justify-between items-center">
-                  <div class="flex items-center space-x-2">
-                    <span class="text-sm font-medium text-white">#ABC123</span>
-                    <div class="w-1 h-1 bg-gray-400 rounded-full"></div>
-                    <svg class="w-4 h-4 text-pink-400" fill="currentColor" viewBox="0 0 16 16">
-                      <path d="M8 1a4 4 0 1 0 0 8 4 4 0 0 0 0-8M3 5a5 5 0 1 1 5.5 4.975V12h2a.5.5 0 0 1 0 1h-2v2.5a.5.5 0 0 1-1 0V13h-2a.5.5 0 0 1 0-1h2V9.975A5 5 0 0 1 3 5"/>
-                    </svg>
-                  </div>
-
-                </div>
-              </div>
-            </div>
-            <div class="relative bg-gray-800 w-[210px] rounded-xl shadow-xl overflow-hidden group transition-transform duration-300 ">
-              <!-- Image avec ratio carré -->
-              <div class="relative aspect-square overflow-hidden">
-                <img
-                  src="https://picsum.photos/200/200?random=1"
-                  alt="Pigeon"
-                  class="w-full h-full object-cover transition-all duration-500 group-hover:scale-110"
-                />
-                
-                <!-- Bouton "Voir détails" au survol -->
-                <div class="absolute bottom-0 left-0 right-0  text-center py-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 backdrop-blur-lg z-10 border-t border-blue-400/30">
-                  <a href="#" class="text-gray-800 text-sm font-medium hover:underline">
-                    Voir détails
-                  </a>
-                </div>
-              </div>
-            
-              <!-- Icône Favoris en haut à droite -->
-              <button class="absolute top-3 right-3 p-2 bg-gray-600/80 backdrop-blur-sm rounded-full hover:bg-white/20 transition-all">
-                <svg class="w-5 h-5 text-gray-800 hover:text-yellow-400" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M12 2l2.4 7.2h7.6l-6 4.8 2.4 7.2-6-4.8-6 4.8 2.4-7.2-6-4.8h7.6z"/>
-                </svg>
-              </button>
-            
-              <!-- Menu 3 points en haut à gauche -->
-              <div class="absolute top-3 left-3">
-                <button onclick="toggleMenu('menu1')" class="p-2 bg-gray-600/80 backdrop-blur-sm rounded-full hover:bg-white/20 transition-colors">
-                  <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01"/>
-                  </svg>
-                </button>
-                <div id="menu1" class="hidden absolute left-0 mt-2 w-40 bg-gray-900/90 backdrop-blur-sm rounded-xl shadow-2xl overflow-hidden">
-                  <a href="#" class="flex items-center px-4 py-3 text-sm text-gray-300 hover:bg-white/10">
-                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/>
-                    </svg>
-                    Modifier
-                  </a>
-                  <a href="#" class="flex items-center px-4 py-3 text-sm text-gray-300 hover:bg-white/10">
-                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
-                    </svg>
-                    Supprimer
-                  </a>
-                  <a href="#" class="flex items-center px-4 py-3 text-sm text-gray-300 hover:bg-white/10">
-                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"/>
-                    </svg>
-                    Vendre
-                  </a>
-                </div>
-              </div>
-            
-              <!-- Section infos -->
-              <div class="p-2 bg-gradient-to-b from-gray-900/30 to-gray-900/80 backdrop-blur-sm">
-                <div class="flex justify-between items-center">
-                  <div class="flex items-center space-x-2">
-                    <span class="text-sm font-medium text-white">#ABC123</span>
-                    <div class="w-1 h-1 bg-gray-400 rounded-full"></div>
-                    <svg class="w-4 h-4 text-pink-400" fill="currentColor" viewBox="0 0 16 16">
-                      <path d="M8 1a4 4 0 1 0 0 8 4 4 0 0 0 0-8M3 5a5 5 0 1 1 5.5 4.975V12h2a.5.5 0 0 1 0 1h-2v2.5a.5.5 0 0 1-1 0V13h-2a.5.5 0 0 1 0-1h2V9.975A5 5 0 0 1 3 5"/>
-                    </svg>
-                  </div>
-
-                </div>
-              </div>
-            </div>
-
-
-
-
-
-
-          </div>
-        </div>
+      <!-- Zone pour les composants enfants -->
+      <div class="px-5 mt-3 pb-12">
+        <router-outlet></router-outlet>
       </div>
     </div>
   </div>
 </div>
-
-<!-- Script pour gérer l'affichage du menu -->
-<script>
-  function toggleMenu(menuId) {
-    const menu = document.getElementById(menuId);
-    menu.classList.toggle('hidden');
-  }
-</script>
