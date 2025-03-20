@@ -1,6 +1,6 @@
 
 
-    <div class=" py-5 mb-10 space-y-8">
+    <div class=" py-5  space-y-8">
       <!-- Barre de recherche et filtres -->
       <div class="flex mb-9 justify-between items-center w-full">
         <div class="relative flex flex-col md:flex-row items-center gap-2 w-4/12 bg-gray-900 rounded-lg p-1 group transition-all duration-300 hover:bg-gray-900/90">
@@ -125,149 +125,21 @@
       </ng-template>
     </div>
 
-    <!-- Modal pour ajouter un pigeon -->
-    <div *ngIf="showAddModal" class="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
-      <div class="bg-gray-900 rounded-xl shadow-xl w-full max-w-xl relative border border-gray-700">
-        <div class="px-6 py-5 border-b border-gray-800 flex justify-between items-center">
-          <h3 class="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-300 to-blue-400">Ajouter un pigeon</h3>
-          <button (click)="closeAddModal()" class="text-gray-400 hover:text-gray-200 transition-colors">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-            </svg>
-          </button>
-        </div>
-        <form [formGroup]="pigeonForm" (ngSubmit)="submitPigeon()" class="p-6 space-y-4">
-          <div>
-            <label class="text-gray-300 text-sm ml-1 block">Numéro de bague</label>
-            <input formControlName="serieBague" type="text" class="w-full bg-gray-800 rounded-md border border-gray-700 p-3 text-gray-100" />
-            <p *ngIf="pigeonForm.get('serieBague')?.invalid && pigeonForm.get('serieBague')?.touched" class="text-red-400 text-xs mt-1">Le numéro de bague est requis (minimum 3 caractères).</p>
-          </div>
-          <div>
-            <label class="text-gray-300 text-sm ml-1 block">Sexe</label>
-            <div class="relative flex items-center bg-gray-800 rounded-md border border-gray-700 focus-within:border-blue-400 p-3">
-              <select formControlName="sexe" class="w-full bg-transparent text-gray-100 outline-none text-sm appearance-none pr-6 cursor-pointer">
-                <option value="" disabled>Sélectionnez le sexe</option>
-                <option value="MALE">Mâle</option>
-                <option value="FEMELLE">Femelle</option>
-              </select>
-              <div class="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none">
-                <svg class="w-4 h-4 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                </svg>
-              </div>
-            </div>
-            <p *ngIf="pigeonForm.get('sexe')?.invalid && pigeonForm.get('sexe')?.touched" class="text-red-400 text-xs mt-1">Le sexe est requis.</p>
-          </div>
-          <div>
-            <label class="text-gray-300 text-sm ml-1 block">Date de naissance</label>
-            <input formControlName="dateNaissance" type="date" class="w-full bg-gray-800 rounded-md border border-gray-700 p-3 text-gray-100" />
-            <p *ngIf="pigeonForm.get('dateNaissance')?.invalid && pigeonForm.get('dateNaissance')?.touched" class="text-red-400 text-xs mt-1">La date de naissance est requise.</p>
-          </div>
-          <div>
-            <label class="text-gray-300 text-sm ml-1 block">Nationalité</label>
-            <input formControlName="nationalite" type="text" class="w-full bg-gray-800 rounded-md border border-gray-700 p-3 text-gray-100" />
-            <p *ngIf="pigeonForm.get('nationalite')?.invalid && pigeonForm.get('nationalite')?.touched" class="text-red-400 text-xs mt-1">La nationalité est requise.</p>
-          </div>
-          <div>
-            <label class="text-gray-300 text-sm ml-1 block">Photo (optionnel)</label>
-            <div class="relative group">
-              <div class="flex items-center bg-gray-800 rounded-md border border-gray-700 p-3">
-                <span class="text-gray-300 text-sm">
-                  <span *ngIf="!photoFile">Choisir une photo</span>
-                  <span *ngIf="photoFile" class="text-blue-400">{{ photoFile.name }}</span>
-                </span>
-                <input type="file" (change)="onFileChange($event)" accept="image/*" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer" />
-              </div>
-            </div>
-          </div>
-          <div class="flex justify-end gap-3 pt-2">
-            <button type="button" (click)="closeAddModal()" class="px-6 py-2 bg-gray-700 text-white rounded-md font-semibold hover:bg-gray-600 transition-all duration-200">Annuler</button>
-            <button type="submit" class="px-6 py-2 bg-gradient-to-br from-blue-300/90 to-blue-400/80 rounded-md font-semibold text-gray-900 hover:from-blue-300 hover:to-blue-400 transition-all duration-200" [disabled]="!pigeonForm.valid">Ajouter</button>
-          </div>
-        </form>
-      </div>
-    </div>
-
-    <!-- Modal pour modifier un pigeon -->
-    <div *ngIf="showEditModal" class="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
-      <div class="bg-gray-900 rounded-xl shadow-xl w-full max-w-xl relative border border-gray-700">
-        <div class="px-6 py-5 border-b border-gray-800 flex justify-between items-center">
-          <h3 class="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-300 to-blue-400">Modifier un pigeon</h3>
-          <button (click)="closeEditModal()" class="text-gray-400 hover:text-gray-200 transition-colors">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-            </svg>
-          </button>
-        </div>
-        <form [formGroup]="pigeonForm" (ngSubmit)="submitPigeon()" class="p-6 space-y-4">
-          <div>
-            <label class="text-gray-300 text-sm ml-1 block">Numéro de bague</label>
-            <input formControlName="serieBague" type="text" class="w-full bg-gray-800 rounded-md border border-gray-700 p-3 text-gray-100" />
-            <p *ngIf="pigeonForm.get('serieBague')?.invalid && pigeonForm.get('serieBague')?.touched" class="text-red-400 text-xs mt-1">Le numéro de bague est requis (minimum 3 caractères).</p>
-          </div>
-          <div>
-            <label class="text-gray-300 text-sm ml-1 block">Sexe</label>
-            <div class="relative flex items-center bg-gray-800 rounded-md border border-gray-700 focus-within:border-blue-400 p-3">
-              <select formControlName="sexe" class="w-full bg-transparent text-gray-100 outline-none text-sm appearance-none pr-6 cursor-pointer">
-                <option value="" disabled>Sélectionnez le sexe</option>
-                <option value="MALE">Mâle</option>
-                <option value="FEMELLE">Femelle</option>
-              </select>
-              <div class="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none">
-                <svg class="w-4 h-4 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                </svg>
-              </div>
-            </div>
-            <p *ngIf="pigeonForm.get('sexe')?.invalid && pigeonForm.get('sexe')?.touched" class="text-red-400 text-xs mt-1">Le sexe est requis.</p>
-          </div>
-          <div>
-            <label class="text-gray-300 text-sm ml-1 block">Date de naissance</label>
-            <input formControlName="dateNaissance" type="date" class="w-full bg-gray-800 rounded-md border border-gray-700 p-3 text-gray-100" />
-            <p *ngIf="pigeonForm.get('dateNaissance')?.invalid && pigeonForm.get('dateNaissance')?.touched" class="text-red-400 text-xs mt-1">La date de naissance est requise.</p>
-          </div>
-          <div>
-            <label class="text-gray-300 text-sm ml-1 block">Nationalité</label>
-            <input formControlName="nationalite" type="text" class="w-full bg-gray-800 rounded-md border border-gray-700 p-3 text-gray-100" />
-            <p *ngIf="pigeonForm.get('nationalite')?.invalid && pigeonForm.get('nationalite')?.touched" class="text-red-400 text-xs mt-1">La nationalité est requise.</p>
-          </div>
-          <div>
-            <label class="text-gray-300 text-sm ml-1 block">Photo (optionnel)</label>
-            <div class="relative group">
-              <div class="flex items-center bg-gray-800 rounded-md border border-gray-700 p-3">
-                <span class="text-gray-300 text-sm">
-                  <span *ngIf="!photoFile">Choisir une photo</span>
-                  <span *ngIf="photoFile" class="text-blue-400">{{ photoFile.name }}</span>
-                </span>
-                <input type="file" (change)="onFileChange($event)" accept="image/*" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer" />
-              </div>
-            </div>
-          </div>
-          <div>
-            <label class="text-gray-300 text-sm ml-1 block">Statut</label>
-            <div class="relative flex items-center bg-gray-800 rounded-md border border-gray-700 focus-within:border-blue-400 p-3">
-              <select formControlName="statusPigeon" class="w-full bg-transparent text-gray-100 outline-none text-sm appearance-none pr-6 cursor-pointer">
-                <option value="" disabled>Sélectionnez un statut</option>
-                <option value="DISPONIBLE">Disponible</option>
-                <option value="VENDU">Vendu</option>
-                <option value="PERDU">Perdu</option>
-                <option value="MALADE">Malade</option>
-                <option value="A_VENDRE">À vendre</option>
-              </select>
-              <div class="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none">
-                <svg class="w-4 h-4 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                </svg>
-              </div>
-            </div>
-          </div>
-          <div class="flex justify-end gap-3 pt-2">
-            <button type="button" (click)="closeEditModal()" class="px-6 py-2 bg-gray-700 text-white rounded-md font-semibold hover:bg-gray-600 transition-all duration-200">Annuler</button>
-            <button type="submit" class="px-6 py-2 bg-gradient-to-br from-blue-300/90 to-blue-400/80 rounded-md font-semibold text-gray-900 hover:from-blue-300 hover:to-blue-400 transition-all duration-200" [disabled]="!pigeonForm.valid">Modifier</button>
-          </div>
-        </form>
-      </div>
-    </div>
+    <app-pigeon-form
+    [showModal]="showAddModal"
+    [currentUser]="currentUser"
+    (closeModal)="closeModal()"
+    (pigeonSaved)="onPigeonSaved($event)"
+  ></app-pigeon-form>
+  
+  <!-- Modal pour modifier un pigeon -->
+  <app-pigeon-form
+    [showModal]="showEditModal"
+    [currentUser]="currentUser"
+    [pigeon]="selectedPigeon"
+    (closeModal)="closeModal()"
+    (pigeonSaved)="onPigeonSaved($event)"
+  ></app-pigeon-form>
 
     <!-- Modal pour les détails du pigeon -->
     <div *ngIf="showDetailModal" class="fixed inset-0 bg-black/50 z-50 p-4 backdrop-blur-sm flex items-center justify-center" (click)="closeDetail()">

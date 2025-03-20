@@ -28,26 +28,25 @@ export class PigeonService {
     );
   }
 
-  // Créer un nouveau pigeon (sans statusPigeon dans le formulaire, assigné par défaut côté backend)
   createPigeon(data: any, photoFile?: File): Observable<Pigeon> {
     const formData = new FormData();
-    formData.append('data', JSON.stringify(data));
+    formData.append('data', new Blob([JSON.stringify(data)], { type: 'application/json' }));
     if (photoFile) {
-      formData.append('photo', photoFile);
+      formData.append('photo', photoFile, photoFile.name);
     }
     return this.http.post<Pigeon>(this.apiUrl, formData).pipe(
       catchError(error => throwError(() => error.error || 'Erreur lors de la création du pigeon'))
     );
   }
 
-  // Mettre à jour un pigeon (avec statusPigeon)
+  // Mettre à jour un pigeon (adapté au même style)
   updatePigeon(id: number, data: any, photoFile?: File): Observable<Pigeon> {
     const formData = new FormData();
     if (data) {
-      formData.append('updateDTO', JSON.stringify(data));
+      formData.append('updateDTO', new Blob([JSON.stringify(data)], { type: 'application/json' }));
     }
     if (photoFile) {
-      formData.append('photo', photoFile);
+      formData.append('photo', photoFile, photoFile.name);
     }
     return this.http.put<Pigeon>(`${this.apiUrl}/${id}`, formData).pipe(
       catchError(error => throwError(() => error.error || 'Erreur lors de la mise à jour du pigeon'))
@@ -56,8 +55,10 @@ export class PigeonService {
 
   // Supprimer un pigeon
   deletePigeon(id: number): Observable<string> {
-    return this.http.delete<string>(`${this.apiUrl}/${id}`).pipe(
-      catchError(error => throwError(() => error.error || 'Erreur lors de la suppression du pigeon'))
+    return this.http.delete<string>(`${this.apiUrl}/${id}`, { responseType: 'text' as 'json' }).pipe(
+      catchError(error => {
+        return throwError(() => error.error?.message || 'Erreur lors de la suppression du pigeon');
+      })
     );
   }
 

@@ -1,18 +1,16 @@
-// src/app/features/pigeon-disponible/pigeon-disponible.component.ts
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { SidebarComponent } from '../../../../shared/components/sidebar/sidebar.component';
-import { NotificationComponent } from '../../../../shared/components/notification/notification.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PaginationComponent } from '../../../../shared/components/pagination/pagination.component';
 import { DeleteConfirmationModalComponent } from '../../../../shared/components/delete-confirmation-modal/delete-confirmation-modal.component';
 import { PigeonService } from '../../../../core/services/pigeon.service';
 import { NotificationService } from '../../../../core/services/notification.service';
-import { Pigeon} from '../../../../shared/models/pigeon.model';
+import { Pigeon } from '../../../../shared/models/pigeon.model';
 import { User } from '../../../../shared/models/user.model';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../../../store/app.state';
 import { selectCurrentUser } from '../../../../store/auth/auth.selectors';
+import { PigeonFormComponent } from '../../../../shared/components/forms/pigeon/pigeon-form/pigeon-form.component';
 
 @Component({
   selector: 'app-pigeon-disponible',
@@ -22,7 +20,8 @@ import { selectCurrentUser } from '../../../../store/auth/auth.selectors';
     FormsModule,
     ReactiveFormsModule,
     PaginationComponent,
-    DeleteConfirmationModalComponent
+    DeleteConfirmationModalComponent,
+    PigeonFormComponent 
   ],
   templateUrl: './pigeon-disponible.component.html',
   styleUrls: ['./pigeon-disponible.component.css']
@@ -40,7 +39,7 @@ export class PigeonDisponibleComponent implements OnInit {
   pigeonToDeleteId: number | null = null;
   errorMessage: string | null = null;
   currentPage = 1;
-  pageSize = 4;
+  pageSize = 8;
   totalPages = 0;
   totalElements = 0;
   isLastPage = false;
@@ -50,26 +49,13 @@ export class PigeonDisponibleComponent implements OnInit {
   isFemaleChecked: boolean = false;
   menuVisible: boolean = false;
   selectedPigeonIdForMenu: number | null = null;
-  image: string = 'assets/pigeon-placeholder.jpg'; // Image par défaut
-
-  pigeonForm: FormGroup;
-  photoFile: File | undefined;
+  image: string = 'assets/pardefaut.webp'; // Image par défaut
 
   constructor(
     private pigeonService: PigeonService,
-    private fb: FormBuilder,
     private notificationService: NotificationService,
     private store: Store<AppState>
-  ) {
-    this.pigeonForm = this.fb.group({
-      serieBague: ['', [Validators.required, Validators.minLength(3)]],
-      sexe: ['', Validators.required],
-      dateNaissance: ['', Validators.required],
-      nationalite: ['', Validators.required],
-      photoUrl: [''],
-      statusPigeon: ['']
-    });
-  }
+  ) {}
 
   ngOnInit(): void {
     this.loadCurrentUser();
@@ -105,7 +91,6 @@ export class PigeonDisponibleComponent implements OnInit {
       },
       error: (error) => {
         this.errorMessage = error;
-        // this.notificationService.showNotification(this.errorMessage, 'error');
       }
     });
   }
@@ -125,14 +110,22 @@ export class PigeonDisponibleComponent implements OnInit {
 
   resetSearch(): void {
     this.searchQuery = '';
+    this.isMaleChecked = false;
+    this.isFemaleChecked = false;
     this.filterPigeons();
   }
 
   toggleGender(gender: 'male' | 'female'): void {
     if (gender === 'male') {
       this.isMaleChecked = !this.isMaleChecked;
+      if (this.isMaleChecked) {
+        this.isFemaleChecked = false;
+      }
     } else {
       this.isFemaleChecked = !this.isFemaleChecked;
+      if (this.isFemaleChecked) {
+        this.isMaleChecked = false;
+      }
     }
     this.filterPigeons();
   }
@@ -147,35 +140,32 @@ export class PigeonDisponibleComponent implements OnInit {
 
   openAddModal(): void {
     this.showAddModal = true;
-    this.pigeonForm.reset();
-    this.photoFile = undefined;
-    this.pigeonForm.get('statusPigeon')?.disable();
-  }
-
-  closeAddModal(): void {
-    this.showAddModal = false;
-    this.pigeonForm.get('statusPigeon')?.enable();
+    this.selectedPigeon = null; // Pas de pigeon sélectionné pour ajout
   }
 
   openEditModal(pigeon: Pigeon): void {
     this.selectedPigeon = pigeon;
     this.showEditModal = true;
-    this.pigeonForm.patchValue({
-      serieBague: pigeon.serieBague,
-      sexe: pigeon.sexe,
-      dateNaissance: pigeon.dateNaissance,
-      nationalite: pigeon.nationalite,
-      photoUrl: pigeon.photoUrl,
-      statusPigeon: pigeon.statusPigeon
-    });
-    this.pigeonForm.get('statusPigeon')?.enable();
-    this.photoFile = undefined;
     this.menuVisible = false;
   }
 
-  closeEditModal(): void {
+  closeModal(): void {
+    this.showAddModal = false;
     this.showEditModal = false;
     this.selectedPigeon = null;
+  }
+
+  onPigeonSaved(pigeon: Pigeon): void {
+    if (this.showAddModal) {
+      this.pigeons.push(pigeon);
+    } else if (this.showEditModal) {
+      const index = this.pigeons.findIndex(p => p.id === pigeon.id);
+      if (index !== -1) {
+        this.pigeons[index] = pigeon;
+      }
+    }
+    this.loadPigeons(); // Recharger pour mettre à jour la pagination
+    this.closeModal();
   }
 
   openDetail(pigeon: Pigeon): void {
@@ -186,58 +176,6 @@ export class PigeonDisponibleComponent implements OnInit {
   closeDetail(): void {
     this.showDetailModal = false;
     this.selectedPigeon = null;
-  }
-
-  onFileChange(event: any): void {
-    if (event.target.files && event.target.files.length) {
-      this.photoFile = event.target.files[0];
-    }
-  }
-
-  submitPigeon(): void {
-    if (this.pigeonForm.valid && this.currentUser) {
-      const formValue = this.pigeonForm.value;
-      const pigeonData = {
-        serieBague: formValue.serieBague,
-        sexe: formValue.sexe,
-        dateNaissance: formValue.dateNaissance,
-        nationalite: formValue.nationalite,
-        photoUrl: formValue.photoUrl,
-        colombophileId: this.currentUser.id,
-        ...(this.showEditModal && { statusPigeon: formValue.statusPigeon })
-      };
-
-      if (this.showAddModal) {
-        this.pigeonService.createPigeon(pigeonData, this.photoFile).subscribe({
-          next: (newPigeon) => {
-            this.pigeons.push(newPigeon);
-            this.closeAddModal();
-            this.notificationService.showNotification('Pigeon ajouté avec succès', 'success');
-            this.loadPigeons();
-          },
-          error: (error) => {
-            this.errorMessage = error;
-            // this.notificationService.showNotification(this.errorMessage, 'error');
-          }
-        });
-      } else if (this.showEditModal && this.selectedPigeon?.id) {
-        this.pigeonService.updatePigeon(this.selectedPigeon.id, pigeonData, this.photoFile).subscribe({
-          next: (updatedPigeon) => {
-            const index = this.pigeons.findIndex(p => p.id === updatedPigeon.id);
-            if (index !== -1) {
-              this.pigeons[index] = updatedPigeon;
-            }
-            this.closeEditModal();
-            this.notificationService.showNotification('Pigeon modifié avec succès', 'success');
-            this.loadPigeons();
-          },
-          error: (error) => {
-            this.errorMessage = error;
-            // this.notificationService.showNotification(this.errorMessage, 'error');
-          }
-        });
-      }
-    }
   }
 
   openDeleteConfirmation(pigeonId: number): void {
@@ -262,7 +200,6 @@ export class PigeonDisponibleComponent implements OnInit {
         },
         error: (error) => {
           this.errorMessage = error;
-          // this.notificationService.showNotification(this.errorMessage, 'error');
           this.closeDeleteConfirmation();
         }
       });
