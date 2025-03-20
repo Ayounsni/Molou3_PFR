@@ -8,6 +8,7 @@ export interface Pigeon {
   id?: number;
   serieBague: string;
   sexe: Sexe;
+  nationalite: string;
   dateNaissance?: string | Date;
   photoUrl?: string;
   statusPigeon: StatusPigeon;

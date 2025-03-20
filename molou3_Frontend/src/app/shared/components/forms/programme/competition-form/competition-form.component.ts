@@ -47,7 +47,7 @@ export class CompetitionFormComponent implements OnChanges {
     });
 
     this.searchTerms.pipe(
-      debounceTime(300), // Attendre 300ms avant d'envoyer la requête
+      debounceTime(300), 
       distinctUntilChanged(), // Ne pas envoyer si la valeur n'a pas changé
       switchMap(query => this.weatherService.getAutocomplete(query)) // Appeler l'API
     ).subscribe({
