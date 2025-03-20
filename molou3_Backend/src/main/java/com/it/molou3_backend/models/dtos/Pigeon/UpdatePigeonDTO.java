@@ -22,6 +22,8 @@ public class UpdatePigeonDTO {
     @Enumerated(EnumType.STRING)
     private Sexe sexe;
 
+    private String nationalite;
+
     private LocalDate dateNaissance;
 
     private String photoUrl;

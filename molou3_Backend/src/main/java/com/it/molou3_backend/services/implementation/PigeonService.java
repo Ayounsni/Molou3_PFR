@@ -1,23 +1,33 @@
 package com.it.molou3_backend.services.implementation;
 
+import com.it.molou3_backend.models.dtos.Pagination.PageDTO;
 import com.it.molou3_backend.models.dtos.Pigeon.CreatePigeonDTO;
 import com.it.molou3_backend.models.dtos.Pigeon.ResponsePigeonDTO;
 import com.it.molou3_backend.models.dtos.Pigeon.UpdatePigeonDTO;
+import com.it.molou3_backend.models.dtos.Pigeon.ResponsePigeonDTO;
+import com.it.molou3_backend.models.entities.Pigeon;
 import com.it.molou3_backend.models.entities.Pigeon;
 import com.it.molou3_backend.models.mappers.PigeonMapper;
 import com.it.molou3_backend.repository.PigeonRepository;
 import com.it.molou3_backend.services.interfaces.IPigeonService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class PigeonService extends GenericService<Pigeon,CreatePigeonDTO,UpdatePigeonDTO,ResponsePigeonDTO> implements IPigeonService {
 
     @Autowired
     public FileUploadService fileUploadService;
+    @Autowired
+    public PigeonRepository pigeonRepository;
 
     public PigeonService(PigeonRepository pigeonRepository, PigeonMapper pigeonMapper) {
         super(pigeonRepository, pigeonMapper);
@@ -50,6 +60,23 @@ public class PigeonService extends GenericService<Pigeon,CreatePigeonDTO,UpdateP
 
         updatedEntity = repository.save(updatedEntity);
         return mapper.toDTO(updatedEntity);
+    }
+
+    @Override
+    public PageDTO<ResponsePigeonDTO> findByColombophileId(Long colombophileId, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Pigeon> pigeonPage = pigeonRepository.findByColombophileId(colombophileId, pageable);
+        List<ResponsePigeonDTO> dtos = pigeonPage.getContent().stream()
+                .map(mapper::toDTO) // Assurez-vous d'avoir une méthode pour convertir l'entité en DTO
+                .collect(Collectors.toList());
+        return new PageDTO<>(
+                dtos,
+                pigeonPage.getNumber(),
+                pigeonPage.getSize(),
+                pigeonPage.getTotalElements(),
+                pigeonPage.getTotalPages(),
+                pigeonPage.isLast()
+        );
     }
 
 }

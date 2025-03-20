@@ -32,7 +32,6 @@ public class Pigeon {
     @Column(nullable = false)
     private Sexe sexe;
 
-
     private LocalDate dateNaissance;
 
     private String photoUrl;
@@ -42,6 +41,8 @@ public class Pigeon {
     @Column(nullable = false)
     private StatusPigeon statusPigeon;
 
+    @NotNull
+    private String nationalite;
 
     private Boolean estFavori = false;
 

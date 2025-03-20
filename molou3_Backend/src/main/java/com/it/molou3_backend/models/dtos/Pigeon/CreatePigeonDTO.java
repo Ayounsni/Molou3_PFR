@@ -38,6 +38,9 @@ public class CreatePigeonDTO {
 
     private String photoUrl;
 
+    @NotNull
+    private String nationalite;
+
     @Enumerated(EnumType.STRING)
     private StatusPigeon statusPigeon = StatusPigeon.DISPONIBLE;
 

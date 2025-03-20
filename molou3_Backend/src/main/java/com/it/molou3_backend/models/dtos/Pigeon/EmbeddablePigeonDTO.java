@@ -18,6 +18,8 @@ public class EmbeddablePigeonDTO {
 
     private Sexe sexe;
 
+    private String nationalite;
+
     private LocalDate dateNaissance;
 
     private String photoUrl;

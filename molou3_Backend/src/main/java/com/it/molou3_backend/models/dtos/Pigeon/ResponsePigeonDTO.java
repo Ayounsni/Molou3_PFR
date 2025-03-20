@@ -24,6 +24,8 @@ public class ResponsePigeonDTO {
 
     private Sexe sexe;
 
+    private String nationalite;
+
     private LocalDate dateNaissance;
 
     private String photoUrl;
