@@ -1,10 +1,13 @@
-import { Component, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, ViewChild, OnInit, ViewEncapsulation } from '@angular/core';
 import { CalendarOptions, EventInput } from '@fullcalendar/core';
-import dayGridPlugin from '@fullcalendar/daygrid'; // Plugin pour la vue grille
-import interactionPlugin from '@fullcalendar/interaction'; // Plugin pour les interactions
+import dayGridPlugin from '@fullcalendar/daygrid';
+import interactionPlugin from '@fullcalendar/interaction';
 import { FullCalendarComponent } from '@fullcalendar/angular';
-import { AddEventModalComponent } from '../../../shared/components/add-event-modal/add-event-modal.component';
-import { MatDialog } from '@angular/material/dialog';
+import { Store } from '@ngrx/store';
+import { AgendaEventService } from '../../../core/services/agenda-event.service';
+import { AppState } from '../../../store/app.state';
+import { selectCurrentUser } from '../../../store/auth/auth.selectors';
+
 
 @Component({
   selector: 'app-calendar',
@@ -13,14 +16,11 @@ import { MatDialog } from '@angular/material/dialog';
   styleUrls: ['./calendar.component.css'],
   encapsulation: ViewEncapsulation.None,
 })
-export class CalendarComponent {
+export class CalendarComponent implements OnInit {
+  bg = 'assets/bg108.jpg';
   @ViewChild('calendar') calendarComponent!: FullCalendarComponent;
 
-  calendarEvents: EventInput[] = [
-    { title: "Réunion d'équipe", start: '2025-03-21', color: '#3f51b5' },
-    { title: 'Anniversaire', start: '2025-03-20', end: '2025-0-26', color: '#e91e63' }
-  ];
-
+  calendarEvents: EventInput[] = [];
   calendarOptions: CalendarOptions = {
     plugins: [dayGridPlugin, interactionPlugin],
     initialView: 'dayGridMonth',
@@ -29,29 +29,94 @@ export class CalendarComponent {
     eventClick: this.handleEventClick.bind(this)
   };
 
-  constructor(private dialog: MatDialog) {}
+  showAddModal = false;
+  showDetailModal = false;
+  selectedEvent: any = null;
+  currentUser: any = null;
+  selectedDate: string = '';
 
-  handleDateClick(arg: any) {
-    const dialogRef = this.dialog.open(AddEventModalComponent, {
-      width: '300px',
-      data: { dateStr: arg.dateStr }
+  constructor(
+    private agendaEventService: AgendaEventService,
+    private store: Store<AppState>
+  ) {}
+
+  ngOnInit(): void {
+    this.loadCurrentUser();
+    this.loadEvents();
+  }
+
+  loadCurrentUser(): void {
+    this.store.select(selectCurrentUser).subscribe(user => {
+      this.currentUser = user;
     });
+  }
 
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        const newEvent: EventInput = {
-          title: result.title,
-          start: result.start,
-          color: result.color
-        };
-        this.calendarEvents = [...this.calendarEvents, newEvent];
-        const calendarApi = this.calendarComponent.getApi();
-        calendarApi.addEvent(newEvent);
+  loadEvents(): void {
+    this.agendaEventService.getAllAgendaEvents().subscribe({
+      next: (events) => {
+        this.calendarEvents = events.map(event => ({
+          id: event.id?.toString(),
+          title: event.typeEvent,
+          start: event.dateDebut,
+          end: event.dateFin,
+          extendedProps: {
+            description: event.description,
+            typeEvent: event.typeEvent,
+            colombophileId: event.colombophile?.id
+          }
+        }));
+        this.calendarOptions.events = this.calendarEvents;
+      },
+      error: (error) => {
+        console.error('Erreur lors du chargement des événements', error);
       }
     });
   }
 
-  handleEventClick(info: any) {
-    alert(`Événement: ${info.event.title}`);
+  handleDateClick(arg: any): void {
+    this.selectedDate = arg.dateStr;
+    this.showAddModal = true;
+  }
+
+  handleEventClick(info: any): void {
+    this.selectedEvent = {
+      id: info.event.id,
+      description: info.event.extendedProps.description,
+      dateDebut: info.event.startStr,
+      dateFin: info.event.endStr,
+      typeEvent: info.event.extendedProps.typeEvent,
+      colombophileId: info.event.extendedProps.colombophileId
+    };
+    this.showDetailModal = true;
+  }
+
+  saveEvent(eventData: any): void {
+    this.agendaEventService.createAgendaEvent(eventData).subscribe({
+      next: (newEvent) => {
+        const eventToAdd: EventInput = {
+          id: newEvent.id?.toString(),
+          title: newEvent.typeEvent,
+          start: newEvent.dateDebut,
+          end: newEvent.dateFin,
+          extendedProps: {
+            description: newEvent.description,
+            typeEvent: newEvent.typeEvent,
+            colombophileId: newEvent.colombophile?.id
+          }
+        };
+        this.calendarEvents.push(eventToAdd);
+        this.calendarComponent.getApi().addEvent(eventToAdd);
+        this.showAddModal = false;
+      },
+      error: (error) => {
+        console.error('Erreur lors de l\'ajout de l\'événement', error);
+      }
+    });
+  }
+
+  closeModal(): void {
+    this.showAddModal = false;
+    this.showDetailModal = false;
+    this.selectedEvent = null;
   }
 }

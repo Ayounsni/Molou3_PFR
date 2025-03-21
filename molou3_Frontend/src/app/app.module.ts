@@ -9,11 +9,15 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AddEventModalComponent } from './shared/components/add-event-modal/add-event-modal.component';
+import { SidebarComponent } from "./shared/components/sidebar/sidebar.component";
+import { NotificationComponent } from "./shared/components/notification/notification.component";
+import { EventDetailModalComponent } from './shared/components/event-detail-modal/event-detail-modal.component';
 
 @NgModule({
   declarations: [
     CalendarComponent,
-    AddEventModalComponent// Ajoute ton composant modal ici
+    AddEventModalComponent,// Ajoute ton composant modal ici
+    EventDetailModalComponent
   ],
   imports: [
     BrowserModule,
@@ -24,7 +28,10 @@ import { AddEventModalComponent } from './shared/components/add-event-modal/add-
     MatInputModule, // Pour matInput
     MatButtonModule, // Pour mat-button
     ReactiveFormsModule // Pour les formulaires réactifs
-  ],
+    ,
+    SidebarComponent,
+    NotificationComponent
+],
   exports: [CalendarComponent] // Exporte si utilisé ailleurs
 })
 export class AppModule {}

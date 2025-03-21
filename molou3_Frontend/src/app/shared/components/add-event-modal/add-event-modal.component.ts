@@ -1,5 +1,5 @@
-import { Component, Inject } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { TypeEvent } from './../../models/enums/enums';
+import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
@@ -8,28 +8,45 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   templateUrl: './add-event-modal.component.html',
   styleUrls: ['./add-event-modal.component.css']
 })
-export class AddEventModalComponent {
-  eventForm: FormGroup;
+export class AddEventModalComponent implements OnInit {
+  @Input() dateStr!: string;
+  @Input() currentUser: any = null;
+  @Output() saveEvent = new EventEmitter<any>();
+  @Output() closeModal = new EventEmitter<void>();
 
-  constructor(
-    private fb: FormBuilder,
-    public dialogRef: MatDialogRef<AddEventModalComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any
-  ) {
+  eventForm: FormGroup;
+  typeEventOptions: string[] = ['COMPETITION', 'SOIN', 'ENTRAINEMENT','NETTOYAGE']; // Ajuste selon ton enum backend
+  errorMessage: string | null = null;
+
+  constructor(private fb: FormBuilder) {
     this.eventForm = this.fb.group({
-      title: ['', Validators.required],
-      start: [data.dateStr, Validators.required],
-      color: ['#4caf50']
+      description: ['', Validators.required],
+      dateDebut: ['', Validators.required],
+      dateFin: ['', Validators.required],
+      typeEvent: ['', Validators.required],
+      colombophileId: [null, Validators.required]
     });
+  }
+
+  ngOnInit() {
+    if (this.currentUser) {
+      this.eventForm.patchValue({
+        dateDebut: this.dateStr,
+        colombophileId: this.currentUser.id
+      });
+    }
   }
 
   onSubmit() {
     if (this.eventForm.valid) {
-      this.dialogRef.close(this.eventForm.value);
+      this.saveEvent.emit(this.eventForm.value);
+      this.closeModal.emit();
+    } else {
+      this.errorMessage = 'Veuillez remplir tous les champs requis.';
     }
   }
 
-  onCancel(): void {
-    this.dialogRef.close();
+  closePigeonModal() {
+    this.closeModal.emit();
   }
 }

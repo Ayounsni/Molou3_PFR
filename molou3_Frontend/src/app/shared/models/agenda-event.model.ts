@@ -1,4 +1,3 @@
-import { AppUser } from "./app-user.model";
 import { TypeEvent } from "./enums/enums";
 import { User } from "./user.model";
 

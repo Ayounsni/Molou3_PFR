@@ -1,9 +1,41 @@
+<app-sidebar></app-sidebar>
+<app-notification></app-notification>
+<div class="ml-70 bg-[#f5f5f5] flex justify-center items-center min-h-screen">
+  <div class="bg-white min-h-screen w-10/12">
+    <!-- En-tête avec image de fond -->
+    <div class="relative">
+      <img [src]="bg" alt="bg" class="w-full h-72 object-cover brightness-50" />
+      <div class="absolute inset-0 flex items-center justify-center bg-black/20">
+        <h1 class="text-white text-5xl font-bold drop-shadow-lg">Calendrier</h1>
+      </div>
+    </div>
 
-<div class="w-8/12">
-    <full-calendar 
-  #calendar
-  [options]="calendarOptions" 
-  (dateClick)="handleDateClick($event)" 
-  (eventClick)="handleEventClick($event)">
-</full-calendar>
+    <!-- Contenu principal -->
+    <div class="px-8 py-5 space-y-8">
+      <div class="w-full">
+        <full-calendar 
+          #calendar
+          [options]="calendarOptions" 
+          (dateClick)="handleDateClick($event)" 
+          (eventClick)="handleEventClick($event)">
+        </full-calendar>
+      </div>
+    </div>
+  </div>
 </div>
+
+<!-- Modal pour ajouter un événement -->
+<app-add-event-modal 
+  *ngIf="showAddModal"
+  [dateStr]="selectedDate"
+  [currentUser]="currentUser"
+  (saveEvent)="saveEvent($event)"
+  (closeModal)="closeModal()">
+</app-add-event-modal>
+
+<!-- Modal pour afficher les détails de l'événement -->
+<app-event-detail-modal 
+  *ngIf="showDetailModal"
+  [event]="selectedEvent"
+  (closeModal)="closeModal()">
+</app-event-detail-modal>
