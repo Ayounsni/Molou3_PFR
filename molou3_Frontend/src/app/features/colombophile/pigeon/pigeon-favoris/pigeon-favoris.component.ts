@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { SidebarComponent } from '../../../../shared/components/sidebar/sidebar.component';
+import { NotificationComponent } from '../../../../shared/components/notification/notification.component';
 import { PaginationComponent } from '../../../../shared/components/pagination/pagination.component';
+import { PigeonDetailModalComponent } from '../../../../shared/components/pigeon-detail-modal/pigeon-detail-modal.component';
 import { PigeonService } from '../../../../core/services/pigeon.service';
 import { NotificationService } from '../../../../core/services/notification.service';
 import { Pigeon } from '../../../../shared/models/pigeon.model';
@@ -8,22 +11,28 @@ import { User } from '../../../../shared/models/user.model';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../../../store/app.state';
 import { selectCurrentUser } from '../../../../store/auth/auth.selectors';
-import { PigeonDetailModalComponent } from '../../../../shared/components/pigeon-detail-modal/pigeon-detail-modal.component';
 
 @Component({
-  selector: 'app-pigeon-vendu',
+  selector: 'app-pigeon-favoris',
   standalone: true,
-  imports: [CommonModule, PaginationComponent, PigeonDetailModalComponent],
-  templateUrl: './pigeon-vendu.component.html',
-  styleUrls: ['./pigeon-vendu.component.css']
+  imports: [
+    CommonModule,
+    SidebarComponent,
+    NotificationComponent,
+    PaginationComponent,
+    PigeonDetailModalComponent
+  ],
+  templateUrl: './pigeon-favoris.component.html',
+  styleUrls: ['./pigeon-favoris.component.css']
 })
-export class PigeonVenduComponent implements OnInit {
+export class PigeonFavorisComponent implements OnInit {
+  bg = 'assets/bg108.jpg';
   pigeons: Pigeon[] = [];
   filteredPigeons: Pigeon[] = [];
   selectedPigeon: Pigeon | null = null;
   currentUser: User | null = null;
   currentPage = 1;
-  pageSize = 1000;
+  pageSize = 100;
   totalPages = 0;
   totalElements = 0;
   isLastPage = false;
@@ -56,7 +65,7 @@ export class PigeonVenduComponent implements OnInit {
     }
     this.pigeonService.getAllPigeons(this.currentPage - 1, this.pageSize, this.currentUser.id).subscribe({
       next: (pageData) => {
-        this.pigeons = pageData.content.filter(p => p.statusPigeon === 'VENDU');
+        this.pigeons = pageData.content.filter(p => p.estFavori === true);
         this.filteredPigeons = [...this.pigeons];
         this.totalElements = this.pigeons.length;
         this.totalPages = Math.ceil(pageData.totalElements / this.pageSize); // Approximation
@@ -93,5 +102,32 @@ export class PigeonVenduComponent implements OnInit {
   closeDetail(): void {
     this.showDetailModal = false;
     this.selectedPigeon = null;
+  }
+
+  toggleFavorite(pigeon: Pigeon): void {
+    const updatedData = { estFavori: !pigeon.estFavori };
+    this.pigeonService.updatePigeon(pigeon.id!, updatedData).subscribe({
+      next: (response) => {
+        const index = this.pigeons.findIndex(p => p.id === pigeon.id);
+        if (index !== -1) {
+          this.pigeons[index] = response;
+          // Si le pigeon n'est plus favori, on le retire de la liste
+          if (!response.estFavori) {
+            this.pigeons.splice(index, 1);
+            this.totalElements--;
+            this.totalPages = Math.ceil(this.totalElements / this.pageSize);
+          }
+          this.applyPagination();
+          window.dispatchEvent(new CustomEvent('pigeonUpdated', { detail: response }));
+          this.notificationService.showNotification(
+            `Pigeon ${response.estFavori ? 'ajouté aux' : 'retiré des'} favoris`,
+            'success'
+          );
+        }
+      },
+      error: (error) => {
+        this.notificationService.showNotification('Erreur lors de la mise à jour du favori', 'error');
+      }
+    });
   }
 }
