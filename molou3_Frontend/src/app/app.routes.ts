@@ -25,6 +25,7 @@ import { PigeonPerduComponent } from './features/colombophile/pigeon/pigeon-perd
 import { PigeonVenduComponent } from './features/colombophile/pigeon/pigeon-vendu/pigeon-vendu.component';
 import { PigeonAllComponent } from './features/colombophile/pigeon/pigeon-all/pigeon-all.component';
 import { PigeonFavorisComponent } from './features/colombophile/pigeon/pigeon-favoris/pigeon-favoris.component';
+import { CalendarComponent } from './features/colombophile/calendar/calendar.component';
 
 
 
@@ -107,6 +108,10 @@ export const routes: Routes = [
           {
             path: 'pigeons-favoris',
             component: PigeonFavorisComponent
+          },
+          {
+            path: 'calendar',
+            component: CalendarComponent
           },
         ]
       },

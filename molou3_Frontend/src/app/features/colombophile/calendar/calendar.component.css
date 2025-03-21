@@ -1,0 +1,129 @@
+/* calendar.component.css */
+
+/* Style général du calendrier */
+#calendar {
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+    background: #ffffff;
+    padding: 20px;
+    margin: 20px;
+  }
+  
+  /* En-tête du calendrier */
+  .fc-header-toolbar {
+    padding: 1rem;
+    background: #f8f9fa;
+    border-radius: 12px 12px 0 0;
+    margin-bottom: 0 !important;
+  }
+  
+  .fc-toolbar-title {
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: #2d3436;
+  }
+  
+  /* Boutons de navigation */
+  .fc-button {
+    background: #4a90e2 !important;
+    border: none !important;
+    border-radius: 8px !important;
+    padding: 8px 16px !important;
+    transition: all 0.2s ease;
+    text-transform: capitalize !important;
+  }
+  
+  .fc-button:hover {
+    background: #357abd !important;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Jours de la semaine */
+  .fc-col-header-cell {
+    background: #f8f9fa;
+    padding: 12px 0 !important;
+  }
+  
+  .fc-col-header-cell-cushion {
+    color: #6c757d;
+    font-weight: 500;
+    font-size: 0.9em;
+  }
+  
+  /* Cellules des jours */
+  .fc-daygrid-day {
+    border: 1px solid #e9ecef !important;
+    transition: background 0.2s ease;
+  }
+  
+  .fc-daygrid-day:hover {
+    background: #f8f9fa !important;
+  }
+  
+  .fc-daygrid-day-number {
+    color: #495057;
+    font-weight: 500;
+    padding: 8px !important;
+  }
+  
+  /* Aujourd'hui */
+  .fc-day-today {
+    background: #e3f2fd !important;
+  }
+  
+  .fc-day-today .fc-daygrid-day-number {
+    color: #2196f3;
+    font-weight: 600;
+  }
+  
+  /* Événements */
+  .fc-event {
+    border: none !important;
+    border-radius: 6px !important;
+    padding: 6px 8px !important;
+    font-size: 0.85em !important;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease;
+  }
+  
+  .fc-event:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  }
+  
+  .fc-event-title {
+    font-weight: 500;
+  }
+  
+  /* Couleurs des événements */
+  .fc-event[style*='#3f51b5'] { /* Réunion d'équipe */
+    background: linear-gradient(135deg, #3f51b5, #6573c3);
+  }
+  
+  .fc-event[style*='#e91e63'] { /* Anniversaire */
+    background: linear-gradient(135deg, #e91e63, #ec407a);
+  }
+  
+  .fc-event[style*='#4caf50'] { /* Nouvel événement */
+    background: linear-gradient(135deg, #4caf50, #66bb6a);
+  }
+  
+  /* Responsive */
+  @media (max-width: 768px) {
+    #calendar {
+      margin: 10px;
+      padding: 10px;
+    }
+    
+    .fc-toolbar {
+      flex-direction: column;
+      gap: 1rem;
+    }
+    
+    .fc-header-toolbar {
+      padding: 0.5rem;
+    }
+  }

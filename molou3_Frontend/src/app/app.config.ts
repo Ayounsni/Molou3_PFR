@@ -1,4 +1,4 @@
-import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
+import { ApplicationConfig, importProvidersFrom, provideZoneChangeDetection } from '@angular/core';
 import { provideRouter } from '@angular/router';
 import { routes } from './app.routes';
 import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptors } from '@angular/common/http';
@@ -7,6 +7,7 @@ import { authReducer } from './store/auth/auth.reducer';
 import { provideEffects } from '@ngrx/effects';
 import { AuthEffects } from './store/auth/auth.effects';
 import { jwtInterceptor } from './core/interceptors/jwt.interceptor';
+import { AppModule } from './app.module';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -17,5 +18,6 @@ export const appConfig: ApplicationConfig = {
     provideEffects([AuthEffects]),
     provideHttpClient(),
     provideHttpClient(withInterceptors([jwtInterceptor])),
+    importProvidersFrom(AppModule)
   ]
 };
