@@ -2,120 +2,145 @@
 
 /* Style général du calendrier */
 #calendar {
-    font-family: 'Segoe UI', system-ui, sans-serif;
-    border-radius: 12px;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
+    font-family: 'Inter', system-ui, sans-serif;
+    border-radius: 16px;
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08);
     overflow: hidden;
     background: #ffffff;
-    padding: 20px;
+    padding: 24px;
     margin: 20px;
+    border: 1px solid #e5e7eb;
   }
   
   /* En-tête du calendrier */
   .fc-header-toolbar {
-    padding: 1rem;
-    background: #f8f9fa;
+    padding: 1.5rem;
+    background: #f8fafc;
     border-radius: 12px 12px 0 0;
     margin-bottom: 0 !important;
+    border-bottom: 1px solid #f1f5f9;
   }
   
   .fc-toolbar-title {
-    font-size: 1.4rem;
+    font-size: 1.5rem;
     font-weight: 600;
-    color: #2d3436;
+    color: #1e293b;
+    letter-spacing: -0.025em;
   }
   
   /* Boutons de navigation */
   .fc-button {
-    background: #4a90e2 !important;
-    border: none !important;
+    background: #ffffff !important;
+    border: 1px solid #e2e8f0 !important;
     border-radius: 8px !important;
-    padding: 8px 16px !important;
+    padding: 8px 20px !important;
     transition: all 0.2s ease;
-    text-transform: capitalize !important;
+    color: #64748b !important;
+    font-weight: 500;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
   }
   
   .fc-button:hover {
-    background: #357abd !important;
+    background: #f8fafc !important;
+    color: #334155 !important;
+    border-color: #cbd5e1 !important;
     transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+  
+  .fc-button-primary:not(:disabled).fc-button-active {
+    background: #3b82f6 !important;
+    color: white !important;
+    border-color: #3b82f6 !important;
   }
   
   /* Jours de la semaine */
   .fc-col-header-cell {
-    background: #f8f9fa;
-    padding: 12px 0 !important;
+    background: #f8fafc;
+    padding: 14px 0 !important;
+    border-color: #f1f5f9 !important;
   }
   
   .fc-col-header-cell-cushion {
-    color: #6c757d;
+    color: #64748b;
     font-weight: 500;
-    font-size: 0.9em;
+    font-size: 0.95em;
+    text-transform: uppercase;
   }
   
   /* Cellules des jours */
   .fc-daygrid-day {
-    border: 1px solid #e9ecef !important;
+    border: 1px solid #f1f5f9 !important;
     transition: background 0.2s ease;
+    background: #ffffff;
   }
   
   .fc-daygrid-day:hover {
-    background: #f8f9fa !important;
+    background: #f8fafc !important;
   }
   
   .fc-daygrid-day-number {
-    color: #495057;
+    color: #1e293b;
     font-weight: 500;
-    padding: 8px !important;
+    padding: 12px !important;
   }
   
   /* Aujourd'hui */
   .fc-day-today {
-    background: #e3f2fd !important;
+    background: #f0f9ff !important;
   }
   
   .fc-day-today .fc-daygrid-day-number {
-    color: #2196f3;
-    font-weight: 600;
+    color: #3b82f6;
+    font-weight: 700;
   }
   
   /* Événements */
   .fc-event {
     border: none !important;
     border-radius: 6px !important;
-    padding: 6px 8px !important;
-    font-size: 0.85em !important;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 8px 12px !important;
+    font-size: 0.9em !important;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
     transition: transform 0.2s ease;
-  }
-  
-  .fc-event:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-  }
-  
-  .fc-event-title {
+    cursor: pointer;
+    color: white !important;
     font-weight: 500;
   }
   
-  /* Couleurs des événements */
-  .fc-event[style*='#3f51b5'] { /* Réunion d'équipe */
-    background: linear-gradient(135deg, #3f51b5, #6573c3);
+  .fc-event:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.12);
   }
   
-  .fc-event[style*='#e91e63'] { /* Anniversaire */
-    background: linear-gradient(135deg, #e91e63, #ec407a);
+  /* Couleurs des événements révisées */
+  .fc-event[style*='#059669'] { /* NETTOYAGE */
+    background: linear-gradient(135deg, #10b981, #34d399);
   }
   
-  .fc-event[style*='#4caf50'] { /* Nouvel événement */
-    background: linear-gradient(135deg, #4caf50, #66bb6a);
+  .fc-event[style*='#4f46e5'] { /* COMPETITION */
+    background: linear-gradient(135deg, #6366f1, #818cf8);
+  }
+  
+  .fc-event[style*='#0284c7'] { /* ENTRAINEMENT */
+    background: linear-gradient(135deg, #0ea5e9, #38bdf8);
+  }
+  
+  .fc-event[style*='#d97706'] { /* SOIN */
+    background: linear-gradient(135deg, #f59e0b, #fbbf24);
+  }
+  
+  /* Style des bordures et séparateurs */
+  .fc-theme-standard td,
+  .fc-theme-standard th {
+    border-color: #f1f5f9 !important;
   }
   
   /* Responsive */
   @media (max-width: 768px) {
     #calendar {
-      margin: 10px;
-      padding: 10px;
+      margin: 12px;
+      padding: 16px;
+      border-radius: 12px;
     }
     
     .fc-toolbar {
@@ -124,6 +149,15 @@
     }
     
     .fc-header-toolbar {
-      padding: 0.5rem;
+      padding: 1rem;
+    }
+    
+    .fc-toolbar-title {
+      font-size: 1.2rem;
+    }
+    
+    .fc-button {
+      padding: 6px 14px !important;
+      font-size: 0.9em;
     }
   }

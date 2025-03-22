@@ -23,7 +23,12 @@ export class AgendaEventService {
   // Créer un nouvel événement
   createAgendaEvent(eventData: any): Observable<AgendaEvent> {
     return this.http.post<AgendaEvent>(this.apiUrl, eventData).pipe(
-      catchError(error => throwError(() => error.error || 'Erreur lors de la création de l\'événement'))
+      catchError(error => {
+        if (error.error && error.error.message) {
+          return throwError(() => error.error.message);
+        }
+        return throwError(() => 'Erreur lors de la création de l\'événement');
+      })
     );
   }
 

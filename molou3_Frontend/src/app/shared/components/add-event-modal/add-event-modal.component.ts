@@ -1,22 +1,21 @@
-import { TypeEvent } from './../../models/enums/enums';
 import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-add-event-modal',
-  standalone:false,
+  standalone: false,
   templateUrl: './add-event-modal.component.html',
   styleUrls: ['./add-event-modal.component.css']
 })
 export class AddEventModalComponent implements OnInit {
   @Input() dateStr!: string;
   @Input() currentUser: any = null;
+  @Input() errorMessage: string | null = null; // Reçu du parent
   @Output() saveEvent = new EventEmitter<any>();
   @Output() closeModal = new EventEmitter<void>();
 
   eventForm: FormGroup;
-  typeEventOptions: string[] = ['COMPETITION', 'SOIN', 'ENTRAINEMENT','NETTOYAGE']; // Ajuste selon ton enum backend
-  errorMessage: string | null = null;
+  typeEventOptions: string[] = ['COMPETITION', 'SOIN', 'ENTRAINEMENT', 'NETTOYAGE'];
 
   constructor(private fb: FormBuilder) {
     this.eventForm = this.fb.group({
@@ -39,14 +38,14 @@ export class AddEventModalComponent implements OnInit {
 
   onSubmit() {
     if (this.eventForm.valid) {
-      this.saveEvent.emit(this.eventForm.value);
-      this.closeModal.emit();
+      this.saveEvent.emit(this.eventForm.value); // Émet les données au parent
     } else {
-      this.errorMessage = 'Veuillez remplir tous les champs requis.';
+      this.errorMessage = 'Veuillez remplir tous les champs requis.'; // Erreur locale
     }
+    // Ne ferme pas le modal ici
   }
 
   closePigeonModal() {
-    this.closeModal.emit();
+    this.closeModal.emit(); // Ferme le modal uniquement via le bouton "Annuler" ou succès
   }
 }

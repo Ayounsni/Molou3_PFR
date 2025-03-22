@@ -12,6 +12,7 @@ import { AddEventModalComponent } from './shared/components/add-event-modal/add-
 import { SidebarComponent } from "./shared/components/sidebar/sidebar.component";
 import { NotificationComponent } from "./shared/components/notification/notification.component";
 import { EventDetailModalComponent } from './shared/components/event-detail-modal/event-detail-modal.component';
+import { DeleteConfirmationModalComponent } from "./shared/components/delete-confirmation-modal/delete-confirmation-modal.component";
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { EventDetailModalComponent } from './shared/components/event-detail-moda
     ReactiveFormsModule // Pour les formulaires réactifs
     ,
     SidebarComponent,
-    NotificationComponent
+    NotificationComponent,
+    DeleteConfirmationModalComponent
 ],
   exports: [CalendarComponent] // Exporte si utilisé ailleurs
 })

@@ -5,13 +5,13 @@ import interactionPlugin from '@fullcalendar/interaction';
 import { FullCalendarComponent } from '@fullcalendar/angular';
 import { Store } from '@ngrx/store';
 import { AgendaEventService } from '../../../core/services/agenda-event.service';
+import { NotificationService } from '../../../core/services/notification.service'; // À ajuster selon ton chemin
 import { AppState } from '../../../store/app.state';
 import { selectCurrentUser } from '../../../store/auth/auth.selectors';
 
-
 @Component({
   selector: 'app-calendar',
-  standalone:false,
+  standalone: false,
   templateUrl: './calendar.component.html',
   styleUrls: ['./calendar.component.css'],
   encapsulation: ViewEncapsulation.None,
@@ -31,12 +31,31 @@ export class CalendarComponent implements OnInit {
 
   showAddModal = false;
   showDetailModal = false;
+  showDeleteModal = false;
   selectedEvent: any = null;
   currentUser: any = null;
   selectedDate: string = '';
+  errorMessage: string | null = null;
+  eventIdToDelete: number | null = null;
+
+  private getEventColor(typeEvent: string): string {
+    switch (typeEvent) {
+      case 'NETTOYAGE':
+        return '#059669'; // Émerald-600
+      case 'COMPETITION':
+        return '#4f46e5'; // Indigo-600
+      case 'ENTRAINEMENT':
+        return '#0284c7'; // Sky-600
+      case 'SOIN':
+        return '#d97706'; // Amber-600
+      default:
+        return '#6b7280'; // Gray-500
+    }
+  }
 
   constructor(
     private agendaEventService: AgendaEventService,
+    private notificationService: NotificationService, // Ajout du service
     private store: Store<AppState>
   ) {}
 
@@ -59,6 +78,8 @@ export class CalendarComponent implements OnInit {
           title: event.typeEvent,
           start: event.dateDebut,
           end: event.dateFin,
+          backgroundColor: this.getEventColor(event.typeEvent),
+          borderColor: this.getEventColor(event.typeEvent),
           extendedProps: {
             description: event.description,
             typeEvent: event.typeEvent,
@@ -76,6 +97,7 @@ export class CalendarComponent implements OnInit {
   handleDateClick(arg: any): void {
     this.selectedDate = arg.dateStr;
     this.showAddModal = true;
+    this.errorMessage = null;
   }
 
   handleEventClick(info: any): void {
@@ -98,6 +120,8 @@ export class CalendarComponent implements OnInit {
           title: newEvent.typeEvent,
           start: newEvent.dateDebut,
           end: newEvent.dateFin,
+          backgroundColor: this.getEventColor(newEvent.typeEvent),
+          borderColor: this.getEventColor(newEvent.typeEvent),
           extendedProps: {
             description: newEvent.description,
             typeEvent: newEvent.typeEvent,
@@ -107,9 +131,11 @@ export class CalendarComponent implements OnInit {
         this.calendarEvents.push(eventToAdd);
         this.calendarComponent.getApi().addEvent(eventToAdd);
         this.showAddModal = false;
+        this.errorMessage = null;
+        this.notificationService.showNotification('Événement ajouté avec succès', 'success'); // Notification après ajout
       },
       error: (error) => {
-        console.error('Erreur lors de l\'ajout de l\'événement', error);
+        this.errorMessage = error;
       }
     });
   }
@@ -118,5 +144,37 @@ export class CalendarComponent implements OnInit {
     this.showAddModal = false;
     this.showDetailModal = false;
     this.selectedEvent = null;
+    this.errorMessage = null;
+  }
+
+  deleteEvent(eventId: number): void {
+    this.eventIdToDelete = eventId;
+    this.showDeleteModal = true;
+  }
+
+  closeDeleteModal(): void {
+    this.showDeleteModal = false;
+    this.eventIdToDelete = null;
+  }
+
+  confirmDelete(): void {
+    if (this.eventIdToDelete !== null) {
+      this.agendaEventService.deleteAgendaEvent(this.eventIdToDelete).subscribe({
+        next: () => {
+          const event = this.calendarComponent.getApi().getEventById(this.eventIdToDelete!.toString());
+          if (event) event.remove();
+          this.calendarEvents = this.calendarEvents.filter(e => e.id !== this.eventIdToDelete!.toString());
+          this.showDeleteModal = false;
+          this.showDetailModal = false;
+          this.eventIdToDelete = null;
+          this.notificationService.showNotification('Événement supprimé avec succès', 'success'); // Notification après suppression
+        },
+        error: (error) => {
+          console.error('Erreur lors de la suppression', error);
+          this.errorMessage = error;
+          this.showDeleteModal = false;
+        }
+      });
+    }
   }
 }
