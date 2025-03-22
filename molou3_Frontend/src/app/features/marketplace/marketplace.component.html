@@ -1,0 +1,213 @@
+<div class="bg-[#f8fafc] min-h-screen">
+    <div class="bg-white min-h-screen w-9/12 mx-auto shadow-sm">
+      <!-- Hero Section -->
+      <div class="relative">
+        <img [src]="bg"             alt="bg" 
+             class="w-full h-72 object-cover brightness-50" />
+        <div class="absolute inset-0 flex items-center justify-center bg-black/30">
+          <h1 class="text-white text-6xl font-bold drop-shadow-lg font-['Poppins']">Marketplace 🏆</h1>
+        </div>
+      </div>
+  
+      <!-- Search & Filters -->
+      <div class="px-6 mt-12 pb-12 flex gap-6">
+        <!-- Filtres -->
+        <div class="flex flex-col w-3/12 bg-gray-100 p-6  shadow-sm">
+          <h2 class="text-xl font-bold mb-4 text-[#1e293b]">Filtres</h2>
+          
+          <!-- Ville -->
+          <div class="mb-6">
+            <label class="block text-sm font-semibold text-[#475569] mb-2">Localisation du vendeur</label>
+            <div class="relative">
+              <input type="text" 
+                     placeholder="Rechercher une ville..." 
+                     class="w-full px-4 py-2.5 bg-white border border-[#cbd5e1] rounded-lg focus:ring-2 focus:ring-[#3b82f6] focus:border-[#3b82f6] placeholder-[#94a3b8]">
+              <svg class="w-5 h-5 absolute right-3 top-3.5 text-[#94a3b8]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+              </svg>
+            </div>
+          </div>
+  
+          <!-- Nationalité -->
+          <div class="mb-6">
+            <label class="block text-sm font-semibold text-[#475569] mb-2">Nationalité du pigeon</label>
+            <div class="relative">
+              <input type="text" 
+                     placeholder="Pays d'origine..." 
+                     class="w-full px-4 py-2.5 border bg-white border-[#cbd5e1] rounded-lg focus:ring-2 focus:ring-[#3b82f6] focus:border-[#3b82f6] placeholder-[#94a3b8]">
+              <svg class="w-5 h-5 absolute right-3 top-3.5 text-[#94a3b8]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+              </svg>
+            </div>
+          </div>
+  
+          <!-- Sexe -->
+          <div class="mb-6">
+            <label class="block text-sm font-semibold text-[#475569] mb-2">Sexe</label>
+            <div class="flex gap-2">
+              <button class="flex-1 px-4 py-2.5 rounded-lg border-2 border-[#bfdbfe] bg-[#eff6ff] text-[#1d4ed8] font-semibold flex items-center justify-center gap-2 hover:border-[#3b82f6] transition-colors">
+                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 16 16">
+                  <path d="M9.5 2a.5.5 0 0 1 0-1h5a.5.5 0 0 1 .5.5v5a.5.5 0 0 1-1 0V2.707L9.871 6.836a5 5 0 1 1-.707-.707L13.293 2zM6 6a4 4 0 1 0 0 8 4 4 0 0 0 0-8"/>
+                </svg>
+                Mâle
+              </button>
+              <button class="flex-1 px-4 py-2.5 rounded-lg border-2 border-[#fbcfe8] bg-[#fdf2f8] text-[#be185d] font-semibold flex items-center justify-center gap-2 hover:border-[#ec4899] transition-colors">
+                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 16 16">
+                  <path d="M8 1a4 4 0 1 0 0 8 4 4 0 0 0 0-8M3 5a5 5 0 1 1 5.5 4.975V12h2a.5.5 0 0 1 0 1h-2v2.5a.5.5 0 0 1-1 0V13h-2a.5.5 0 0 1 0-1h2V9.975A5 5 0 0 1 3 5"/>
+                </svg>
+                Femelle
+              </button>
+            </div>
+          </div>
+  
+          <!-- Prix -->
+          <div class="mb-6">
+            <label class="block text-sm font-semibold text-[#475569] mb-3">Intervalle de prix</label>
+            <div class="flex items-center gap-3">
+              <div class="flex-1">
+                <input type="number" 
+                       placeholder="Min" 
+                       class="w-full px-4 py-2.5 border bg-white border-[#cbd5e1] rounded-lg focus:ring-2 focus:ring-[#3b82f6] placeholder-[#94a3b8]">
+              </div>
+              <p>a</p>
+              <div class="flex-1">
+                <input type="number" 
+                       placeholder="Max" 
+                       class="w-full px-4 py-2.5 border bg-white border-[#cbd5e1] rounded-lg focus:ring-2 focus:ring-[#3b82f6] placeholder-[#94a3b8]">
+              </div>
+            </div>
+          </div>
+        </div>
+  
+        <!-- Liste des pigeons -->
+        <div class="w-9/12">
+          <div class="grid grid-cols-2 gap-6">
+            <!-- Carte Pigeon 1 -->
+            <div class="relative bg-white rounded-2xl shadow-xl overflow-hidden group transition-all duration-300 hover:shadow-2xl">
+              <div class="relative aspect-[4/3] overflow-hidden">
+                <img [src]="bg"                      alt="Pigeon" 
+                     class="w-full h-full object-cover transition-all duration-500 group-hover:scale-105">
+                
+                <!-- Prix -->
+                <div class="absolute top-3 left-3 bg-white/90 px-3 py-1.5 rounded-full text-sm font-bold text-[#1e293b] shadow-sm">
+                  €1,850
+                </div>
+  
+                <!-- Sexe -->
+                <div class="absolute top-3 right-3 bg-white/90 p-2 rounded-full shadow-sm">
+                  <svg class="w-5 h-5 text-[#2563eb]" fill="currentColor" viewBox="0 0 16 16">
+                    <path d="M9.5 2a.5.5 0 0 1 0-1h5a.5.5 0 0 1 .5.5v5a.5.5 0 0 1-1 0V2.707L9.871 6.836a5 5 0 1 1-.707-.707L13.293 2zM6 6a4 4 0 1 0 0 8 4 4 0 0 0 0-8"/>
+                  </svg>
+                </div>
+  
+                <!-- Badges -->
+                <div class="absolute bottom-3 left-3 flex gap-2">
+                  <span class="px-2.5 py-1 bg-[#dcfce7] text-[#166534] text-xs font-medium rounded-full">Champion</span>
+                  <span class="px-2.5 py-1 bg-[#fef3c7] text-[#854d0e] text-xs font-medium rounded-full">Vacciné</span>
+                </div>
+  
+                <!-- Bouton Détails -->
+                <div class="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent p-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end">
+                  <button class="w-full bg-white/90 text-[#1e293b] py-2.5 rounded-lg font-semibold hover:bg-white transition-colors flex items-center justify-center gap-2">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    </svg>
+                    Détails
+                  </button>
+                </div>
+              </div>
+  
+              <!-- Info bas -->
+              <div class="p-5 bg-[#f8fafc]">
+                <div class="flex justify-between items-start mb-3">
+                  <h3 class="font-bold text-lg text-[#1e293b]">PG-2345-X</h3>
+                  <div class="flex items-center gap-1 text-amber-400">
+                    <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20">
+                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                    </svg>
+                    <span class="text-sm font-semibold">4.8</span>
+                  </div>
+                </div>
+                
+                <div class="grid grid-cols-2 gap-3 text-sm">
+                  <div class="flex items-center gap-2 text-[#475569]">
+                    <svg class="w-4 h-4 text-[#64748b]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 10.5h-1.5a1.5 1.5 0 00-1.5 1.5v9H6v-9a1.5 1.5 0 00-1.5-1.5H3m4.5-5l2.25-2.25L12 7.5l2.25-2.25L16.5 5.5"/>
+                    </svg>
+                    <span>Belgique</span>
+                  </div>
+                  
+                  <div class="flex items-center gap-2 text-[#475569]">
+                    <svg class="w-4 h-4 text-[#64748b]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                    </svg>
+                    <span>2 ans</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+  
+            <!-- Carte Pigeon 2 -->
+            <div class="relative bg-white rounded-2xl shadow-xl overflow-hidden group transition-all duration-300 hover:shadow-2xl">
+              <div class="relative aspect-[4/3] overflow-hidden">
+                <img [src]="bg"                      alt="Pigeon" 
+                     class="w-full h-full object-cover transition-all duration-500 group-hover:scale-105">
+                
+                <div class="absolute top-3 left-3 bg-white/90 px-3 py-1.5 rounded-full text-sm font-bold text-[#1e293b] shadow-sm">
+                  €2,450
+                </div>
+  
+                <div class="absolute top-3 right-3 bg-white/90 p-2 rounded-full shadow-sm">
+                  <svg class="w-5 h-5 text-[#db2777]" fill="currentColor" viewBox="0 0 16 16">
+                    <path d="M8 1a4 4 0 1 0 0 8 4 4 0 0 0 0-8M3 5a5 5 0 1 1 5.5 4.975V12h2a.5.5 0 0 1 0 1h-2v2.5a.5.5 0 0 1-1 0V13h-2a.5.5 0 0 1 0-1h2V9.975A5 5 0 0 1 3 5"/>
+                  </svg>
+                </div>
+  
+                <div class="absolute bottom-3 left-3 flex gap-2">
+                  <span class="px-2.5 py-1 bg-[#ffedd5] text-[#9a3412] text-xs font-medium rounded-full">Rare</span>
+                </div>
+  
+                <div class="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent p-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end">
+                  <button class="w-full bg-white/90 text-[#1e293b] py-2.5 rounded-lg font-semibold hover:bg-white transition-colors flex items-center justify-center gap-2">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    </svg>
+                    Détails
+                  </button>
+                </div>
+              </div>
+  
+              <div class="p-5 bg-[#f8fafc]">
+                <div class="flex justify-between items-start mb-3">
+                  <h3 class="font-bold text-lg text-[#1e293b]">PG-6789-Z</h3>
+                  <div class="flex items-center gap-1 text-amber-400">
+                    <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20">
+                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                    </svg>
+                    <span class="text-sm font-semibold">4.5</span>
+                  </div>
+                </div>
+  
+                <div class="grid grid-cols-2 gap-3 text-sm">
+                  <div class="flex items-center gap-2 text-[#475569]">
+                    <svg class="w-4 h-4 text-[#64748b]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 10.5h-1.5a1.5 1.5 0 00-1.5 1.5v9H6v-9a1.5 1.5 0 00-1.5-1.5H3m4.5-5l2.25-2.25L12 7.5l2.25-2.25L16.5 5.5"/>
+                    </svg>
+                    <span>Pays-Bas</span>
+                  </div>
+                  
+                  <div class="flex items-center gap-2 text-[#475569]">
+                    <svg class="w-4 h-4 text-[#64748b]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                    </svg>
+                    <span>3 ans</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

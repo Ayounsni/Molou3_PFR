@@ -26,14 +26,16 @@ import { PigeonVenduComponent } from './features/colombophile/pigeon/pigeon-vend
 import { PigeonAllComponent } from './features/colombophile/pigeon/pigeon-all/pigeon-all.component';
 import { PigeonFavorisComponent } from './features/colombophile/pigeon/pigeon-favoris/pigeon-favoris.component';
 import { CalendarComponent } from './features/colombophile/calendar/calendar.component';
+import { MarketplaceComponent } from './features/marketplace/marketplace.component';
 
 
 
 export const routes: Routes = [
     { path: '', component: HomeComponent },
     { path: 'association/dashboard', component: AssociationDashboardComponent },
+    { path: 'marketplace', component: MarketplaceComponent },
     { path: 'association/details/:id', component: AssociationDetailsComponent , children: [
-      { path: '', redirectTo: 'profile', pathMatch: 'full' }, // Redirection par défaut vers le profil
+      { path: '', redirectTo: 'profile', pathMatch: 'full' }, 
       { path: 'profile', component: ProfileDetailComponent },
       { path: 'programme', component: ProgrammeDetailComponent },
       { path: 'annonce', component: AnnonceDetailComponent },

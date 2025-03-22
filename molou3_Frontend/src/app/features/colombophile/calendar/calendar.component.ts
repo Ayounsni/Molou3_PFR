@@ -17,7 +17,7 @@ import { selectCurrentUser } from '../../../store/auth/auth.selectors';
   encapsulation: ViewEncapsulation.None,
 })
 export class CalendarComponent implements OnInit {
-  bg = 'assets/bg108.jpg';
+  bg = 'assets/cal3.jpg';
   @ViewChild('calendar') calendarComponent!: FullCalendarComponent;
 
   calendarEvents: EventInput[] = [];
