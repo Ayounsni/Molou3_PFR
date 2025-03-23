@@ -28,6 +28,8 @@ public class UpdatePigeonDTO {
 
     private String photoUrl;
 
+    private Boolean estFavori ;
+
     @Enumerated(EnumType.STRING)
     private StatusPigeon statusPigeon ;
 }

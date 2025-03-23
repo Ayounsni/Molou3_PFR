@@ -7,11 +7,12 @@ import { SidebarComponent } from '../../../shared/components/sidebar/sidebar.com
 import { PaginationComponent } from '../../../shared/components/pagination/pagination.component';
 import { PageDTO } from '../../../shared/models/dtos/page.model';
 import { RouterLink } from '@angular/router';
+import { FooterComponent } from "../../../shared/components/footer/footer.component";
 
 @Component({
   selector: 'app-association-dashboard',
   standalone: true,
-  imports: [CommonModule, FormsModule, PaginationComponent,RouterLink],
+  imports: [CommonModule, FormsModule, PaginationComponent, RouterLink, FooterComponent],
   templateUrl: './association-dashboard.component.html',
   styleUrls: ['./association-dashboard.component.css']
 })

@@ -1,5 +1,6 @@
 package com.it.molou3_backend.models.dtos.Pigeon;
 
+import com.it.molou3_backend.models.dtos.Colombophile.EmbeddableColombophileDTO;
 import com.it.molou3_backend.models.enums.Sexe;
 import com.it.molou3_backend.models.enums.StatusPigeon;
 import lombok.AllArgsConstructor;
@@ -25,6 +26,8 @@ public class EmbeddablePigeonDTO {
     private String photoUrl;
 
     private StatusPigeon statusPigeon;
+
+    private EmbeddableColombophileDTO colombophile;
 
     private Boolean estFavori = false;
 }

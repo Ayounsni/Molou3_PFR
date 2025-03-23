@@ -34,14 +34,7 @@ public class AgendaEventController {
             ResponseAgendaEventDTO agendaEvent = agendaEventService.findById(id);
             return new ResponseEntity<>(agendaEvent, HttpStatus.OK);
     }
-    @GetMapping
-    public ResponseEntity<PageDTO<ResponseAgendaEventDTO>> getAllAgendaEventsPaginated(
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "3") int size
-    ) {
-        PageDTO<ResponseAgendaEventDTO> agendaEvents = agendaEventService.findAll(page, size);
-        return new ResponseEntity<>(agendaEvents, HttpStatus.OK);
-    }
+
     @GetMapping("/all")
     public ResponseEntity<List<ResponseAgendaEventDTO>> getAllAgendaEvents() {
         List<ResponseAgendaEventDTO> agendaEvents = agendaEventService.findAll();
