@@ -5,9 +5,12 @@ import com.it.molou3_backend.models.dtos.Pigeon.CreatePigeonDTO;
 import com.it.molou3_backend.models.dtos.Pigeon.ResponsePigeonDTO;
 import com.it.molou3_backend.models.dtos.Pigeon.UpdatePigeonDTO;
 import com.it.molou3_backend.models.dtos.Pigeon.ResponsePigeonDTO;
+import com.it.molou3_backend.models.entities.Colombophile;
 import com.it.molou3_backend.models.entities.Pigeon;
 import com.it.molou3_backend.models.entities.Pigeon;
+import com.it.molou3_backend.models.enums.StatusPigeon;
 import com.it.molou3_backend.models.mappers.PigeonMapper;
+import com.it.molou3_backend.repository.ColombophileRepository;
 import com.it.molou3_backend.repository.PigeonRepository;
 import com.it.molou3_backend.services.interfaces.IPigeonService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +31,8 @@ public class PigeonService extends GenericService<Pigeon,CreatePigeonDTO,UpdateP
     public FileUploadService fileUploadService;
     @Autowired
     public PigeonRepository pigeonRepository;
+    @Autowired
+    public ColombophileRepository colombophileRepository;
 
     public PigeonService(PigeonRepository pigeonRepository, PigeonMapper pigeonMapper) {
         super(pigeonRepository, pigeonMapper);
@@ -77,6 +82,17 @@ public class PigeonService extends GenericService<Pigeon,CreatePigeonDTO,UpdateP
                 pigeonPage.getTotalPages(),
                 pigeonPage.isLast()
         );
+    }
+
+    @Override
+    public void sendPigeon(String email,Long pigeonId) {
+
+        Colombophile colombophile = colombophileRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("Aucun colombophile n'a été trouvé avec cet e-mail."));
+        Pigeon pigeon = pigeonRepository.findById(pigeonId).orElseThrow(() -> new RuntimeException("Pigeon n'existe pas"));
+        pigeon.setColombophile(colombophile);
+        pigeon.setStatusPigeon(StatusPigeon.DISPONIBLE);
+        pigeonRepository.save(pigeon);
     }
 
 }

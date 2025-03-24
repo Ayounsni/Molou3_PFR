@@ -3,8 +3,11 @@ package com.it.molou3_backend.services.implementation;
 import com.it.molou3_backend.models.dtos.Marketplace.CreateMarketplaceDTO;
 import com.it.molou3_backend.models.dtos.Marketplace.ResponseMarketplaceDTO;
 import com.it.molou3_backend.models.dtos.Marketplace.UpdateMarketplaceDTO;
+import com.it.molou3_backend.models.dtos.Pagination.PageDTO;
+import com.it.molou3_backend.models.dtos.Pigeon.ResponsePigeonDTO;
 import com.it.molou3_backend.models.entities.Marketplace;
 import com.it.molou3_backend.models.entities.Pigeon;
+import com.it.molou3_backend.models.enums.Sexe;
 import com.it.molou3_backend.models.enums.StatusPigeon;
 import com.it.molou3_backend.models.enums.StatusVente;
 import com.it.molou3_backend.models.mappers.MarketplaceMapper;
@@ -12,6 +15,9 @@ import com.it.molou3_backend.repository.MarketplaceRepository;
 import com.it.molou3_backend.repository.PigeonRepository;
 import com.it.molou3_backend.services.interfaces.IMarketplaceService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -76,6 +82,25 @@ public class MarketplaceService extends GenericService<Marketplace,CreateMarketp
         }
 
         marketplaceRepository.delete(marketplace);
+    }
+
+    @Override
+    public PageDTO<ResponseMarketplaceDTO> findAllByFilters(int page, int size, String status, String ville, String nationalite, String sexe, Double prixMin, Double prixMax) {
+        Pageable pageable = PageRequest.of(page, size);
+
+        Sexe sexeEnum = sexe != null ? Sexe.valueOf(sexe) : null;
+        Page<Marketplace> marketplacePage = marketplaceRepository.findByFilters(
+                StatusVente.valueOf(status), ville, nationalite, sexeEnum, prixMin, prixMax, pageable);
+
+        PageDTO<ResponseMarketplaceDTO> pageDTO = new PageDTO<>();
+        pageDTO.setContent(marketplaceMapper.toDTOs(marketplacePage.getContent()));
+        pageDTO.setPageNumber(marketplacePage.getNumber());
+        pageDTO.setPageSize(marketplacePage.getSize());
+        pageDTO.setTotalElements(marketplacePage.getTotalElements());
+        pageDTO.setTotalPages(marketplacePage.getTotalPages());
+        pageDTO.setLast(marketplacePage.isLast());
+
+        return pageDTO;
     }
 
 }

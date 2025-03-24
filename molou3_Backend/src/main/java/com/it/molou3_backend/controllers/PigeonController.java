@@ -8,6 +8,8 @@ import com.it.molou3_backend.models.entities.Pigeon;
 import com.it.molou3_backend.services.implementation.PigeonService;
 import com.it.molou3_backend.validation.annotations.Exists;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -94,6 +96,20 @@ public class PigeonController {
 
         ResponsePigeonDTO updatedPigeon = pigeonService.update(id, updatePigeonDTO, photoFile);
         return new ResponseEntity<>(updatedPigeon, HttpStatus.OK);
+    }
+
+    @PostMapping("/send")
+    public ResponseEntity<String> sendPigeonToOwner(
+            @RequestParam("email") @Email(message = "L'email doit être valide") @NotNull(message = "L'email est requis") String email,
+            @RequestParam("pigeonId") @NotNull(message = "L'ID du pigeon est requis") Long pigeonId) {
+        try {
+            pigeonService.sendPigeon(email, pigeonId);
+            return new ResponseEntity<>("Pigeon est envoyé avec succès", HttpStatus.OK);
+        } catch (RuntimeException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Une erreur inattendue est survenue", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
 

@@ -12,4 +12,5 @@ public interface IPigeonService extends IGenericService<CreatePigeonDTO,UpdatePi
     ResponsePigeonDTO create(CreatePigeonDTO createPigeonDTO, MultipartFile photoFile) throws IOException;
     ResponsePigeonDTO update(Long id, UpdatePigeonDTO updatePigeonDTO, MultipartFile photoFile) throws IOException;
     PageDTO<ResponsePigeonDTO> findByColombophileId(Long colombophileId, int page, int size);
+    void sendPigeon(String email,Long pigeonId);
 }

@@ -37,9 +37,22 @@ public class MarketplaceController {
     @GetMapping
     public ResponseEntity<PageDTO<ResponseMarketplaceDTO>> getAllMarketplacesPaginated(
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "3") int size
-    ) {
-        PageDTO<ResponseMarketplaceDTO> marketplaces = marketplaceService.findAll(page, size);
+            @RequestParam(defaultValue = "6") int size, // Aligné avec ton pageSize=6
+            @RequestParam(defaultValue = "DISPONIBLE", required = false) String status,
+            @RequestParam(required = false) String ville, // Localisation du vendeur
+            @RequestParam(required = false) String nationalite, // Nationalité du pigeon
+            @RequestParam(required = false) String sexe, // Sexe du pigeon
+            @RequestParam(required = false) Double prixMin, // Prix minimum
+            @RequestParam(required = false) Double prixMax) { // Prix maximum
+        if (ville != null) {
+            ville = ville.trim();
+            if (ville.isEmpty()) ville = null;
+        }
+        if (nationalite != null) {
+            nationalite = nationalite.trim();
+            if (nationalite.isEmpty()) nationalite = null;
+        }
+        PageDTO<ResponseMarketplaceDTO> marketplaces = marketplaceService.findAllByFilters(page, size, status, ville, nationalite, sexe, prixMin, prixMax);
         return new ResponseEntity<>(marketplaces, HttpStatus.OK);
     }
     @GetMapping("/all")
