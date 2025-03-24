@@ -68,4 +68,13 @@ export class PigeonService {
       catchError(error => throwError(() => error.error || 'Erreur lors de la récupération du pigeon'))
     );
   }
+
+  sendPigeonToOwner(email: string, pigeonId: number): Observable<string> {
+    let params = new HttpParams()
+      .set('email', email)
+      .set('pigeonId', pigeonId.toString());
+    return this.http.post<string>(`${this.apiUrl}/send`, null, { params, responseType: 'text' as 'json' }).pipe(
+      catchError(error => throwError(() => error.error || 'Erreur lors du transfert du pigeon'))
+    );
+  }
 }

@@ -53,4 +53,15 @@ export class MarketplaceService {
       catchError(error => throwError(() => error.error || 'Erreur lors de la suppression de la marketplace'))
     );
   }
+  getAllMarketplaces(): Observable<Marketplace[]> {
+    return this.http.get<Marketplace[]>(`${this.apiUrl}/all`).pipe(
+      catchError(error => throwError(() => error.error || 'Erreur lors de la récupération des marketplaces'))
+    );
+  }
+
+  updateMarketplace(id: number, updateData: { prix?: number; statusVente?: string }): Observable<Marketplace> {
+    return this.http.put<Marketplace>(`${this.apiUrl}/${id}`, updateData).pipe(
+      catchError(error => throwError(() => error.error || 'Erreur lors de la mise à jour de la marketplace'))
+    );
+  }
 }

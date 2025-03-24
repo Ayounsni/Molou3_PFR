@@ -13,6 +13,7 @@ import { selectCurrentUser } from '../../../../store/auth/auth.selectors';
 import { PigeonFormComponent } from '../../../../shared/components/forms/pigeon/pigeon-form/pigeon-form.component';
 import { PigeonDetailModalComponent } from '../../../../shared/components/pigeon-detail-modal/pigeon-detail-modal.component';
 import { MarketplaceService } from '../../../../core/services/marketplace.service';
+import { SellModifyModalComponent } from '../../../../shared/components/forms/marketplace/sell-modify-modal/sell-modify-modal.component';
 
 @Component({
   selector: 'app-pigeon-all',
@@ -24,7 +25,8 @@ import { MarketplaceService } from '../../../../core/services/marketplace.servic
     PaginationComponent,
     DeleteConfirmationModalComponent,
     PigeonFormComponent,
-    PigeonDetailModalComponent
+    PigeonDetailModalComponent,
+    SellModifyModalComponent
   ],
   templateUrl: './pigeon-all.component.html',
   styleUrls: ['./pigeon-all.component.css']
@@ -54,8 +56,6 @@ export class PigeonAllComponent implements OnInit {
   menuVisible: boolean = false;
   selectedPigeonIdForMenu: number | null = null;
   image: string = 'assets/pardefaut.webp';
-
-  sellPrice: number | null = null;
 
   constructor(
     private pigeonService: PigeonService,
@@ -226,7 +226,7 @@ export class PigeonAllComponent implements OnInit {
   }
 
   toggleFavorite(pigeon: Pigeon): void {
-    const updatedData = { estFavori: !pigeon.estFavori }; // Seules les données à mettre à jour
+    const updatedData = { estFavori: !pigeon.estFavori };
     this.pigeonService.updatePigeon(pigeon.id!, updatedData).subscribe({
       next: (response) => {
         const index = this.pigeons.findIndex(p => p.id === pigeon.id);
@@ -255,34 +255,30 @@ export class PigeonAllComponent implements OnInit {
   openSellModal(pigeon: Pigeon): void {
     this.selectedPigeon = pigeon;
     this.showSellModal = true;
-    this.sellPrice = null; // Réinitialise le prix
     this.menuVisible = false;
   }
 
   closeSellModal(): void {
     this.showSellModal = false;
     this.selectedPigeon = null;
-    this.sellPrice = null;
   }
 
-  submitSell(): void {
-    if (this.selectedPigeon && this.sellPrice && this.sellPrice > 0) {
+  submitSell(price: number): void {
+    if (this.selectedPigeon) {
       const createMarketplaceDTO = {
         pigeonId: this.selectedPigeon.id!,
-        prix: this.sellPrice
+        prix: price
       };
       this.marketplaceService.createMarketplace(createMarketplaceDTO).subscribe({
         next: (marketplace) => {
           this.notificationService.showNotification('Pigeon mis en vente avec succès', 'success');
           this.closeSellModal();
-          // Optionnel : mettre à jour l'état du pigeon si nécessaire
+          this.loadPigeons(); // Rafraîchir la liste si nécessaire
         },
         error: (error) => {
-          this.errorMessage = error.message || 'Erreur lors de la mise en vente';
+          this.notificationService.showNotification('Erreur lors de la mise en vente', 'error');
         }
       });
-    } else {
-      this.errorMessage = 'Veuillez entrer un prix valide.';
     }
   }
 }

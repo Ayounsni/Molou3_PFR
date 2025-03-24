@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms'; // Remplace FormsModule
 import { PaginationComponent } from '../../../../shared/components/pagination/pagination.component';
 import { PigeonService } from '../../../../core/services/pigeon.service';
 import { NotificationService } from '../../../../core/services/notification.service';
@@ -13,7 +14,7 @@ import { PigeonDetailModalComponent } from '../../../../shared/components/pigeon
 @Component({
   selector: 'app-pigeon-vendu',
   standalone: true,
-  imports: [CommonModule, PaginationComponent, PigeonDetailModalComponent],
+  imports: [CommonModule, ReactiveFormsModule, PaginationComponent, PigeonDetailModalComponent], // Remplace FormsModule par ReactiveFormsModule
   templateUrl: './pigeon-vendu.component.html',
   styleUrls: ['./pigeon-vendu.component.css']
 })
@@ -29,12 +30,23 @@ export class PigeonVenduComponent implements OnInit {
   isLastPage = false;
   showDetailModal = false;
   image: string = 'assets/pardefaut.webp';
+  menuVisible: boolean = false;
+  selectedPigeonIdForMenu: number | null = null;
+  showTransferModal: boolean = false;
+  transferForm: FormGroup; // Formulaire réactif
+  errorMessage: string | null = null; // Message d'erreur backend
 
   constructor(
     private pigeonService: PigeonService,
     private notificationService: NotificationService,
-    private store: Store<AppState>
-  ) {}
+    private store: Store<AppState>,
+    private fb: FormBuilder // Injecter FormBuilder
+  ) {
+    // Initialisation du formulaire
+    this.transferForm = this.fb.group({
+      email: ['', [Validators.required, Validators.email]]
+    });
+  }
 
   ngOnInit(): void {
     this.loadCurrentUser();
@@ -59,7 +71,7 @@ export class PigeonVenduComponent implements OnInit {
         this.pigeons = pageData.content.filter(p => p.statusPigeon === 'VENDU');
         this.filteredPigeons = [...this.pigeons];
         this.totalElements = this.pigeons.length;
-        this.totalPages = Math.ceil(pageData.totalElements / this.pageSize); // Approximation
+        this.totalPages = Math.ceil(pageData.totalElements / this.pageSize);
         this.isLastPage = this.currentPage >= this.totalPages;
 
         if (this.pigeons.length === 0 && this.currentPage > 1) {
@@ -93,5 +105,53 @@ export class PigeonVenduComponent implements OnInit {
   closeDetail(): void {
     this.showDetailModal = false;
     this.selectedPigeon = null;
+  }
+
+  toggleMenu(event: Event): void {
+    event.stopPropagation();
+    this.menuVisible = !this.menuVisible;
+    const target = event.currentTarget as HTMLElement;
+    const pigeonId = target.closest('.relative')?.querySelector('input[name="pigeonId"]')?.getAttribute('value');
+    this.selectedPigeonIdForMenu = pigeonId ? +pigeonId : null;
+  }
+
+  openTransferModal(pigeonId: number): void {
+    this.menuVisible = false;
+    const pigeon = this.pigeons.find(p => p.id === pigeonId);
+    if (pigeon) {
+      this.selectedPigeon = pigeon;
+      this.showTransferModal = true;
+      this.errorMessage = null; // Réinitialiser le message d'erreur
+      this.transferForm.reset(); // Réinitialiser le formulaire
+    }
+  }
+
+  closeTransferModal(): void {
+    this.showTransferModal = false;
+    this.errorMessage = null;
+    this.transferForm.reset();
+  }
+
+  submitTransfer(): void {
+    if (this.transferForm.invalid) {
+      this.transferForm.markAllAsTouched(); // Marquer tous les champs comme touchés pour afficher les erreurs
+      return;
+    }
+    if (!this.selectedPigeon) {
+      this.errorMessage = 'Aucun pigeon sélectionné';
+      return;
+    }
+
+    const email = this.transferForm.get('email')?.value;
+    this.pigeonService.sendPigeonToOwner(email, this.selectedPigeon.id!).subscribe({
+      next: (response) => {
+        this.notificationService.showNotification(response, 'success');
+        this.loadPigeons();
+        this.closeTransferModal();
+      },
+      error: (error) => {
+        this.errorMessage = error; // Afficher le message d'erreur du backend
+      }
+    });
   }
 }
