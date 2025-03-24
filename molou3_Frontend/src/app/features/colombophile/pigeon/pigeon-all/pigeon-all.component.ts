@@ -12,6 +12,7 @@ import { AppState } from '../../../../store/app.state';
 import { selectCurrentUser } from '../../../../store/auth/auth.selectors';
 import { PigeonFormComponent } from '../../../../shared/components/forms/pigeon/pigeon-form/pigeon-form.component';
 import { PigeonDetailModalComponent } from '../../../../shared/components/pigeon-detail-modal/pigeon-detail-modal.component';
+import { MarketplaceService } from '../../../../core/services/marketplace.service';
 
 @Component({
   selector: 'app-pigeon-all',
@@ -34,6 +35,7 @@ export class PigeonAllComponent implements OnInit {
   showEditModal = false;
   showDeleteConfirmation = false;
   showDetailModal = false;
+  showSellModal = false;
   pigeons: Pigeon[] = [];
   filteredPigeons: Pigeon[] = [];
   selectedPigeon: Pigeon | null = null;
@@ -53,8 +55,11 @@ export class PigeonAllComponent implements OnInit {
   selectedPigeonIdForMenu: number | null = null;
   image: string = 'assets/pardefaut.webp';
 
+  sellPrice: number | null = null;
+
   constructor(
     private pigeonService: PigeonService,
+    private marketplaceService: MarketplaceService,
     private notificationService: NotificationService,
     private store: Store<AppState>
   ) {}
@@ -245,5 +250,39 @@ export class PigeonAllComponent implements OnInit {
   onPageChange(page: number): void {
     this.currentPage = page;
     this.loadPigeons();
+  }
+
+  openSellModal(pigeon: Pigeon): void {
+    this.selectedPigeon = pigeon;
+    this.showSellModal = true;
+    this.sellPrice = null; // Réinitialise le prix
+    this.menuVisible = false;
+  }
+
+  closeSellModal(): void {
+    this.showSellModal = false;
+    this.selectedPigeon = null;
+    this.sellPrice = null;
+  }
+
+  submitSell(): void {
+    if (this.selectedPigeon && this.sellPrice && this.sellPrice > 0) {
+      const createMarketplaceDTO = {
+        pigeonId: this.selectedPigeon.id!,
+        prix: this.sellPrice
+      };
+      this.marketplaceService.createMarketplace(createMarketplaceDTO).subscribe({
+        next: (marketplace) => {
+          this.notificationService.showNotification('Pigeon mis en vente avec succès', 'success');
+          this.closeSellModal();
+          // Optionnel : mettre à jour l'état du pigeon si nécessaire
+        },
+        error: (error) => {
+          this.errorMessage = error.message || 'Erreur lors de la mise en vente';
+        }
+      });
+    } else {
+      this.errorMessage = 'Veuillez entrer un prix valide.';
+    }
   }
 }
