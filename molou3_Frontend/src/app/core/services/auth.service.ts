@@ -90,6 +90,13 @@ export class AuthService {
     return this.http.get<PageDTO<Association>>(`${this.apiUrl}/public/association`, { params });
   }
 
+  getAllColombophilesPaginated(page: number = 0, size: number = 3): Observable<PageDTO<Colombophile>> {
+    const params = new HttpParams()
+      .set('page', page.toString())
+      .set('size', size.toString());
+    return this.http.get<PageDTO<Colombophile>>(`${this.apiUrl}/public/colombophile`, { params });
+  }
+
 
   searchAssociations(searchCriteria: any): Observable<Association[]> {
     return this.http.post<Association[]>(`${this.apiUrl}/public/association/search`, searchCriteria);

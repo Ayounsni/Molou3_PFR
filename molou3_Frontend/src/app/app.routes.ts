@@ -28,6 +28,10 @@ import { PigeonFavorisComponent } from './features/colombophile/pigeon/pigeon-fa
 import { CalendarComponent } from './features/colombophile/calendar/calendar.component';
 import { MarketplaceComponent } from './features/marketplace/marketplace.component';
 import { PigeonAVendreComponent } from './features/colombophile/pigeon/pigeon-a-vendre/pigeon-a-vendre.component';
+import { GestionColombophileComponent } from './features/admin/gestion-colombophile/gestion-colombophile.component';
+import { GestionAssociationComponent } from './features/admin/gestion-association/gestion-association.component';
+import { VerificationAssociationsComponent } from './features/admin/verification-associations/verification-associations.component';
+import { GestionMarketplaceComponent } from './features/admin/gestion-marketplace/gestion-marketplace.component';
 
 
 
@@ -54,6 +58,22 @@ export const routes: Routes = [
           {
             path: 'dashboard',
             component: AdminDashboardComponent
+          },
+          {
+            path: 'gestion-colombophile',
+            component: GestionColombophileComponent
+          },
+          {
+            path: 'gestion-association',
+            component: GestionAssociationComponent
+          },
+          {
+            path: 'verification-associations',
+            component: VerificationAssociationsComponent
+          },
+          {
+            path: 'gestion-marketplace',
+            component: GestionMarketplaceComponent
           }
         ]
       },

@@ -52,4 +52,12 @@ export class CompetitionService {
       })
     );
   }
+
+  getAllCompetitions(): Observable<Competition[]> {
+    return this.http.get<Competition[]>(`${this.apiUrl}/all`).pipe(
+      catchError(error => {
+        return throwError(() => error.error?.message || 'Erreur lors de la récupération des compétitions');
+      })
+    );
+  }
 }

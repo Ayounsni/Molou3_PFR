@@ -11,6 +11,134 @@
 
   <!-- Menu -->
   <nav class="p-4 space-y-4">
+    <!-- Affichage conditionnel pour ROLE_ADMIN -->
+    <div *ngIf="currentUser && currentUser.role?.roleName === 'ROLE_ADMIN'" class="space-y-4">
+      <!-- Section Dashboard -->
+      <div class="space-y-2">
+        <div class="px-3 py-2">
+          <h2 class="text-lg font-semibold text-blue-400">Dashboard</h2>
+          <p class="text-xs text-gray-400">Tableau de bord administrateur</p>
+        </div>
+        <!-- Bouton Consulter Dashboard -->
+        <a
+          routerLink="/admin/dashboard"
+          class="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-700/50 transition-colors duration-200 group"
+        >
+          <svg
+            class="w-5 h-5 text-gray-400 group-hover:text-blue-400"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M9 5H5a2 2 0 00-2 2v12a2 2 0 002 2h14a2 2 0 002-2V7a2 2 0 00-2-2h-4m-6 0V3m6 2V3m-6 6h6m-6 4h6"
+            />
+          </svg>
+          <span class="text-sm">Consulter Dashboard</span>
+        </a>
+      </div>
+
+      <!-- Section Utilisateurs -->
+      <div class="space-y-2">
+        <div class="px-3 py-2">
+          <h2 class="text-lg font-semibold text-blue-400">Utilisateurs</h2>
+          <p class="text-xs text-gray-400">Gestion des utilisateurs</p>
+        </div>
+
+        <!-- Sous-menus -->
+        <a
+          routerLink="/admin/gestion-association"
+          class="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-700/50 transition-colors duration-200 group"
+        >
+          <svg
+            class="w-5 h-5 text-gray-400 group-hover:text-blue-400"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
+            />
+          </svg>
+          <span class="text-sm">Gestion Associations</span>
+        </a>
+
+        <a
+          routerLink="/admin/gestion-colombophile"
+          class="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-700/50 transition-colors duration-200 group"
+        >
+          <svg
+            class="w-5 h-5 text-gray-400 group-hover:text-blue-400"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"
+            />
+          </svg>
+          <span class="text-sm">Gestion Colombophiles</span>
+        </a>
+
+        <a
+          routerLink="/admin/verification-associations"
+          class="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-700/50 transition-colors duration-200 group"
+        >
+          <svg
+            class="w-5 h-5 text-gray-400 group-hover:text-blue-400"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+            />
+          </svg>
+          <span class="text-sm">Vérification Associations</span>
+        </a>
+      </div>
+
+      <!-- Section Marketplace -->
+      <div class="space-y-2">
+        <div class="px-3 py-2">
+          <h2 class="text-lg font-semibold text-blue-400">Marketplace</h2>
+          <p class="text-xs text-gray-400">Gestion du marketplace</p>
+        </div>
+
+        <a
+          routerLink="/admin/gestion-marketplace"
+          class="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-700/50 transition-colors duration-200 group"
+        >
+          <svg
+            class="w-5 h-5 text-gray-400 group-hover:text-blue-400"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M3 3h18M9 3v18m6-18v18M3 9h18M3 15h18"
+            />
+          </svg>
+          <span class="text-sm">Gestion Marketplace</span>
+        </a>
+      </div>
+    </div>
+
     <!-- Affichage conditionnel pour ROLE_ASSOCIATION -->
     <div *ngIf="currentUser && currentUser.role?.roleName === 'ROLE_ASSOCIATION'" class="space-y-4">
       <!-- Section Programme Annuel -->
@@ -228,8 +356,9 @@
           </svg>
           <span class="text-sm">Gestion du calendrier</span>
         </a>
-
       </div>
+
+      <!-- Section Participation -->
       <div class="space-y-2">
         <div class="px-3 py-2">
           <h2 class="text-lg font-semibold text-blue-400">Participation</h2>
@@ -262,16 +391,22 @@
   <div class="absolute bottom-0 left-0 w-full p-4 border-t border-gray-700">
     <div class="flex items-center gap-3">
       <img
-        [src]="currentUser?.photoUrl || (currentUser?.role?.roleName === 'ROLE_ASSOCIATION' ? association : colombophile)"
+        [src]="currentUser?.photoUrl || (currentUser?.role?.roleName === 'ROLE_ASSOCIATION' ? association : (currentUser?.role?.roleName === 'ROLE_ADMIN' ? admin : colombophile))"
         alt="Avatar"
         class="w-10 h-10 bg-white rounded-full border-2 border-blue-400/20"
       />
       <div>
         <p class="text-sm font-medium">
-          {{ currentUser?.role?.roleName === 'ROLE_ASSOCIATION' ? (currentUser?.nomAssociation || 'Association') : (currentUser?.nomComplet || 'Colombophile') }}
+          {{ 
+            currentUser?.role?.roleName === 'ROLE_ASSOCIATION' ? (currentUser?.nomAssociation || 'Association') : 
+            (currentUser?.role?.roleName === 'ROLE_ADMIN' ? (currentUser?.nomComplet || 'ADMIN') : (currentUser?.nomComplet || 'Colombophile')) 
+          }}
         </p>
         <p class="text-xs text-gray-400">
-          {{ currentUser?.role?.roleName === 'ROLE_ASSOCIATION' ? 'Association' : 'Colombophile' }}
+          {{ 
+            currentUser?.role?.roleName === 'ROLE_ASSOCIATION' ? 'Association' : 
+            (currentUser?.role?.roleName === 'ROLE_ADMIN' ? 'Administrateur' : 'Colombophile') 
+          }}
         </p>
       </div>
     </div>
