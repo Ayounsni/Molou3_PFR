@@ -35,6 +35,8 @@ public class ResponseColombophileDTO {
 
     private String nomComplet;
 
+    private boolean enabled;
+
     private NiveauExperience niveauExperience;
 
     private LocalDate dateNaissance;

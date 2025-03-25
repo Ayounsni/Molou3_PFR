@@ -33,6 +33,8 @@ public class UpdateAssociationDTO {
 
     private String responsable;
 
+    private boolean enabled;
+
     private LocalDate dateCreation;
 
     @Pattern(regexp = "^(\\+212|0)[5-7][0-9]{8}$", message = "Numéro de téléphone invalide")

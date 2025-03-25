@@ -69,6 +69,10 @@ public class AppUserService implements IAppUserService {
         AppUser user = appUserRepository.findByEmail(authentication.getName())
                 .orElseThrow(() -> new RuntimeException("Utilisateur non trouvé"));
 
+        if (!user.isEnabled()) {
+            throw new RuntimeException("Votre compte est suspendu.");
+        }
+
         // Création de la réponse DTO
         ResponseLoginDTO response = new ResponseLoginDTO();
 
