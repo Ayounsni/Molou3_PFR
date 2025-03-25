@@ -5,16 +5,18 @@ import { Association } from '../../../shared/models/association.model';
 import { PageDTO } from '../../../shared/models/dtos/page.model';
 import { SidebarComponent } from '../../../shared/components/sidebar/sidebar.component';
 import { PaginationComponent } from '../../../shared/components/pagination/pagination.component';
+import { NotificationService } from '../../../core/services/notification.service';
+import { NotificationComponent } from "../../../shared/components/notification/notification.component";
 
 @Component({
   selector: 'app-gestion-association',
   standalone: true,
-  imports: [CommonModule, SidebarComponent, PaginationComponent],
+  imports: [CommonModule, SidebarComponent, PaginationComponent, NotificationComponent],
   templateUrl: './gestion-association.component.html',
   styleUrls: ['./gestion-association.component.css']
 })
 export class GestionAssociationComponent implements OnInit {
-  bg = 'assets/bg89.jpg';
+  bg = 'assets/bg66.jpg';
   associations: Association[] = [];
   currentPage: number = 1; // Commencer à 1 comme dans PigeonAllComponent
   pageSize: number = 5;    // Taille de page initiale
@@ -23,7 +25,9 @@ export class GestionAssociationComponent implements OnInit {
   isLastPage: boolean = false;
   errorMessage: string | null = null;
 
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService,
+    private notificationService: NotificationService
+  ) {}
 
   ngOnInit(): void {
     this.loadAssociations();
@@ -51,15 +55,20 @@ export class GestionAssociationComponent implements OnInit {
     });
   }
 
-  toggleAssociationStatus(association: Association): void {
-    const updateDTO = {
-      enabled: !association.enabled
-    };
 
+  toggleAssociationStatus(association: Association): void {
+    const updateDTO = { enabled: !association.enabled };
+    const originalEnabled = association.enabled; 
+  
+    association.enabled = !association.enabled;
+  
     this.authService.updateAssociation(association.id, updateDTO).subscribe({
       next: (response) => {
         console.log('Mise à jour réussie:', response);
-        association.enabled = !association.enabled; // Mise à jour locale après succès
+        this.notificationService.showNotification(
+          `Association ${association.enabled ? 'réactivée' : 'suspendue'} avec succès`,
+          'success'
+        );
       },
       error: (err) => {
         console.error('Erreur lors de la mise à jour du statut:', err);
@@ -67,6 +76,8 @@ export class GestionAssociationComponent implements OnInit {
           console.error('Détails de l\'erreur:', err.error);
         }
         this.errorMessage = 'Erreur lors de la mise à jour du statut.';
+        this.notificationService.showNotification(this.errorMessage, 'error'); // Ajout notification
+        association.enabled = originalEnabled; // Restauration en cas d’erreur
       }
     });
   }

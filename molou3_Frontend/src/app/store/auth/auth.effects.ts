@@ -84,10 +84,11 @@ export class AuthEffects {
               token: response.token
             });
           }),
-          catchError((error) => {
-            console.error('Erreur login:', error);
+          catchError((error: any) => {
+            const errorMessage = error.error?.message || 'Une erreur inconnue est survenue lors de la connexion.';
+            console.error('Erreur login:', error.error?.message);
             this.authService.clearToken();
-            return of(AuthActions.loginFailure({ error: 'Email ou mot de passe incorrect' }));
+            return of(AuthActions.loginFailure({ error: errorMessage }));
           })
         )
       )

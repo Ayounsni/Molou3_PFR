@@ -5,17 +5,19 @@ import { PageDTO } from '../../../shared/models/dtos/page.model';
 import { SidebarComponent } from '../../../shared/components/sidebar/sidebar.component';
 import { PaginationComponent } from '../../../shared/components/pagination/pagination.component';
 import { Colombophile } from '../../../shared/models/colombophile.model';
+import { NotificationService } from '../../../core/services/notification.service';
+import { NotificationComponent } from "../../../shared/components/notification/notification.component";
 
 
 @Component({
   selector: 'app-gestion-colombophile',
   standalone: true,
-  imports: [CommonModule, SidebarComponent, PaginationComponent],
+  imports: [CommonModule, SidebarComponent, PaginationComponent, NotificationComponent],
   templateUrl: './gestion-colombophile.component.html',
   styleUrls: ['./gestion-colombophile.component.css']
 })
 export class GestionColombophileComponent implements OnInit {
-  bg = 'assets/bg89.jpg';
+  bg = 'assets/bg99.jpg';
   colombophiles: Colombophile[] = [];
   currentPage: number = 1; // Commencer à 1
   pageSize: number = 5;    // Taille de page
@@ -24,7 +26,9 @@ export class GestionColombophileComponent implements OnInit {
   isLastPage: boolean = false;
   errorMessage: string | null = null;
 
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService,
+    private notificationService: NotificationService
+  ) {}
 
   ngOnInit(): void {
     this.loadColombophiles();
@@ -53,21 +57,24 @@ export class GestionColombophileComponent implements OnInit {
   }
 
   toggleColombophileStatus(colombophile: Colombophile): void {
-    const updateDTO = {
-      enabled: !colombophile.enabled
-    };
+    const updateDTO = { enabled: !colombophile.enabled };
+    const originalEnabled = colombophile.enabled;
+
+    colombophile.enabled = !colombophile.enabled; // Mise à jour optimiste
 
     this.authService.updateColombophile(colombophile.id, updateDTO).subscribe({
       next: (response) => {
         console.log('Mise à jour réussie:', response);
-        colombophile.enabled = !colombophile.enabled; // Mise à jour locale après succès
+        this.notificationService.showNotification(
+          `Colombophile ${colombophile.enabled ? 'réactivé' : 'suspendu'} avec succès`,
+          'success'
+        ); 
       },
       error: (err) => {
         console.error('Erreur lors de la mise à jour du statut:', err);
-        if (err.error) {
-          console.error('Détails de l\'erreur:', err.error);
-        }
+        colombophile.enabled = originalEnabled; // Revenir à l’état initial
         this.errorMessage = 'Erreur lors de la mise à jour du statut.';
+        this.notificationService.showNotification(this.errorMessage, 'error'); // Notification erreur
       }
     });
   }

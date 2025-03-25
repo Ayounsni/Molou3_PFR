@@ -1,4 +1,5 @@
 <app-sidebar></app-sidebar>
+<app-notification></app-notification>
 <div class="ml-70 bg-[#f5f5f5] flex justify-center items-center min-h-screen">
   <div class="bg-white min-h-screen w-10/12 shadow-sm">
     <div class="relative">
@@ -14,7 +15,7 @@
           <thead class="bg-gray-100">
             <tr>
               <th class="px-6 py-4 text-left text-sm font-semibold text-gray-700 uppercase">Photo</th>
-              <th class="px-6 py-4 text-left text-sm font-semibold text-gray-700 uppercase">Nom Complet</th>
+              <th class="px-6 py-4 text-left text-sm font-semibold text-gray-700 uppercase">E-mail</th>
               <th class="px-6 py-4 text-left text-sm font-semibold text-gray-700 uppercase">Date de Naissance</th>
               <th class="px-6 py-4 text-left text-sm font-semibold text-gray-700 uppercase">Ville</th>
               <th class="px-6 py-4 text-left text-sm font-semibold text-gray-700 uppercase">Statut</th>
@@ -26,7 +27,7 @@
               <td class="px-6 py-4">
                 <img [src]="colombophile.photoUrl || 'assets/default-colombophile.jpg'" alt="Photo" class="w-12 h-12 rounded-full object-cover">
               </td>
-              <td class="px-6 py-4 text-base text-gray-800 font-medium">{{ colombophile.nomComplet }}</td>
+              <td class="px-6 py-4  text-gray-800 text-sm font-medium">{{ colombophile.email }}</td>
               <td class="px-6 py-4 text-base text-gray-600">{{ colombophile.dateNaissance | date:'mediumDate' }}</td>
               <td class="px-6 py-4 text-sm text-gray-600">
                 <div class="flex items-center">
