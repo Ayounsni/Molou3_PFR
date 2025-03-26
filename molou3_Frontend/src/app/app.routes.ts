@@ -32,6 +32,8 @@ import { GestionColombophileComponent } from './features/admin/gestion-colomboph
 import { GestionAssociationComponent } from './features/admin/gestion-association/gestion-association.component';
 import { VerificationAssociationsComponent } from './features/admin/verification-associations/verification-associations.component';
 import { GestionMarketplaceComponent } from './features/admin/gestion-marketplace/gestion-marketplace.component';
+import { PendingComponent } from './shared/components/status/pending/pending.component';
+import { RejectedComponent } from './shared/components/status/rejected/rejected.component';
 
 
 
@@ -48,6 +50,8 @@ export const routes: Routes = [
     ]},
     { path: 'meteo', component: WeatherComponent },
     { path: 'register', component: RegisterComponent, canActivate: [LoggedInGuard] },
+    { path: 'association/pending', component: PendingComponent, canActivate: [LoggedInGuard] },
+    { path: 'association/rejected', component: RejectedComponent, canActivate: [LoggedInGuard] },
     { path: 'login', component: LoginComponent, canActivate: [LoggedInGuard] },
     { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard], data: { roles: ['ROLE_COLOMBOPHILE', 'ROLE_ASSOCIATION'] } },
         {

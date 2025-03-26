@@ -68,10 +68,11 @@ export class AssociationDashboardComponent implements OnInit {
       nomAssociation: this.searchNomAssociation || null,
       ville: this.searchVille || null
     };
+    console.log('Critères envoyés au backend :', searchCriteria); // Ajout pour débogage
     this.authService.searchAssociations(searchCriteria).subscribe({
       next: (associations: Association[]) => {
         this.associations = associations;
-        // Pas de pagination pour la recherche, on affiche tout
+        console.log('Résultats reçus :', associations); // Ajout pour débogage
         this.totalPages = 1;
         this.currentPage = 0;
         this.totalElements = associations.length;

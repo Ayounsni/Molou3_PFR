@@ -55,34 +55,68 @@ export class AuthEffects {
         this.authService.login(email, password).pipe(
           tap((response) => {
             console.log('Login réussi, token:', response.token);
-            this.authService.setToken(response.token);
-            this.router.navigate([this.getDashboardRoute(response.role)]);
+  
+            // Vérifier si le rôle est "ROLE_ASSOCIATION"
+            if (response.role === 'ROLE_ASSOCIATION') {
+              // Gérer les différents statuts d'inscription pour les associations
+              switch (response.statusInscription) {
+                case 'APPROVED':
+                  // Connexion autorisée : stocker le token et rediriger
+                  this.authService.setToken(response.token);
+                  this.router.navigate([this.getDashboardRoute(response.role)]);
+                  break;
+                case 'PENDING':
+                  // Pas de connexion : rediriger sans stocker le token
+                  this.authService.clearToken();
+                  this.router.navigate(['/association/pending']);
+                  break;
+                case 'REJECTED':
+                  // Pas de connexion : rediriger sans stocker le token
+                  this.authService.clearToken();
+                  this.router.navigate(['/association/rejected']);
+                  break;
+                default:
+                  console.error('Statut d\'inscription inconnu:', response.statusInscription);
+                  this.authService.clearToken();
+                  this.router.navigate(['/error']);
+                  break;
+              }
+            } else {
+              // Pour ROLE_ADMIN et ROLE_COLOMBOPHILE : connexion normale
+              this.authService.setToken(response.token);
+              this.router.navigate([this.getDashboardRoute(response.role)]);
+            }
           }),
           map((response: LoginResponse) => {
-            const user: User = {
-              id: response.id,
-              email: response.email,
-              password: '',
-              role: { roleName: response.role } as any,
-              ville: response.ville,
-              telephone: response.telephone,
-              photoUrl: response.photoUrl,
-              adresse: response.adresse,
-              description: response.description,
-              enabled: response.enabled,
-              nomComplet: response.nomComplet,
-              niveauExperience: response.niveauExperience,
-              dateNaissance: response.dateNaissance,
-              nomAssociation: response.nomAssociation,
-              responsable: response.responsable,
-              dateCreation: response.dateCreation,
-              statusInscription: response.statusInscription,
-              preuveLegalePath: response.preuveLegalePath
-            };
-            return AuthActions.loginSuccess({
-              user,
-              token: response.token
-            });
+            // Ne déclencher loginSuccess que pour ROLE_ADMIN, ROLE_COLOMBOPHILE ou ROLE_ASSOCIATION avec APPROVED
+            if (response.role !== 'ROLE_ASSOCIATION' || response.statusInscription === 'APPROVED') {
+              const user: User = {
+                id: response.id,
+                email: response.email,
+                password: '',
+                role: { roleName: response.role } as any,
+                ville: response.ville,
+                telephone: response.telephone,
+                photoUrl: response.photoUrl,
+                adresse: response.adresse,
+                description: response.description,
+                enabled: response.enabled,
+                nomComplet: response.nomComplet,
+                niveauExperience: response.niveauExperience,
+                dateNaissance: response.dateNaissance,
+                nomAssociation: response.nomAssociation,
+                responsable: response.responsable,
+                dateCreation: response.dateCreation,
+                statusInscription: response.statusInscription,
+                preuveLegalePath: response.preuveLegalePath
+              };
+              return AuthActions.loginSuccess({
+                user,
+                token: response.token
+              });
+            }
+            // Pour ROLE_ASSOCIATION avec PENDING ou REJECTED : pas de loginSuccess
+            return { type: '[Auth] No Action' };
           }),
           catchError((error: any) => {
             const errorMessage = error.error?.message || 'Une erreur inconnue est survenue lors de la connexion.';
