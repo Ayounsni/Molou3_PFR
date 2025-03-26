@@ -3,8 +3,10 @@ package com.it.molou3_backend.services.implementation;
 import com.it.molou3_backend.models.dtos.Association.CreateAssociationDTO;
 import com.it.molou3_backend.models.dtos.Association.ResponseAssociationDTO;
 import com.it.molou3_backend.models.dtos.Association.UpdateAssociationDTO;
+import com.it.molou3_backend.models.dtos.Pagination.PageDTO;
 import com.it.molou3_backend.models.dtos.Search.SearchAssociationDTO;
 import com.it.molou3_backend.models.entities.Association;
+import com.it.molou3_backend.models.enums.StatusInscription;
 import com.it.molou3_backend.models.mappers.AssociationMapper;
 import com.it.molou3_backend.repository.AssociationRepository;
 import com.it.molou3_backend.security.config.Jwt.JwtUtils;
@@ -18,6 +20,9 @@ import com.it.molou3_backend.security.services.implementations.HaveIBeenPwnedSer
 import com.it.molou3_backend.services.interfaces.IAssociationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -106,6 +111,35 @@ public class AssociationService extends GenericService<Association,CreateAssocia
         return associations.stream()
                 .map(associationMapper::toDTO)
                 .collect(Collectors.toList());
+    }
+    @Override
+    public PageDTO<ResponseAssociationDTO> findAlle(int page, int size, Boolean enabled, StatusInscription statusInscription) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Association> associationPage;
+
+        // Appliquer les filtres si fournis
+        if (enabled != null && statusInscription != null) {
+            associationPage = associationRepository.findByEnabledAndStatusInscription(enabled, statusInscription, pageable);
+        } else if (enabled != null) {
+            associationPage = associationRepository.findByEnabled(enabled, pageable);
+        } else if (statusInscription != null) {
+            associationPage = associationRepository.findByStatusInscription(statusInscription, pageable);
+        } else {
+            associationPage = associationRepository.findAll(pageable);
+        }
+
+        List<ResponseAssociationDTO> dtos = associationPage.getContent().stream()
+                .map(mapper::toDTO) // Conversion en DTO
+                .collect(Collectors.toList());
+
+        return new PageDTO<>(
+                dtos,
+                associationPage.getNumber(),
+                associationPage.getSize(),
+                associationPage.getTotalElements(),
+                associationPage.getTotalPages(),
+                associationPage.isLast()
+        );
     }
 
 

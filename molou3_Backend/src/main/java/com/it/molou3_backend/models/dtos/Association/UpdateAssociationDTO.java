@@ -43,7 +43,7 @@ public class UpdateAssociationDTO {
     private String description;
 
     @Enumerated(EnumType.STRING)
-    private StatusInscription statusInscription = StatusInscription.PENDING;
+    private StatusInscription statusInscription;
 
     private String preuveLegalePath;
 }
