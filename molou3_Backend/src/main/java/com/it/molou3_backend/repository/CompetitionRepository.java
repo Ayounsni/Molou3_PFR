@@ -10,9 +10,7 @@ import org.springframework.stereotype.Repository;
 public interface CompetitionRepository extends JpaRepository<Competition, Long> {
     @Query("SELECT COUNT(c) > 0 FROM Competition c WHERE LOWER(c.ville) = LOWER(:ville) AND c.etapeCompetition.programmeEdition.id = :programmeEditionId")
     boolean existsByVilleAndEtapeCompetition_ProgrammeEdition_Id(@Param("ville") String ville, @Param("programmeEditionId") Long programmeEditionId);
-//    boolean existsByVilleAndEtapeCompetition_ProgrammeEdition_Id(String ville, Long programmeEditionId);
     @Query("SELECT COUNT(c) > 0 FROM Competition c WHERE LOWER(c.ville) = LOWER(:ville) AND c.etapeCompetition.programmeEdition.id = :programmeEditionId AND c.id <> :id")
     boolean existsByVilleAndEtapeCompetition_ProgrammeEdition_IdAndIdNot(@Param("ville") String ville, @Param("programmeEditionId") Long programmeEditionId, @Param("id") Long id);
-//    boolean existsByVilleAndEtapeCompetition_ProgrammeEdition_IdAndIdNot(String ville, Long programmeEditionId, Long id);
 
 }

@@ -62,18 +62,16 @@ public class ProgrammeEditionService extends GenericService<ProgrammeEdition,Cre
             throw new NullPointerException("The DTO cannot be null");
         }
 
-        // Récupérer l'entité existante
         ProgrammeEdition existingEntity = programmeEditionRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("ProgrammeEdition avec l'ID " + id + " n'existe pas"));
 
-        // Vérifier l'unicité de l'année pour cette association
         List<ProgrammeEdition> editionsForAssociation = programmeEditionRepository
                 .findAllByAssociationId(existingEntity.getAssociation().getId());
 
         boolean anneeExists = editionsForAssociation.stream()
                 .anyMatch(edition ->
                         edition.getAnnee().equals(updateDTO.getAnnee()) &&
-                                !edition.getId().equals(id) // Exclure l'entité actuelle
+                                !edition.getId().equals(id)
                 );
 
         if (anneeExists) {
@@ -81,7 +79,6 @@ public class ProgrammeEditionService extends GenericService<ProgrammeEdition,Cre
                     + " existe déjà pour cette association.");
         }
 
-        // Mettre à jour l'entité avec les nouvelles données
         ProgrammeEdition updatedEntity = mapper.updateEntityFromDTO(updateDTO, existingEntity);
         updatedEntity = programmeEditionRepository.save(updatedEntity);
         return mapper.toDTO(updatedEntity);
@@ -91,7 +88,7 @@ public class ProgrammeEditionService extends GenericService<ProgrammeEdition,Cre
         Pageable pageable = PageRequest.of(page, size);
         Page<ProgrammeEdition> editionsPage = programmeEditionRepository.findByAssociationId(associationId, pageable);
         List<ResponseProgrammeEditionDTO> dtos = editionsPage.getContent().stream()
-                .map(mapper::toDTO) // Assurez-vous d'avoir une méthode pour convertir l'entité en DTO
+                .map(mapper::toDTO)
                 .collect(Collectors.toList());
         return new PageDTO<>(
                 dtos,

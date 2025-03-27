@@ -19,7 +19,6 @@ public class FileUploadService {
     private Cloudinary cloudinary;
 
     public String uploadFile(MultipartFile file) throws IOException {
-        // Convertir MultipartFile en File temporaire
         File tempFile = convertMultiPartToFile(file);
 
         try {

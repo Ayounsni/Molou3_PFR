@@ -72,7 +72,6 @@ public class EtapeCompetitionService extends GenericService<EtapeCompetition,Cre
 
         EtapeCompetition updatedEntity = mapper.updateEntityFromDTO(updateEtapeCompetitionDTO, entity);
 
-        // Gestion du fichier PDF de classement
         if (pdfClassementFile != null && !pdfClassementFile.isEmpty()) {
             String pdfClassementUrl = fileUploadService.uploadFile(pdfClassementFile);
             updatedEntity.setPdfClassement(pdfClassementUrl);

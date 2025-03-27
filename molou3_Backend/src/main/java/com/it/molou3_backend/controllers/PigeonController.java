@@ -50,14 +50,7 @@ public class PigeonController {
             ResponsePigeonDTO pigeon = pigeonService.findById(id);
             return new ResponseEntity<>(pigeon, HttpStatus.OK);
     }
-//    @GetMapping
-//    public ResponseEntity<PageDTO<ResponsePigeonDTO>> getAllPigeonsPaginated(
-//            @RequestParam(defaultValue = "0") int page,
-//            @RequestParam(defaultValue = "3") int size
-//    ) {
-//        PageDTO<ResponsePigeonDTO> pigeons = pigeonService.findAll(page, size);
-//        return new ResponseEntity<>(pigeons, HttpStatus.OK);
-//    }
+
 
     @GetMapping
     public ResponseEntity<PageDTO<ResponsePigeonDTO>> getAllPigeonsPaginated(

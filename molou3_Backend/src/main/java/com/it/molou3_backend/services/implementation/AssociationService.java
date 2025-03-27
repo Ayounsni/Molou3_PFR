@@ -117,7 +117,6 @@ public class AssociationService extends GenericService<Association,CreateAssocia
         Pageable pageable = PageRequest.of(page, size);
         Page<Association> associationPage;
 
-        // Appliquer les filtres si fournis
         if (enabled != null && statusInscription != null) {
             associationPage = associationRepository.findByEnabledAndStatusInscription(enabled, statusInscription, pageable);
         } else if (enabled != null) {
@@ -129,7 +128,7 @@ public class AssociationService extends GenericService<Association,CreateAssocia
         }
 
         List<ResponseAssociationDTO> dtos = associationPage.getContent().stream()
-                .map(mapper::toDTO) // Conversion en DTO
+                .map(mapper::toDTO)
                 .collect(Collectors.toList());
 
         return new PageDTO<>(

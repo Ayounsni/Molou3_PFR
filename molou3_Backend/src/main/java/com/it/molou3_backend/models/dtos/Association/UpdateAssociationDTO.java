@@ -33,7 +33,7 @@ public class UpdateAssociationDTO {
 
     private String responsable;
 
-    private boolean enabled;
+    private Boolean enabled;
 
     private LocalDate dateCreation;
 

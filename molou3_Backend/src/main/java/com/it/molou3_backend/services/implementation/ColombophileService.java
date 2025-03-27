@@ -46,11 +46,11 @@ public class ColombophileService extends GenericService<Colombophile,CreateColom
         user.setPassword(passwordEncoder.encode(createColombophileDTO.getPassword()));
 
         if (photoFile != null && !photoFile.isEmpty()) {
-            String photoUrl = fileUploadService.uploadFile(photoFile); // URL générée
-            user.setPhotoUrl(photoUrl); // Assignée à l’entité
+            String photoUrl = fileUploadService.uploadFile(photoFile);
+            user.setPhotoUrl(photoUrl);
         }
 
-        return colombophileMapper.toDTO(colombophileRepository.save(user)); // Sauvegarde dans la BD
+        return colombophileMapper.toDTO(colombophileRepository.save(user));
     }
 
     @Override
@@ -58,16 +58,13 @@ public class ColombophileService extends GenericService<Colombophile,CreateColom
 
         Colombophile entity = repository.findById(id).orElseThrow(() -> new IllegalArgumentException("Colombophile non trouvé avec l'ID : " + id));
 
-        // Mise à jour des champs via le mapper
         Colombophile updatedEntity = mapper.updateEntityFromDTO(updateDTO, entity);
 
-        // Gestion de la photo de profil si un fichier est fourni
         if (photoFile != null && !photoFile.isEmpty()) {
             String photoUrl = fileUploadService.uploadFile(photoFile);
             updatedEntity.setPhotoUrl(photoUrl);
         }
 
-        // Sauvegarde et retour du DTO
         updatedEntity = repository.save(updatedEntity);
         return mapper.toDTO(updatedEntity);
     }

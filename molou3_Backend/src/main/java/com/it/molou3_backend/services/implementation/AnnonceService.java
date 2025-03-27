@@ -33,7 +33,7 @@ public class AnnonceService extends GenericService<Annonce,CreateAnnonceDTO,Upda
         Pageable pageable = PageRequest.of(page, size);
         Page<Annonce> editionsPage = annonceRepository.findByAssociationId(associationId, pageable);
         List<ResponseAnnonceDTO> dtos = editionsPage.getContent().stream()
-                .map(mapper::toDTO) // Assurez-vous d'avoir une méthode pour convertir l'entité en DTO
+                .map(mapper::toDTO)
                 .collect(Collectors.toList());
         return new PageDTO<>(
                 dtos,

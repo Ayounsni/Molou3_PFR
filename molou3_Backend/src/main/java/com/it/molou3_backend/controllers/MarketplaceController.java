@@ -37,13 +37,13 @@ public class MarketplaceController {
     @GetMapping
     public ResponseEntity<PageDTO<ResponseMarketplaceDTO>> getAllMarketplacesPaginated(
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "6") int size, // Aligné avec ton pageSize=6
+            @RequestParam(defaultValue = "6") int size,
             @RequestParam(defaultValue = "DISPONIBLE", required = false) String status,
-            @RequestParam(required = false) String ville, // Localisation du vendeur
-            @RequestParam(required = false) String nationalite, // Nationalité du pigeon
-            @RequestParam(required = false) String sexe, // Sexe du pigeon
-            @RequestParam(required = false) Double prixMin, // Prix minimum
-            @RequestParam(required = false) Double prixMax) { // Prix maximum
+            @RequestParam(required = false) String ville,
+            @RequestParam(required = false) String nationalite,
+            @RequestParam(required = false) String sexe,
+            @RequestParam(required = false) Double prixMin,
+            @RequestParam(required = false) Double prixMax) {
         if (ville != null) {
             ville = ville.trim();
             if (ville.isEmpty()) ville = null;

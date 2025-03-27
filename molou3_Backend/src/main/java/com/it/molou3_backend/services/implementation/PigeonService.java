@@ -44,8 +44,8 @@ public class PigeonService extends GenericService<Pigeon,CreatePigeonDTO,UpdateP
         Pigeon pigeon = mapper.toEntity(createPigeonDTO);
 
         if (photoFile != null && !photoFile.isEmpty()) {
-            String photoUrl = fileUploadService.uploadFile(photoFile); // URL générée
-            pigeon.setPhotoUrl(photoUrl); // Assignée à l’entité
+            String photoUrl = fileUploadService.uploadFile(photoFile);
+            pigeon.setPhotoUrl(photoUrl);
         }
 
         return mapper.toDTO(repository.save(pigeon));
@@ -72,7 +72,7 @@ public class PigeonService extends GenericService<Pigeon,CreatePigeonDTO,UpdateP
         Pageable pageable = PageRequest.of(page, size);
         Page<Pigeon> pigeonPage = pigeonRepository.findByColombophileId(colombophileId, pageable);
         List<ResponsePigeonDTO> dtos = pigeonPage.getContent().stream()
-                .map(mapper::toDTO) // Assurez-vous d'avoir une méthode pour convertir l'entité en DTO
+                .map(mapper::toDTO)
                 .collect(Collectors.toList());
         return new PageDTO<>(
                 dtos,
