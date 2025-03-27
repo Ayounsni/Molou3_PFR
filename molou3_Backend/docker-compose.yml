@@ -1,0 +1,44 @@
+version: '3.8' # Version de Docker Compose
+
+services:
+  postgres:
+    image: postgres:latest
+    container_name: postgres-molou3
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=0000
+      - POSTGRES_DB=molou3
+    ports:
+      - '5433:5432' # Mappe le port 5433 de l'hôte au port 5432 du conteneur
+    volumes:
+      - postgres-data:/var/lib/postgresql/data # Persistance des données
+    networks:
+      - molou3-network
+
+  molou3-backend:
+    build:
+      context: . # Répertoire contenant le Dockerfile (racine du projet)
+      dockerfile: Dockerfile
+    container_name: molou3-backend
+    ports:
+      - '8080:8080' # Mappe le port 8080 de l'hôte au port 8080 du conteneur
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/molou3
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=0000
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+      - SPRING_JPA_SHOW_SQL=true
+      - SPRING_JPA_PROPERTIES_JAKARTA_PERSISTENCE_VALIDATION_MODE=none
+      - JWT_SECRET=Gz1yS8hN3qU3bV5mT8pW2xY7sB9cD1jL4rP6nQ8oF2kT7mW5yZ9pC3kL6vM8xR1g2zW2a6J9K1sH6Y5R3cT2
+      - JWT_EXPIRATIONMS=3600000
+    depends_on:
+      - postgres # Assure que PostgreSQL démarre avant l'application
+    networks:
+      - molou3-network
+
+volumes:
+  postgres-data: # Volume nommé pour persister les données PostgreSQL
+
+networks:
+  molou3-network:
+    driver: bridge # Réseau pour connecter les services
