@@ -6,7 +6,7 @@ import { Store } from '@ngrx/store';
 import { User } from '../../../../models/user.model';
 import { AppState } from '../../../../../store/app.state';
 import { notInFuture, notTodayOrFuture } from '../../../../validators/validators';
-import { WeatherService } from '../../../../../core/services/weather.service'; // Service pour autocomplétion
+import { WeatherService } from '../../../../../core/services/weather.service'; 
 import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 
@@ -31,21 +31,21 @@ export class EditProfileModalComponent implements OnChanges {
     EXPERT: 'Expert'
   };
 
-  searchResults: any[] = []; // Pour stocker les suggestions de villes
-  showSuggestions = false; // Pour afficher ou masquer les suggestions
-  private searchTerms = new Subject<string>(); // Pour gérer les entrées de l'utilisateur
+  searchResults: any[] = []; 
+  showSuggestions = false; 
+  private searchTerms = new Subject<string>(); 
 
   constructor(
     private fb: FormBuilder,
     private store: Store<AppState>,
-    private weatherService: WeatherService // Injectez le service d'autocomplétion
+    private weatherService: WeatherService 
   ) {
     this.editForm = this.fb.group({});
 
     this.searchTerms.pipe(
-      debounceTime(300), // Attendre 300ms avant d'envoyer la requête
-      distinctUntilChanged(), // Ne pas envoyer si la valeur n'a pas changé
-      switchMap(query => this.weatherService.getAutocomplete(query)) // Appeler l'API
+      debounceTime(300), 
+      distinctUntilChanged(), 
+      switchMap(query => this.weatherService.getAutocomplete(query)) 
     ).subscribe({
       next: (results) => {
         this.searchResults = results;

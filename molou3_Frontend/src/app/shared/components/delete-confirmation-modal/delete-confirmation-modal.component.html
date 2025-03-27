@@ -1,6 +1,5 @@
 <div *ngIf="showModal" class="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
     <div class="bg-gray-900 rounded-xl shadow-xl w-full max-w-md relative border border-gray-700">
-      <!-- En-tête du modal -->
       <div class="px-6 py-5 border-b border-gray-800 flex justify-between items-center">
         <h3 class="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-red-300 to-red-400">
           {{ title || 'Confirmer la suppression' }}
@@ -12,11 +11,9 @@
         </button>
       </div>
   
-      <!-- Corps du modal -->
       <div class="p-6">
         <p class="text-gray-300 mb-6">{{ message || 'Êtes-vous sûr de vouloir supprimer cet élément ?' }}</p>
         
-        <!-- Boutons d'action -->
         <div class="flex justify-end gap-3">
           <button 
             (click)="close()"

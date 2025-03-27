@@ -1,11 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit, HostListener } from '@angular/core';
 import { MarketplaceService } from '../../core/services/marketplace.service';
-import { WeatherService } from '../../core/services/weather.service'; // Ajout du service
+import { WeatherService } from '../../core/services/weather.service';
 import { Marketplace } from '../../shared/models/marketplace.model';
 import { PageDTO } from '../../shared/models/dtos/page.model';
 import { PaginationComponent } from '../../shared/components/pagination/pagination.component';
-import { FooterComponent } from '../../shared/components/footer/footer.component';
 import { MarketplaceDetailComponent } from '../../shared/components/marketplace-detail/marketplace-detail.component';
 import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
@@ -13,7 +12,7 @@ import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 @Component({
   selector: 'app-marketplace',
   templateUrl: './marketplace.component.html',
-  imports: [CommonModule, PaginationComponent, FooterComponent, MarketplaceDetailComponent],
+  imports: [CommonModule, PaginationComponent, MarketplaceDetailComponent],
   standalone: true,
   styleUrls: ['./marketplace.component.css']
 })
@@ -29,32 +28,27 @@ export class MarketplaceComponent implements OnInit {
   totalElements = 0;
   isLastPage = false;
 
-  // Variables pour les filtres
   ville: string = '';
   nationalite: string = '';
   sexe: string = '';
   prixMin?: number;
   prixMax?: number;
 
-  // Variables pour l'état des checkboxes
   isMaleSelected: boolean = false;
   isFemaleSelected: boolean = false;
 
-  // Autocomplétion pour ville
   villeSearchResults: any[] = [];
   showVilleSuggestions = false;
   private villeSearchTerms = new Subject<string>();
 
-  // Autocomplétion pour nationalité
   nationaliteSearchResults: any[] = [];
   showNationaliteSuggestions = false;
   private nationaliteSearchTerms = new Subject<string>();
 
   constructor(
     private marketplaceService: MarketplaceService,
-    private weatherService: WeatherService // Injecte le service
+    private weatherService: WeatherService
   ) {
-    // Autocomplétion pour ville
     this.villeSearchTerms.pipe(
       debounceTime(300),
       distinctUntilChanged(),
@@ -71,7 +65,6 @@ export class MarketplaceComponent implements OnInit {
       }
     });
 
-    // Autocomplétion pour nationalité
     this.nationaliteSearchTerms.pipe(
       debounceTime(300),
       distinctUntilChanged(),
@@ -122,7 +115,6 @@ export class MarketplaceComponent implements OnInit {
     });
   }
 
-  // Méthodes pour gérer les filtres avec autocomplétion
   onVilleChange(event: Event): void {
     const value = (event.target as HTMLInputElement).value;
     this.ville = value;
@@ -137,7 +129,7 @@ export class MarketplaceComponent implements OnInit {
   }
 
   selectVille(result: any): void {
-    this.ville = result.name; // Sélectionne la ville
+    this.ville = result.name; 
     this.showVilleSuggestions = false;
     this.currentPage = 1;
     this.loadMarketplaces();
@@ -157,7 +149,7 @@ export class MarketplaceComponent implements OnInit {
   }
 
   selectNationalite(result: any): void {
-    this.nationalite = result.country; // Sélectionne le pays
+    this.nationalite = result.country; 
     this.showNationaliteSuggestions = false;
     this.currentPage = 1;
     this.loadMarketplaces();

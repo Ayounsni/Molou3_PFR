@@ -5,7 +5,7 @@ import interactionPlugin from '@fullcalendar/interaction';
 import { FullCalendarComponent } from '@fullcalendar/angular';
 import { Store } from '@ngrx/store';
 import { AgendaEventService } from '../../../core/services/agenda-event.service';
-import { NotificationService } from '../../../core/services/notification.service'; // À ajuster selon ton chemin
+import { NotificationService } from '../../../core/services/notification.service'; 
 import { AppState } from '../../../store/app.state';
 import { selectCurrentUser } from '../../../store/auth/auth.selectors';
 
@@ -41,21 +41,21 @@ export class CalendarComponent implements OnInit {
   private getEventColor(typeEvent: string): string {
     switch (typeEvent) {
       case 'NETTOYAGE':
-        return '#059669'; // Émerald-600
+        return '#059669'; 
       case 'COMPETITION':
-        return '#4f46e5'; // Indigo-600
+        return '#4f46e5'; 
       case 'ENTRAINEMENT':
-        return '#0284c7'; // Sky-600
+        return '#0284c7'; 
       case 'SOIN':
-        return '#d97706'; // Amber-600
+        return '#d97706'; 
       default:
-        return '#6b7280'; // Gray-500
+        return '#6b7280'; 
     }
   }
 
   constructor(
     private agendaEventService: AgendaEventService,
-    private notificationService: NotificationService, // Ajout du service
+    private notificationService: NotificationService,
     private store: Store<AppState>
   ) {}
 
@@ -132,7 +132,7 @@ export class CalendarComponent implements OnInit {
         this.calendarComponent.getApi().addEvent(eventToAdd);
         this.showAddModal = false;
         this.errorMessage = null;
-        this.notificationService.showNotification('Événement ajouté avec succès', 'success'); // Notification après ajout
+        this.notificationService.showNotification('Événement ajouté avec succès', 'success'); 
       },
       error: (error) => {
         this.errorMessage = error;
@@ -167,7 +167,7 @@ export class CalendarComponent implements OnInit {
           this.showDeleteModal = false;
           this.showDetailModal = false;
           this.eventIdToDelete = null;
-          this.notificationService.showNotification('Événement supprimé avec succès', 'success'); // Notification après suppression
+          this.notificationService.showNotification('Événement supprimé avec succès', 'success'); 
         },
         error: (error) => {
           console.error('Erreur lors de la suppression', error);

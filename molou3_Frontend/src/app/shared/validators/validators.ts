@@ -26,7 +26,7 @@ export function uniqueEmailValidator(authService: AuthService): AsyncValidatorFn
           const emailExists = users.some(user => user.email === email);
           return emailExists ? { emailExists: true } : null;
         }),
-        catchError(() => of(null)) // En cas d'erreur API, ne pas bloquer le formulaire
+        catchError(() => of(null)) 
       );
     };
   }

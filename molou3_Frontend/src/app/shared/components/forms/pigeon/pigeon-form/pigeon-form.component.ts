@@ -5,7 +5,7 @@ import { User } from '../../../../models/user.model';
 import { Pigeon } from '../../../../models/pigeon.model';
 import { PigeonService } from '../../../../../core/services/pigeon.service';
 import { NotificationService } from '../../../../../core/services/notification.service';
-import { WeatherService } from '../../../../../core/services/weather.service'; // Service pour autocomplétion
+import { WeatherService } from '../../../../../core/services/weather.service'; 
 import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 import { notInFuture } from '../../../../validators/validators';
@@ -55,11 +55,10 @@ export class PigeonFormComponent implements OnChanges {
       statusPigeon: ['']
     });
 
-    // Configuration de l'autocomplétion
     this.searchTerms.pipe(
-      debounceTime(300), // Attendre 300ms avant d'envoyer la requête
-      distinctUntilChanged(), // Ne pas envoyer si la valeur n'a pas changé
-      switchMap(query => this.weatherService.getAutocomplete(query)) // Appeler l'API
+      debounceTime(300), 
+      distinctUntilChanged(), 
+      switchMap(query => this.weatherService.getAutocomplete(query)) 
     ).subscribe({
       next: (results) => {
         this.searchResults = results;
@@ -100,7 +99,7 @@ export class PigeonFormComponent implements OnChanges {
 
   onNationaliteInput(): void {
     const query = this.pigeonForm.get('nationalite')?.value;
-    if (query && query.length > 1) { // Commencer la recherche après 2 caractères
+    if (query && query.length > 1) { 
       this.searchTerms.next(query);
     } else {
       this.searchResults = [];
@@ -109,7 +108,7 @@ export class PigeonFormComponent implements OnChanges {
   }
 
   selectCountry(country: any): void {
-    this.pigeonForm.patchValue({ nationalite: country.country }); // Remplir avec le pays uniquement
+    this.pigeonForm.patchValue({ nationalite: country.country }); 
     this.showSuggestions = false;
   }
 

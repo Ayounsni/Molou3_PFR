@@ -14,7 +14,6 @@ export class MarketplaceService {
 
   constructor(private http: HttpClient) {}
 
-  // Récupérer les marketplaces avec pagination et filtres
   getAllMarketplacesPaginated(
     page: number = 0,
     size: number = 6,
@@ -40,14 +39,12 @@ export class MarketplaceService {
     );
   }
 
-  // Créer une nouvelle marketplace
   createMarketplace(createMarketplaceDTO: { pigeonId: number; prix: number }): Observable<Marketplace> {
     return this.http.post<Marketplace>(this.apiUrl, createMarketplaceDTO).pipe(
       catchError(error => throwError(() => error.error || 'Erreur lors de la création de la marketplace'))
     );
   }
 
-  // Supprimer une marketplace par ID
   deleteMarketplace(id: number): Observable<string> {
     return this.http.delete<string>(`${this.apiUrl}/${id}`, { responseType: 'text' as 'json' }).pipe(
       catchError(error => throwError(() => error.error || 'Erreur lors de la suppression de la marketplace'))

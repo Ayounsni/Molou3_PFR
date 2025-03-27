@@ -1,179 +1,293 @@
 <div class="bg-[#f8fafc] min-h-screen">
-    <div class="bg-white min-h-screen w-9/12 mx-auto shadow-sm">
-      <!-- Hero Section -->
-      <div class="relative">
-        <img [src]="bg" alt="bg" class="w-full h-72 object-cover brightness-50" />
-        <div class="absolute inset-0 flex items-center justify-center bg-black/30">
-          <h1 class="text-white text-6xl font-bold drop-shadow-lg font-['Poppins']">Marketplace Pigeons</h1>
-        </div>
-      </div>
-  
-      <!-- Search & Filters -->
-      <div class="px-6 mt-10 pb-10 flex gap-6">
-        <!-- Filtres -->
-        <div class="flex flex-col w-3/12 bg-gray-100 p-6 shadow-sm">
-          <h2 class="text-xl font-bold mb-4 text-[#1e293b]">Filtres</h2>
-          
-          <!-- Localisation du vendeur -->
-          <div class="mb-6 ville-container relative">
-            <label class="block text-sm font-semibold text-[#475569] mb-2">Localisation du vendeur</label>
-            <div class="relative">
-              <input type="text" 
-                     placeholder="Rechercher une ville..." 
-                     [value]="ville"
-                     (input)="onVilleChange($event)"
-                     (focus)="onVilleChange($event)"
-                     class="w-full px-4 py-2.5 bg-white border border-[#cbd5e1] rounded-lg focus:ring-2 focus:ring-[#3b82f6] focus:border-[#3b82f6] placeholder-[#94a3b8]">
-              <svg class="w-5 h-5 absolute right-3 top-3.5 text-[#94a3b8]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
-              </svg>
-            </div>
-            <div *ngIf="showVilleSuggestions && villeSearchResults.length > 0" 
-                 class="absolute z-10 w-full mt-1 bg-white rounded-lg shadow-lg max-h-60 overflow-y-auto">
-              <div *ngFor="let result of villeSearchResults" 
-                   (click)="selectVille(result)"
-                   class="p-2 hover:bg-gray-200 cursor-pointer transition-colors">
-                <div class="text-gray-800 text-sm">{{ result.name }}</div>
-              </div>
-            </div>
-            <div *ngIf="showVilleSuggestions && villeSearchResults.length === 0" 
-                 class="absolute z-10 w-full mt-1 bg-white rounded-lg shadow-lg p-3 text-gray-500 text-sm">
-              Aucune ville trouvée
-            </div>
-          </div>
-  
-          <!-- Nationalité -->
-          <div class="mb-6 nationalite-container relative">
-            <label class="block text-sm font-semibold text-[#475569] mb-2">Nationalité du pigeon</label>
-            <div class="relative">
-              <input type="text" 
-                     placeholder="Pays d'origine..." 
-                     [value]="nationalite"
-                     (input)="onNationaliteChange($event)"
-                     (focus)="onNationaliteChange($event)"
-                     class="w-full px-4 py-2.5 border bg-white border-[#cbd5e1] rounded-lg focus:ring-2 focus:ring-[#3b82f6] focus:border-[#3b82f6] placeholder-[#94a3b8]">
-              <svg class="w-5 h-5 absolute right-3 top-3.5 text-[#94a3b8]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-              </svg>
-            </div>
-            <div *ngIf="showNationaliteSuggestions && nationaliteSearchResults.length > 0" 
-                 class="absolute z-10 w-full mt-1 bg-white rounded-lg shadow-lg max-h-60 overflow-y-auto">
-              <div *ngFor="let result of nationaliteSearchResults" 
-                   (click)="selectNationalite(result)"
-                   class="p-2 hover:bg-gray-200 cursor-pointer transition-colors">
-                <div class="text-gray-800 text-sm">{{ result.country }}</div>
-              </div>
-            </div>
-            <div *ngIf="showNationaliteSuggestions && nationaliteSearchResults.length === 0" 
-                 class="absolute z-10 w-full mt-1 bg-white rounded-lg shadow-lg p-3 text-gray-500 text-sm">
-              Aucun pays trouvé
-            </div>
-          </div>
-  
-          <!-- Sexe -->
-          <div class="mb-6">
-            <label class="block text-sm font-semibold text-[#475569] mb-2">Sexe</label>
-            <div class="flex gap-2">
-              <label class="flex-1 px-2 py-2 rounded-lg text-sm border-2 font-semibold flex items-center justify-center gap-1 cursor-pointer transition-colors"
-                     [ngClass]="{
-                       'border-gray-300 bg-transparent text-gray-700': !isMaleSelected,
-                       'border-[#3b82f6] bg-[#eff6ff] text-[#1d4ed8]': isMaleSelected
-                     }">
-                <input type="checkbox" 
-                       [checked]="isMaleSelected" 
-                       (change)="toggleSexe('MALE')" 
-                       class="hidden">
-                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 16 16">
-                  <path d="M9.5 2a.5.5 0 0 1 0-1h5a.5.5 0 0 1 .5.5v5a.5.5 0 0 1-1 0V2.707L9.871 6.836a5 5 0 1 1-.707-.707L13.293 2zM6 6a4 4 0 1 0 0 8 4 4 0 0 0 0-8"/>
-                </svg>
-                Mâle
-              </label>
-              <label class="flex-1 px-2 py-2 rounded-lg text-sm border-2 font-semibold flex items-center justify-center gap-1 cursor-pointer transition-colors"
-                     [ngClass]="{
-                       'border-gray-300 bg-transparent text-gray-700': !isFemaleSelected,
-                       'border-[#ec4899] bg-[#fdf2f8] text-[#be185d]': isFemaleSelected
-                     }">
-                <input type="checkbox" 
-                       [checked]="isFemaleSelected" 
-                       (change)="toggleSexe('FEMELLE')" 
-                       class="hidden">
-                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 16 16">
-                  <path d="M8 1a4 4 0 1 0 0 8 4 4 0 0 0 0-8M3 5a5 5 0 1 1 5.5 4.975V12h2a.5.5 0 0 1 0 1h-2v2.5a.5.5 0 0 1-1 0V13h-2a.5.5 0 0 1 0-1h2V9.975A5 5 0 0 1 3 5"/>
-                </svg>
-                Femelle
-              </label>
-            </div>
-          </div>
-  
-          <!-- Prix -->
-          <div class="mb-6">
-            <label class="block text-sm font-semibold text-[#475569] mb-3">Intervalle de prix</label>
-            <div class="flex items-center gap-3">
-              <div class="flex-1">
-                <input type="number" placeholder="Min" 
-                       (input)="onPrixMinChange($event)"
-                       class="w-full px-4 py-1.5 border bg-white border-[#cbd5e1] rounded-lg focus:ring-2 focus:ring-[#3b82f6] placeholder-[#94a3b8]">
-              </div>
-              <p>à</p>
-              <div class="flex-1">
-                <input type="number" placeholder="Max" 
-                       (input)="onPrixMaxChange($event)"
-                       class="w-full px-4 py-1.5 border bg-white border-[#cbd5e1] rounded-lg focus:ring-2 focus:ring-[#3b82f6] placeholder-[#94a3b8]">
-              </div>
-            </div>
-          </div>
-        </div>
-  
-        <!-- Liste des pigeons -->
-        <div class="w-9/12 mb-16">
-          <div class="flex flex-wrap justify-start gap-10">
-            <div *ngFor="let marketplace of marketplaces" class="relative bg-white w-[235px] rounded-sm shadow-xl overflow-hidden group transition-all duration-300 hover:shadow-2xl">
-              <div class="relative aspect-square">
-                <img [src]="marketplace.pigeon?.photoUrl || bg" alt="Pigeon" class="w-full h-full object-cover transition-all duration-500 group-hover:scale-105">
-                <!-- Prix -->
-                <div class="absolute top-3 left-3 bg-white/90 px-3 py-1.5 rounded-full text-xs font-bold text-[#1e293b] shadow-sm">
-                  {{ marketplace.prix }} DH
-                </div>
-                <!-- Sexe -->
-                <div class="absolute top-3 right-3 bg-white/90 p-2 rounded-full shadow-sm">
-                  <svg *ngIf="marketplace.pigeon?.sexe === 'MALE'" class="w-4 h-4 text-[#2563eb]" fill="currentColor" viewBox="0 0 16 16">
-                    <path d="M9.5 2a.5.5 0 0 1 0-1h5a.5.5 0 0 1 .5.5v5a.5.5 0 0 1-1 0V2.707L9.871 6.836a5 5 0 1 1-.707-.707L13.293 2zM6 6a4 4 0 1 0 0 8 4 4 0 0 0 0-8"/>
-                  </svg>
-                  <svg *ngIf="marketplace.pigeon?.sexe === 'FEMELLE'" class="w-4 h-4 text-[#ec4899]" fill="currentColor" viewBox="0 0 16 16">
-                    <path d="M8 1a4 4 0 1 0 0 8 4 4 0 0 0 0-8M3 5a5 5 0 1 1 5.5 4.975V12h2a.5.5 0 0 1 0 1h-2v2.5a.5.5 0 0 1-1 0V13h-2a.5.5 0 0 1 0-1h2V9.975A5 5 0 0 1 3 5"/>
-                  </svg>
-                </div>
-                <!-- Badges -->
-                <div class="absolute bottom-3 left-3 flex gap-2">
-                  <span class="px-2.5 py-1 bg-[#dcfce7] text-[#166534] text-xs font-medium rounded-full">{{ marketplace.pigeon?.serieBague }}</span>
-                  <span class="px-2.5 py-1 bg-[#fef3c7] text-[#854d0e] text-xs font-medium rounded-full">{{ marketplace.pigeon?.nationalite }}</span>
-                </div>
-                <!-- Bouton Détails -->
-                <div class="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent p-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end">
-                  <button *ngIf="marketplace.pigeon" (click)="openDetail(marketplace)" class="w-full bg-white/90 text-[#1e293b] py-2 rounded-lg font-semibold hover:bg-white transition-colors text-center text-sm">
-                    Détails
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-          <app-pagination
-            [currentPage]="currentPage"
-            [totalPages]="totalPages"
-            [isLastPage]="isLastPage"
-            (pageChange)="onPageChange($event)"
-          ></app-pagination>
-        </div>
+  <div
+    class="bg-white min-h-screen w-full sm:w-11/12 md:w-9/12 mx-auto shadow-sm"
+  >
+    <div class="relative">
+      <img
+        [src]="bg"
+        alt="bg"
+        class="w-full h-48 sm:h-64 md:h-72 object-cover brightness-50"
+      />
+      <div
+        class="absolute inset-0 flex items-center justify-center bg-black/30"
+      >
+        <h1
+          class="text-white text-4xl sm:text-5xl md:text-6xl font-bold drop-shadow-lg font-['Poppins'] text-center px-4"
+        >
+          Marketplace Pigeons
+        </h1>
       </div>
     </div>
-  
-    <!-- Modal déplacé vers le composant MarketplaceDetail -->
-    <app-marketplace-detail
-      [selectedMarketplace]="selectedMarketplace"
-      [showDetailModal]="showDetailModal"
-      (close)="closeDetail()"
-    ></app-marketplace-detail>
-  
-    <app-footer></app-footer>
+
+    <div
+      class="px-4 sm:px-6 mt-6 sm:mt-8 md:mt-10 pb-10 flex flex-col md:flex-row gap-6"
+    >
+      <div
+        class="flex flex-col w-full md:w-3/12 bg-gray-100 p-4 sm:p-6 shadow-sm"
+      >
+        <h2 class="text-xl font-bold mb-4 text-[#1e293b]">Filtres</h2>
+
+        <div class="mb-6 ville-container relative">
+          <label class="block text-sm font-semibold text-[#475569] mb-2"
+            >Localisation du vendeur</label
+          >
+          <div class="relative">
+            <input
+              type="text"
+              placeholder="Rechercher une ville..."
+              [value]="ville"
+              (input)="onVilleChange($event)"
+              (focus)="onVilleChange($event)"
+              class="w-full px-4 py-2.5 bg-white border border-[#cbd5e1] rounded-lg focus:ring-2 focus:ring-[#3b82f6] focus:border-[#3b82f6] placeholder-[#94a3b8]"
+            />
+            <svg
+              class="w-5 h-5 absolute right-3 top-3.5 text-[#94a3b8]"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+              />
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
+              />
+            </svg>
+          </div>
+          <div
+            *ngIf="showVilleSuggestions && villeSearchResults.length > 0"
+            class="absolute z-10 w-full mt-1 bg-white rounded-lg shadow-lg max-h-60 overflow-y-auto"
+          >
+            <div
+              *ngFor="let result of villeSearchResults"
+              (click)="selectVille(result)"
+              class="p-2 hover:bg-gray-200 cursor-pointer transition-colors"
+            >
+              <div class="text-gray-800 text-sm">{{ result.name }}</div>
+            </div>
+          </div>
+          <div
+            *ngIf="showVilleSuggestions && villeSearchResults.length === 0"
+            class="absolute z-10 w-full mt-1 bg-white rounded-lg shadow-lg p-3 text-gray-500 text-sm"
+          >
+            Aucune ville trouvée
+          </div>
+        </div>
+
+        <div class="mb-6 nationalite-container relative">
+          <label class="block text-sm font-semibold text-[#475569] mb-2"
+            >Nationalité du pigeon</label
+          >
+          <div class="relative">
+            <input
+              type="text"
+              placeholder="Pays d'origine..."
+              [value]="nationalite"
+              (input)="onNationaliteChange($event)"
+              (focus)="onNationaliteChange($event)"
+              class="w-full px-4 py-2.5 border bg-white border-[#cbd5e1] rounded-lg focus:ring-2 focus:ring-[#3b82f6] focus:border-[#3b82f6] placeholder-[#94a3b8]"
+            />
+            <svg
+              class="w-5 h-5 absolute right-3 top-3.5 text-[#94a3b8]"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+              />
+            </svg>
+          </div>
+          <div
+            *ngIf="
+              showNationaliteSuggestions && nationaliteSearchResults.length > 0
+            "
+            class="absolute z-10 w-full mt-1 bg-white rounded-lg shadow-lg max-h-60 overflow-y-auto"
+          >
+            <div
+              *ngFor="let result of nationaliteSearchResults"
+              (click)="selectNationalite(result)"
+              class="p-2 hover:bg-gray-200 cursor-pointer transition-colors"
+            >
+              <div class="text-gray-800 text-sm">{{ result.country }}</div>
+            </div>
+          </div>
+          <div
+            *ngIf="
+              showNationaliteSuggestions &&
+              nationaliteSearchResults.length === 0
+            "
+            class="absolute z-10 w-full mt-1 bg-white rounded-lg shadow-lg p-3 text-gray-500 text-sm"
+          >
+            Aucun pays trouvé
+          </div>
+        </div>
+
+        <div class="mb-6">
+          <label class="block text-sm font-semibold text-[#475569] mb-2"
+            >Sexe</label
+          >
+          <div class="flex gap-2">
+            <label
+              class="flex-1 px-2 py-2 rounded-lg text-sm border-2 font-semibold flex items-center justify-center gap-1 cursor-pointer transition-colors"
+              [ngClass]="{
+                'border-gray-300 bg-transparent text-gray-700': !isMaleSelected,
+                'border-[#3b82f6] bg-[#eff6ff] text-[#1d4ed8]': isMaleSelected
+              }"
+            >
+              <input
+                type="checkbox"
+                [checked]="isMaleSelected"
+                (change)="toggleSexe('MALE')"
+                class="hidden"
+              />
+              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 16 16">
+                <path
+                  d="M9.5 2a.5.5 0 0 1 0-1h5a.5.5 0 0 1 .5.5v5a.5.5 0 0 1-1 0V2.707L9.871 6.836a5 5 0 1 1-.707-.707L13.293 2zM6 6a4 4 0 1 0 0 8 4 4 0 0 0 0-8"
+                />
+              </svg>
+              Mâle
+            </label>
+            <label
+              class="flex-1 px-2 py-2 rounded-lg text-sm border-2 font-semibold flex items-center justify-center gap-1 cursor-pointer transition-colors"
+              [ngClass]="{
+                'border-gray-300 bg-transparent text-gray-700':
+                  !isFemaleSelected,
+                'border-[#ec4899] bg-[#fdf2f8] text-[#be185d]': isFemaleSelected
+              }"
+            >
+              <input
+                type="checkbox"
+                [checked]="isFemaleSelected"
+                (change)="toggleSexe('FEMELLE')"
+                class="hidden"
+              />
+              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 16 16">
+                <path
+                  d="M8 1a4 4 0 1 0 0 8 4 4 0 0 0 0-8M3 5a5 5 0 1 1 5.5 4.975V12h2a.5.5 0 0 1 0 1h-2v2.5a.5.5 0 0 1-1 0V13h-2a.5.5 0 0 1 0-1h2V9.975A5 5 0 0 1 3 5"
+                />
+              </svg>
+              Femelle
+            </label>
+          </div>
+        </div>
+
+        <div class="mb-6">
+          <label class="block text-sm font-semibold text-[#475569] mb-3"
+            >Intervalle de prix</label
+          >
+          <div class="flex items-center gap-3">
+            <div class="flex-1">
+              <input
+                type="number"
+                placeholder="Min"
+                (input)="onPrixMinChange($event)"
+                class="w-full px-4 py-1.5 border bg-white border-[#cbd5e1] rounded-lg focus:ring-2 focus:ring-[#3b82f6] placeholder-[#94a3b8]"
+              />
+            </div>
+            <p>à</p>
+            <div class="flex-1">
+              <input
+                type="number"
+                placeholder="Max"
+                (input)="onPrixMaxChange($event)"
+                class="w-full px-4 py-1.5 border bg-white border-[#cbd5e1] rounded-lg focus:ring-2 focus:ring-[#3b82f6] placeholder-[#94a3b8]"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="w-full md:w-9/12 mb-16">
+        <div
+          class="grid grid-cols-1 sm:grid-cols-2 md:flex md:flex-wrap justify-start gap-6 sm:gap-8 md:gap-10"
+        >
+          <div
+            *ngFor="let marketplace of marketplaces"
+            class="relative bg-white w-full sm:w-[235px] md:w-[235px] rounded-sm shadow-xl overflow-hidden group transition-all duration-300 hover:shadow-2xl"
+          >
+            <div class="relative aspect-square">
+              <img
+                [src]="marketplace.pigeon?.photoUrl || bg"
+                alt="Pigeon"
+                class="w-full h-full object-cover transition-all duration-500 group-hover:scale-105"
+              />
+              <div
+                class="absolute top-3 left-3 bg-white/90 px-3 py-1.5 rounded-full text-xs font-bold text-[#1e293b] shadow-sm"
+              >
+                {{ marketplace.prix }} DH
+              </div>
+              <div
+                class="absolute top-3 right-3 bg-white/90 p-2 rounded-full shadow-sm"
+              >
+                <svg
+                  *ngIf="marketplace.pigeon?.sexe === 'MALE'"
+                  class="w-4 h-4 text-[#2563eb]"
+                  fill="currentColor"
+                  viewBox="0 0 16 16"
+                >
+                  <path
+                    d="M9.5 2a.5.5 0 0 1 0-1h5a.5.5 0 0 1 .5.5v5a.5.5 0 0 1-1 0V2.707L9.871 6.836a5 5 0 1 1-.707-.707L13.293 2zM6 6a4 4 0 1 0 0 8 4 4 0 0 0 0-8"
+                  />
+                </svg>
+                <svg
+                  *ngIf="marketplace.pigeon?.sexe === 'FEMELLE'"
+                  class="w-4 h-4 text-[#ec4899]"
+                  fill="currentColor"
+                  viewBox="0 0 16 16"
+                >
+                  <path
+                    d="M8 1a4 4 0 1 0 0 8 4 4 0 0 0 0-8M3 5a5 5 0 1 1 5.5 4.975V12h2a.5.5 0 0 1 0 1h-2v2.5a.5.5 0 0 1-1 0V13h-2a.5.5 0 0 1 0-1h2V9.975A5 5 0 0 1 3 5"
+                  />
+                </svg>
+              </div>
+              <div class="absolute bottom-3 left-3 flex gap-2">
+                <span
+                  class="px-2.5 py-1 bg-[#dcfce7] text-[#166534] text-xs font-medium rounded-full"
+                  >{{ marketplace.pigeon?.serieBague }}</span
+                >
+                <span
+                  class="px-2.5 py-1 bg-[#fef3c7] text-[#854d0e] text-xs font-medium rounded-full"
+                  >{{ marketplace.pigeon?.nationalite }}</span
+                >
+              </div>
+              <div
+                class="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent p-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end"
+              >
+                <button
+                  *ngIf="marketplace.pigeon"
+                  (click)="openDetail(marketplace)"
+                  class="w-full bg-white/90 text-[#1e293b] py-2 rounded-lg font-semibold hover:bg-white transition-colors text-center text-sm"
+                >
+                  Détails
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <app-pagination
+          [currentPage]="currentPage"
+          [totalPages]="totalPages"
+          [isLastPage]="isLastPage"
+          (pageChange)="onPageChange($event)"
+          class="mt-6 sm:mt-8"
+        ></app-pagination>
+      </div>
+    </div>
   </div>
+</div>
+
+<app-marketplace-detail
+  [selectedMarketplace]="selectedMarketplace"
+  [showDetailModal]="showDetailModal"
+  (close)="closeDetail()"
+></app-marketplace-detail>

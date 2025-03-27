@@ -39,7 +39,6 @@ export class ResultatComponent implements OnInit {
     
   }
 
-  /** Charge l'utilisateur actuel depuis le store NgRx */
   loadCurrentUser(): void {
     this.store.select(selectCurrentUser).subscribe(user => {
       this.currentUser = user;
@@ -51,7 +50,6 @@ export class ResultatComponent implements OnInit {
     });
   }
 
-  /** Charge les éditions filtrées par l'association de l'utilisateur */
   loadEditions(): void {
     if (!this.currentUser || !this.currentUser.id) {
       console.log('No current user or user ID available');
@@ -79,7 +77,6 @@ export class ResultatComponent implements OnInit {
     });
   }
 
-  /** Met à jour les données affichées lorsque l'édition change */
   onEditionChange(): void {
     this.selectedEdition = this.editions.find(edition => edition.id === Number(this.selectedEditionId)) || null;
     this.etapeCompetitions = this.selectedEdition?.etapeCompetitions || [];
@@ -89,46 +86,37 @@ export class ResultatComponent implements OnInit {
     });
   }
 
-  /** Récupère les compétitions associées à une étape */
   getCompetitionsForEtape(etape: EtapeCompetition): Competition[] {
     return etape.competitions || [];
   }
 
-  /** Formate l'heure pour afficher uniquement heures et minutes */
   formatTime(time: string | undefined): string {
     if (!time) return '';
     return time.split(':').slice(0, 2).join(':');
   }
 
 
-  /** Inverse l'état de publication de l'édition sélectionnée */
   togglePublish(): void {
     if (!this.selectedEdition || this.selectedEdition.id === undefined) {
       this.notificationService.showNotification('Aucune édition sélectionnée', 'error');
       return;
     }
 
-    // Crée une copie de l'édition avec la propriété enabled inversée
     const updatedEdition = { ...this.selectedEdition, enabled: !this.selectedEdition.enabled };
 
-    // Appel au service pour mettre à jour dans la base de données
     this.programmeEditionService.updateProgrammeEdition(this.selectedEdition.id, updatedEdition).subscribe({
       next: (response) => {
-        // Met à jour l'édition sélectionnée avec la réponse du serveur
         this.selectedEdition = response;
-        // Met à jour la liste des éditions pour refléter le changement
         const index = this.editions.findIndex(e => e.id === response.id);
         if (index !== -1) {
           this.editions[index] = response;
         }
-        // Affiche une notification de succès
         this.notificationService.showNotification(
           `Programme ${response.enabled ? 'publié' : 'retiré'} avec succès`,
           'success'
         );
       },
       error: (err) => {
-        // Affiche une notification en cas d'erreur
         this.notificationService.showNotification(
           err.message || 'Erreur lors de la mise à jour de l\'édition',
           'error'

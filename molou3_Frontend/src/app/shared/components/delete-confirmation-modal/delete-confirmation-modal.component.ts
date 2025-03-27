@@ -9,14 +9,14 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
   styleUrls: ['./delete-confirmation-modal.component.css']
 })
 export class DeleteConfirmationModalComponent {
-  @Input() showModal: boolean = false; // Contrôle l'affichage du modal
-  @Input() title: string = ''; // Titre personnalisé
-  @Input() message: string = ''; // Message personnalisé
-  @Input() confirmButtonText: string = ''; // Texte du bouton de confirmation
-  @Input() cancelButtonText: string = ''; // Texte du bouton d'annulation
+  @Input() showModal: boolean = false; 
+  @Input() title: string = ''; 
+  @Input() message: string = ''; 
+  @Input() confirmButtonText: string = '';
+  @Input() cancelButtonText: string = ''; 
 
-  @Output() closeModal = new EventEmitter<void>(); // Événement pour fermer le modal
-  @Output() confirmDelete = new EventEmitter<void>(); // Événement pour confirmer la suppression
+  @Output() closeModal = new EventEmitter<void>(); 
+  @Output() confirmDelete = new EventEmitter<void>(); 
 
   close() {
     this.closeModal.emit();

@@ -2,54 +2,106 @@
 <app-notification></app-notification>
 <div class="ml-70 bg-[#f5f5f5] flex justify-center items-center min-h-screen">
   <div class="bg-white min-h-screen w-10/12">
-    <!-- En-tête avec image de fond -->
     <div class="relative">
       <img [src]="bg" alt="bg" class="w-full h-72 object-cover brightness-50" />
-      <div class="absolute inset-0 flex items-center justify-center bg-black/20">
-        <h1 class="text-white text-5xl font-bold drop-shadow-lg">Pigeons Favoris</h1>
+      <div
+        class="absolute inset-0 flex items-center justify-center bg-black/20"
+      >
+        <h1 class="text-white text-5xl font-bold drop-shadow-lg">
+          Pigeons Favoris
+        </h1>
       </div>
     </div>
 
-    <!-- Contenu principal -->
     <div class="px-8 py-5 space-y-8">
-        <div class="flex justify-center  items-center space-x-3 mt-5 mb-10">
-
-            <h2 class="text-3xl font-bold text-gray-800 tracking-tight">Pigeons Favoris</h2>
-            <svg class="w-9 h-9 text-yellow-400 drop-shadow-md" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M12 2l2.4 7.2h7.6l-6 4.8 2.4 7.2-6-4.8-6 4.8 2.4-7.2-6-4.8h7.6z"/>
-              </svg>
-          </div>
+      <div class="flex justify-center items-center space-x-3 mt-5 mb-10">
+        <h2 class="text-3xl font-bold text-gray-800 tracking-tight">
+          Pigeons Favoris
+        </h2>
+        <svg
+          class="w-9 h-9 text-yellow-400 drop-shadow-md"
+          fill="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            d="M12 2l2.4 7.2h7.6l-6 4.8 2.4 7.2-6-4.8-6 4.8 2.4-7.2-6-4.8h7.6z"
+          />
+        </svg>
+      </div>
       <div class="space-y-12">
         <div>
-          <div *ngIf="filteredPigeons.length > 0; else noPigeons" class="flex justify-start items-center flex-wrap gap-10">
-            <div *ngFor="let pigeon of filteredPigeons" class="relative bg-gray-800 w-[210px] rounded-xl shadow-xl overflow-hidden group transition-transform duration-300">
+          <div
+            *ngIf="filteredPigeons.length > 0; else noPigeons"
+            class="flex justify-start items-center flex-wrap gap-10"
+          >
+            <div
+              *ngFor="let pigeon of filteredPigeons"
+              class="relative bg-gray-800 w-[210px] rounded-xl shadow-xl overflow-hidden group transition-transform duration-300"
+            >
               <input type="hidden" name="pigeonId" [value]="pigeon.id" />
               <div class="relative aspect-square overflow-hidden">
-                <img [src]="pigeon.photoUrl || image" alt="Pigeon" class="w-full h-full object-cover transition-all duration-500 group-hover:scale-105" />
-                <div class="absolute bottom-0 left-0 right-0 text-center py-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 backdrop-blur-lg z-10 border-t border-blue-400/30">
-                  <button (click)="openDetail(pigeon)" class="text-gray-800 text-sm font-medium hover:underline">Voir détails</button>
+                <img
+                  [src]="pigeon.photoUrl || image"
+                  alt="Pigeon"
+                  class="w-full h-full object-cover transition-all duration-500 group-hover:scale-105"
+                />
+                <div
+                  class="absolute bottom-0 left-0 right-0 text-center py-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 backdrop-blur-lg z-10 border-t border-blue-400/30"
+                >
+                  <button
+                    (click)="openDetail(pigeon)"
+                    class="text-gray-800 text-sm font-medium hover:underline"
+                  >
+                    Voir détails
+                  </button>
                 </div>
               </div>
               <button
                 (click)="toggleFavorite(pigeon)"
                 class="absolute top-3 left-2 p-1.5 backdrop-blur-sm rounded-full transition-all duration-300"
                 [ngClass]="{
-                  'bg-white/20 text-gray-800 hover:text-yellow-400 hover:bg-gray-500/80': !pigeon.estFavori,
+                  'bg-white/20 text-gray-800 hover:text-yellow-400 hover:bg-gray-500/80':
+                    !pigeon.estFavori,
                   'bg-gray-700 text-yellow-400 bg-opacity-80': pigeon.estFavori
                 }"
               >
                 <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M12 2l2.4 7.2h7.6l-6 4.8 2.4 7.2-6-4.8-6 4.8 2.4-7.2-6-4.8h7.6z"/>
+                  <path
+                    d="M12 2l2.4 7.2h7.6l-6 4.8 2.4 7.2-6-4.8-6 4.8 2.4-7.2-6-4.8h7.6z"
+                  />
                 </svg>
               </button>
-              <div class="p-2 bg-gradient-to-b from-gray-900/30 to-gray-900/80 backdrop-blur-sm">
+              <div
+                class="p-2 bg-gradient-to-b from-gray-900/30 to-gray-900/80 backdrop-blur-sm"
+              >
                 <div class="flex justify-between items-center">
-                  <span class="text-sm font-medium text-white">Série: <span class="text-blue-500">{{ pigeon.serieBague }}</span></span>
-                  <svg *ngIf="pigeon.sexe === 'FEMELLE'" class="w-4 h-4 text-pink-400" fill="currentColor" viewBox="0 0 16 16">
-                    <path fill-rule="evenodd" d="M8 1a4 4 0 1 0 0 8 4 4 0 0 0 0-8M3 5a5 5 0 1 1 5.5 4.975V12h2a.5.5 0 0 1 0 1h-2v2.5a.5.5 0 0 1-1 0V13h-2a.5.5 0 0 1 0-1h2V9.975A5 5 0 0 1 3 5"/>
+                  <span class="text-sm font-medium text-white"
+                    >Série:
+                    <span class="text-blue-500">{{
+                      pigeon.serieBague
+                    }}</span></span
+                  >
+                  <svg
+                    *ngIf="pigeon.sexe === 'FEMELLE'"
+                    class="w-4 h-4 text-pink-400"
+                    fill="currentColor"
+                    viewBox="0 0 16 16"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M8 1a4 4 0 1 0 0 8 4 4 0 0 0 0-8M3 5a5 5 0 1 1 5.5 4.975V12h2a.5.5 0 0 1 0 1h-2v2.5a.5.5 0 0 1-1 0V13h-2a.5.5 0 0 1 0-1h2V9.975A5 5 0 0 1 3 5"
+                    />
                   </svg>
-                  <svg *ngIf="pigeon.sexe === 'MALE'" class="w-4 h-4 text-blue-400" fill="currentColor" viewBox="0 0 16 16">
-                    <path fill-rule="evenodd" d="M9.5 2a.5.5 0 0 1 0-1h5a.5.5 0 0 1 .5.5v5a.5.5 0 0 1-1 0V2.707L9.871 6.836a5 5 0 1 1-.707-.707L13.293 2zM6 6a4 4 0 1 0 0 8 4 4 0 0 0 0-8"/>
+                  <svg
+                    *ngIf="pigeon.sexe === 'MALE'"
+                    class="w-4 h-4 text-blue-400"
+                    fill="currentColor"
+                    viewBox="0 0 16 16"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M9.5 2a.5.5 0 0 1 0-1h5a.5.5 0 0 1 .5.5v5a.5.5 0 0 1-1 0V2.707L9.871 6.836a5 5 0 1 1-.707-.707L13.293 2zM6 6a4 4 0 1 0 0 8 4 4 0 0 0 0-8"
+                    />
                   </svg>
                 </div>
               </div>
@@ -66,15 +118,24 @@
 
         <ng-template #noPigeons>
           <div class="text-center text-gray-600 text-lg py-10">
-            <svg class="w-14 h-14 mx-auto mb-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 13h6m-3-3v6m5 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+            <svg
+              class="w-14 h-14 mx-auto mb-4 text-gray-400"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M9 13h6m-3-3v6m5 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+              />
             </svg>
             Aucun pigeon favori.
           </div>
         </ng-template>
       </div>
 
-      <!-- Modal pour les détails du pigeon -->
       <app-pigeon-detail-modal
         [showModal]="showDetailModal"
         [pigeon]="selectedPigeon"

@@ -56,22 +56,17 @@ export class AuthEffects {
           tap((response) => {
             console.log('Login réussi, token:', response.token);
   
-            // Vérifier si le rôle est "ROLE_ASSOCIATION"
             if (response.role === 'ROLE_ASSOCIATION') {
-              // Gérer les différents statuts d'inscription pour les associations
               switch (response.statusInscription) {
                 case 'APPROVED':
-                  // Connexion autorisée : stocker le token et rediriger
                   this.authService.setToken(response.token);
                   this.router.navigate([this.getDashboardRoute(response.role)]);
                   break;
                 case 'PENDING':
-                  // Pas de connexion : rediriger sans stocker le token
                   this.authService.clearToken();
                   this.router.navigate(['/association/pending']);
                   break;
                 case 'REJECTED':
-                  // Pas de connexion : rediriger sans stocker le token
                   this.authService.clearToken();
                   this.router.navigate(['/association/rejected']);
                   break;
@@ -82,13 +77,11 @@ export class AuthEffects {
                   break;
               }
             } else {
-              // Pour ROLE_ADMIN et ROLE_COLOMBOPHILE : connexion normale
               this.authService.setToken(response.token);
               this.router.navigate([this.getDashboardRoute(response.role)]);
             }
           }),
           map((response: LoginResponse) => {
-            // Ne déclencher loginSuccess que pour ROLE_ADMIN, ROLE_COLOMBOPHILE ou ROLE_ASSOCIATION avec APPROVED
             if (response.role !== 'ROLE_ASSOCIATION' || response.statusInscription === 'APPROVED') {
               const user: User = {
                 id: response.id,
@@ -115,7 +108,6 @@ export class AuthEffects {
                 token: response.token
               });
             }
-            // Pour ROLE_ASSOCIATION avec PENDING ou REJECTED : pas de loginSuccess
             return { type: '[Auth] No Action' };
           }),
           catchError((error: any) => {
@@ -198,7 +190,7 @@ export class AuthEffects {
                 map((response) => {
                   const updatedUser: User = {
                     ...currentUser,
-                    role: { roleName: currentUser.role }, // Garder la structure AppRole
+                    role: { roleName: currentUser.role }, 
                     nomComplet: response.nomComplet || currentUser.nomComplet,
                     dateNaissance: response.dateNaissance || currentUser.dateNaissance,
                     niveauExperience: response.niveauExperience || currentUser.niveauExperience,
@@ -216,7 +208,7 @@ export class AuthEffects {
                 map((response) => {
                   const updatedUser: User = {
                     ...currentUser,
-                    role: { roleName: currentUser.role }, // Garder la structure AppRole
+                    role: { roleName: currentUser.role }, 
                     nomAssociation: response.nomAssociation || currentUser.nomAssociation,
                     responsable: response.responsable || currentUser.responsable,
                     dateCreation: response.dateCreation || currentUser.dateCreation,

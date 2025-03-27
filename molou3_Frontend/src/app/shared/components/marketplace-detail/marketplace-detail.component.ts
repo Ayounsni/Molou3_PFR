@@ -18,13 +18,13 @@ import { Marketplace } from '../../models/marketplace.model';
   ]
 })
 export class MarketplaceDetailComponent {
-  @Input() selectedMarketplace: Marketplace | null = null; // Reçu du parent
-  @Input() showDetailModal: boolean = false; // Contrôle la visibilité du modal
-  @Output() close = new EventEmitter<void>(); // Émetteur pour fermer le modal
-  @Output() toggleSeller = new EventEmitter<void>(); // Émetteur pour basculer les infos vendeur
+  @Input() selectedMarketplace: Marketplace | null = null; 
+  @Input() showDetailModal: boolean = false; 
+  @Output() close = new EventEmitter<void>(); 
+  @Output() toggleSeller = new EventEmitter<void>(); 
 
-  showSellerInfo: boolean = false; // État local pour les infos vendeur
-  bg = 'assets/pardefaut.webp'; // Image par défaut
+  showSellerInfo: boolean = false; 
+  bg = 'assets/pardefaut.webp'; 
 
   closeDetail(): void {
     this.close.emit();

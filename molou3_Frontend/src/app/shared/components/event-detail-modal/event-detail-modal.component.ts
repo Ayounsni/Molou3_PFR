@@ -9,7 +9,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 export class EventDetailModalComponent {
   @Input() event: any = null;
   @Output() closeModal = new EventEmitter<void>();
-  @Output() deleteEvent = new EventEmitter<number>(); // Émet l'ID de l'événement à supprimer
+  @Output() deleteEvent = new EventEmitter<number>(); 
 
   closePigeonModal() {
     this.closeModal.emit();
@@ -17,7 +17,7 @@ export class EventDetailModalComponent {
 
   onDelete() {
     if (this.event && this.event.id) {
-      this.deleteEvent.emit(this.event.id); // Émet l'ID pour suppression
+      this.deleteEvent.emit(this.event.id); 
     }
   }
 }

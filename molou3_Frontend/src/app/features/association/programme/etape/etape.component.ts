@@ -78,7 +78,6 @@ export class EtapeComponent implements OnInit {
           String(edition.association?.id) === String(this.currentUser!.id)
         );
         this.editions.sort((a, b) => a.annee - b.annee);
-        // Sélection automatique de la première édition si disponible
         if (this.editions.length > 0 && this.editions[0].id !== undefined) {
           this.selectedEditionId = this.editions[0].id as number;
           this.onEditionChange();
@@ -197,7 +196,7 @@ export class EtapeComponent implements OnInit {
   openFileInput(etape: EtapeCompetition): void {
     const fileInput = document.createElement('input');
     fileInput.type = 'file';
-    fileInput.accept = 'application/pdf,image/*'; // Accepte PDF et images
+    fileInput.accept = 'application/pdf,image/*';
     fileInput.onchange = (event) => this.uploadClassement(etape, event);
     fileInput.click();
   }
@@ -212,7 +211,7 @@ export class EtapeComponent implements OnInit {
       this.etapeCompetitionService.updateEtapeCompetition(etape.id, data, file).subscribe({
         next: (response) => {
           this.notificationService.showNotification('Classement uploadé avec succès', 'success');
-          this.loadEditions(); // Recharger les données
+          this.loadEditions(); 
         },
         error: (err) => {
           const errorMsg = err.error?.message || err.message || 'Erreur lors de l\'upload du classement';

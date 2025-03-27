@@ -59,7 +59,7 @@ export class PigeonPerduComponent implements OnInit {
         this.pigeons = pageData.content.filter(p => p.statusPigeon === 'PERDU');
         this.filteredPigeons = [...this.pigeons];
         this.totalElements = this.pigeons.length;
-        this.totalPages = Math.ceil(pageData.totalElements / this.pageSize); // Approximation
+        this.totalPages = Math.ceil(pageData.totalElements / this.pageSize); 
         this.isLastPage = this.currentPage >= this.totalPages;
 
         if (this.pigeons.length === 0 && this.currentPage > 1) {

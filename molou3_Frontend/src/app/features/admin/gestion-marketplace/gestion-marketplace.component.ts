@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { SidebarComponent } from '../../../shared/components/sidebar/sidebar.component';
 import { PaginationComponent } from '../../../shared/components/pagination/pagination.component';
 import { MarketplaceService } from '../../../core/services/marketplace.service';
-import { NotificationService } from '../../../core/services/notification.service'; // Assumé existant
+import { NotificationService } from '../../../core/services/notification.service'; 
 import { PageDTO } from '../../../shared/models/dtos/page.model';
 import { Marketplace } from '../../../shared/models/marketplace.model';
 import { NotificationComponent } from "../../../shared/components/notification/notification.component";

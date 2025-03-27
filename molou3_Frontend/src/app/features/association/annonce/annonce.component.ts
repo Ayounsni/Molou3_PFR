@@ -52,7 +52,6 @@ export class AnnonceComponent implements OnInit {
     this.loadCurrentUser();
   }
 
-  /** Charge l'utilisateur actuel depuis le store NgRx */
   loadCurrentUser(): void {
     this.store.select(selectCurrentUser).subscribe(user => {
       console.log('Current User:', user);
@@ -63,7 +62,6 @@ export class AnnonceComponent implements OnInit {
     });
   }
 
-  /** Charge les annonces paginées pour l'association de l'utilisateur */
   loadAnnonces(): void {
     if (!this.currentUser) {
       console.log('Aucun utilisateur connecté');
@@ -79,7 +77,6 @@ export class AnnonceComponent implements OnInit {
         this.isLastPage = pageData.last;
         this.currentPage = pageData.pageNumber + 1;
 
-        // Si la page est vide et ce n'est pas la première page, revenir à la page précédente
         if (this.annonces.length === 0 && this.currentPage > 1) {
           this.currentPage--;
           this.loadAnnonces();
@@ -94,20 +91,17 @@ export class AnnonceComponent implements OnInit {
     });
   }
 
-  /** Ouvre la modale pour ajouter ou modifier une annonce */
   openAnnonceModal(annonce?: Annonce): void {
     this.showAnnonceModal = true;
     this.currentAnnonce = annonce || null;
     this.errorMessage = null;
   }
 
-  /** Ferme la modale d'ajout/modification */
   closeAnnonceModal(): void {
     this.showAnnonceModal = false;
     this.currentAnnonce = null;
   }
 
-  /** Gère la sauvegarde d'une annonce (ajout ou modification) */
   handleAnnonceSaved(annonce: Annonce): void {
     if (this.currentAnnonce) {
       const index = this.annonces.findIndex(a => a.id === annonce.id);
@@ -118,10 +112,9 @@ export class AnnonceComponent implements OnInit {
       this.annonces.push(annonce);
     }
     this.annonces = [...this.annonces];
-    this.loadAnnonces(); // Recharger les annonces pour s'assurer que la pagination est correcte
+    this.loadAnnonces(); 
   }
 
-  /** Ouvre la modale de confirmation de suppression */
   openDeleteConfirmation(annonceId: number | undefined): void {
     if (annonceId !== undefined) {
       this.annonceToDeleteId = annonceId;
@@ -133,13 +126,11 @@ export class AnnonceComponent implements OnInit {
     }
   }
 
-  /** Ferme la modale de confirmation de suppression */
   closeDeleteConfirmation(): void {
     this.annonceToDeleteId = null;
     this.showDeleteConfirmation = false;
   }
 
-  /** Confirme la suppression d'une annonce */
   confirmDelete(): void {
     if (this.annonceToDeleteId && this.currentUser) {
       this.annonceService.deleteAnnonce(this.annonceToDeleteId).subscribe({
@@ -156,7 +147,6 @@ export class AnnonceComponent implements OnInit {
     }
   }
 
-  /** Gère le changement de page dans la pagination */
   onPageChange(page: number): void {
     this.currentPage = page;
     this.loadAnnonces();

@@ -39,7 +39,6 @@ export class ProgrammeDetailComponent implements OnInit {
     });
   }
 
-  /** Charge les éditions activées pour cette association */
   loadEditions(): void {
     if (!this.associationId) {
       console.error('Aucun ID d’association disponible');
@@ -47,7 +46,6 @@ export class ProgrammeDetailComponent implements OnInit {
     }
     this.programmeEditionService.getAllProgrammeEditionsAll().subscribe({
       next: (editions: ProgrammeEdition[]) => {
-        // Filtrer par enabled: true et par l’ID de l’association
         this.editions = editions.filter(edition =>
           edition.enabled && String(edition.association?.id) === String(this.associationId)
         );
@@ -66,7 +64,6 @@ export class ProgrammeDetailComponent implements OnInit {
     });
   }
 
-  /** Met à jour les données affichées lorsque l'édition change */
   onEditionChange(): void {
     this.selectedEdition = this.editions.find(edition => edition.id === Number(this.selectedEditionId)) || null;
     this.etapeCompetitions = this.selectedEdition?.etapeCompetitions || [];
@@ -76,12 +73,10 @@ export class ProgrammeDetailComponent implements OnInit {
     });
   }
 
-  /** Récupère les compétitions associées à une étape */
   getCompetitionsForEtape(etape: EtapeCompetition): Competition[] {
     return etape.competitions || [];
   }
 
-  /** Formate l’heure pour afficher uniquement heures et minutes */
   formatTime(time: string | undefined): string {
     if (!time) return '';
     return time.split(':').slice(0, 2).join(':');

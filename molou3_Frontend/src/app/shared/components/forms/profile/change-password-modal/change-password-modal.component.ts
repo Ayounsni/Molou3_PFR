@@ -35,7 +35,6 @@ export class ChangePasswordModalComponent {
   }
 
   ngOnInit() {
-    // Gestion changePasswordSuccess
     this.subscription.add(
       this.actions$.pipe(
         ofType(AuthActions.changePasswordSuccess)
@@ -46,7 +45,6 @@ export class ChangePasswordModalComponent {
       })
     );
 
-    // Gestion changePasswordFailure
     this.subscription.add(
       this.actions$.pipe(
         ofType(AuthActions.changePasswordFailure)

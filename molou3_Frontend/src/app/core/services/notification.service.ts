@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 
-// Renommer l'interface pour éviter le conflit
 export interface FlashMessage {
   message: string;
   type: 'success' | 'error' | 'info';

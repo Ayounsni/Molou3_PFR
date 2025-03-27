@@ -50,7 +50,6 @@ export class ProfileComponent implements OnInit, OnDestroy {
       this.currentUser = user;
     });
 
-    // Gestion updateProfile
     this.subscription.add(
       this.actions$.pipe(
         ofType(AuthActions.updateProfileSuccess)

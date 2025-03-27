@@ -1,141 +1,260 @@
-<div class="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
-    <div class="bg-gray-900 rounded-xl shadow-xl w-full max-w-xl relative border border-gray-700">
-      <!-- En-tête -->
-      <div class="px-6 py-5 border-b border-gray-800 flex justify-between items-center">
-        <h3 class="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-300 to-blue-400">
-          Ajouter un événement
-        </h3>
-        <button (click)="closePigeonModal()" class="text-gray-400 hover:text-gray-200 transition-colors">
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+<div
+  class="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4"
+>
+  <div
+    class="bg-gray-900 rounded-xl shadow-xl w-full max-w-xl relative border border-gray-700"
+  >
+    <div
+      class="px-6 py-5 border-b border-gray-800 flex justify-between items-center"
+    >
+      <h3
+        class="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-300 to-blue-400"
+      >
+        Ajouter un événement
+      </h3>
+      <button
+        (click)="closePigeonModal()"
+        class="text-gray-400 hover:text-gray-200 transition-colors"
+      >
+        <svg
+          class="w-6 h-6"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M6 18L18 6M6 6l12 12"
+          />
+        </svg>
+      </button>
+    </div>
+
+    <form [formGroup]="eventForm" (ngSubmit)="onSubmit()" class="p-6 space-y-4">
+      <div
+        *ngIf="errorMessage"
+        class="bg-red-500/20 border text-sm border-red-500 text-red-100 p-3 rounded-md flex items-center"
+      >
+        <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+          <path
+            fill-rule="evenodd"
+            d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
+            clip-rule="evenodd"
+          />
+        </svg>
+        {{ errorMessage }}
+      </div>
+
+      <div>
+        <div
+          class="flex items-center bg-gray-800 rounded-md border border-gray-700 focus-within:border-blue-400 transition-all duration-200 p-3"
+        >
+          <svg
+            class="w-5 h-5 text-blue-400 mr-2"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M4 6h16M4 10h16M4 14h16M4 18h16"
+            />
           </svg>
+          <input
+            formControlName="description"
+            type="text"
+            class="w-full bg-transparent text-gray-100 placeholder-gray-500 outline-none text-sm"
+            placeholder="Description de l'événement"
+          />
+        </div>
+        <p
+          *ngIf="
+            eventForm.get('description')?.invalid &&
+            eventForm.get('description')?.touched
+          "
+          class="text-red-400 text-xs mt-1 flex items-center"
+        >
+          <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
+            <path
+              fill-rule="evenodd"
+              d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
+              clip-rule="evenodd"
+            />
+          </svg>
+          La description est requise
+        </p>
+      </div>
+
+      <div>
+        <label class="text-gray-300 text-sm ml-1 block">Date de début</label>
+        <div
+          class="flex items-center bg-gray-800 rounded-md border border-gray-700 focus-within:border-blue-400 transition-all duration-200 p-3"
+        >
+          <svg
+            class="w-5 h-5 text-blue-400 mr-2"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+            />
+          </svg>
+          <input
+            formControlName="dateDebut"
+            type="date"
+            class="w-full bg-transparent text-gray-100 outline-none text-sm"
+          />
+        </div>
+        <p
+          *ngIf="
+            eventForm.get('dateDebut')?.invalid &&
+            eventForm.get('dateDebut')?.touched
+          "
+          class="text-red-400 text-xs mt-1 flex items-center"
+        >
+          <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
+            <path
+              fill-rule="evenodd"
+              d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
+              clip-rule="evenodd"
+            />
+          </svg>
+          La date de début est requise
+        </p>
+      </div>
+
+      <div>
+        <label class="text-gray-300 text-sm ml-1 block">Date de fin</label>
+        <div
+          class="flex items-center bg-gray-800 rounded-md border border-gray-700 focus-within:border-blue-400 transition-all duration-200 p-3"
+        >
+          <svg
+            class="w-5 h-5 text-blue-400 mr-2"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+            />
+          </svg>
+          <input
+            formControlName="dateFin"
+            type="date"
+            class="w-full bg-transparent text-gray-100 outline-none text-sm"
+          />
+        </div>
+        <p
+          *ngIf="
+            eventForm.get('dateFin')?.invalid &&
+            eventForm.get('dateFin')?.touched
+          "
+          class="text-red-400 text-xs mt-1 flex items-center"
+        >
+          <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
+            <path
+              fill-rule="evenodd"
+              d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
+              clip-rule="evenodd"
+            />
+          </svg>
+          La date de fin est requise
+        </p>
+      </div>
+
+      <div>
+        <div
+          class="relative flex items-center bg-gray-800 rounded-md border border-gray-700 focus-within:border-blue-400 transition-all duration-200 p-3"
+        >
+          <svg
+            class="w-5 h-5 text-blue-400 mr-2"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"
+            />
+          </svg>
+          <select
+            formControlName="typeEvent"
+            class="w-full bg-transparent text-gray-100 outline-none text-sm appearance-none pr-6 cursor-pointer"
+          >
+            <option value="" disabled selected>
+              Sélectionnez le type d'événement
+            </option>
+            <option *ngFor="let type of typeEventOptions" [value]="type">
+              {{ type }}
+            </option>
+          </select>
+          <div
+            class="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none"
+          >
+            <svg
+              class="w-4 h-4 text-blue-400"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M19 9l-7 7-7-7"
+              />
+            </svg>
+          </div>
+        </div>
+        <p
+          *ngIf="
+            eventForm.get('typeEvent')?.invalid &&
+            eventForm.get('typeEvent')?.touched
+          "
+          class="text-red-400 text-xs mt-1 flex items-center"
+        >
+          <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
+            <path
+              fill-rule="evenodd"
+              d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
+              clip-rule="evenodd"
+            />
+          </svg>
+          Le type d'événement est requis
+        </p>
+      </div>
+
+      <input type="hidden" formControlName="colombophileId" />
+
+      <div class="flex justify-end gap-3 pt-2">
+        <button
+          type="button"
+          (click)="closePigeonModal()"
+          class="px-6 py-2 bg-gray-700 text-white rounded-md font-semibold hover:bg-gray-600 transition-all duration-200"
+        >
+          Annuler
+        </button>
+        <button
+          type="submit"
+          class="px-6 py-2 bg-gradient-to-br from-blue-300/90 to-blue-400/80 rounded-md font-semibold text-gray-900 hover:from-blue-300 hover:to-blue-400 transition-all duration-200 shadow-md shadow-blue-300/10 hover:shadow-blue-300/20"
+          [disabled]="!eventForm.valid"
+        >
+          Ajouter
         </button>
       </div>
-  
-      <!-- Formulaire -->
-      <form [formGroup]="eventForm" (ngSubmit)="onSubmit()" class="p-6 space-y-4">
-        <!-- Message d'erreur global -->
-        <div *ngIf="errorMessage" class="bg-red-500/20 border text-sm border-red-500 text-red-100 p-3 rounded-md flex items-center">
-          <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
-            <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
-          </svg>
-          {{ errorMessage }}
-        </div>
-  
-        <!-- Description -->
-        <div>
-          <div class="flex items-center bg-gray-800 rounded-md border border-gray-700 focus-within:border-blue-400 transition-all duration-200 p-3">
-            <svg class="w-5 h-5 text-blue-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"/>
-            </svg>
-            <input 
-              formControlName="description" 
-              type="text" 
-              class="w-full bg-transparent text-gray-100 placeholder-gray-500 outline-none text-sm"
-              placeholder="Description de l'événement"
-            />
-          </div>
-          <p *ngIf="eventForm.get('description')?.invalid && eventForm.get('description')?.touched" 
-             class="text-red-400 text-xs mt-1 flex items-center">
-            <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
-              <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
-            </svg>
-            La description est requise
-          </p>
-        </div>
-  
-        <!-- Date de début -->
-        <div>
-          <label class="text-gray-300 text-sm ml-1 block">Date de début</label>
-          <div class="flex items-center bg-gray-800 rounded-md border border-gray-700 focus-within:border-blue-400 transition-all duration-200 p-3">
-            <svg class="w-5 h-5 text-blue-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
-            </svg>
-            <input 
-              formControlName="dateDebut" 
-              type="date" 
-              class="w-full bg-transparent text-gray-100 outline-none text-sm"
-            />
-          </div>
-          <p *ngIf="eventForm.get('dateDebut')?.invalid && eventForm.get('dateDebut')?.touched" 
-             class="text-red-400 text-xs mt-1 flex items-center">
-            <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
-              <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
-            </svg>
-            La date de début est requise
-          </p>
-        </div>
-  
-        <!-- Date de fin -->
-        <div>
-          <label class="text-gray-300 text-sm ml-1 block">Date de fin</label>
-          <div class="flex items-center bg-gray-800 rounded-md border border-gray-700 focus-within:border-blue-400 transition-all duration-200 p-3">
-            <svg class="w-5 h-5 text-blue-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
-            </svg>
-            <input 
-              formControlName="dateFin" 
-              type="date" 
-              class="w-full bg-transparent text-gray-100 outline-none text-sm"
-            />
-          </div>
-          <p *ngIf="eventForm.get('dateFin')?.invalid && eventForm.get('dateFin')?.touched" 
-             class="text-red-400 text-xs mt-1 flex items-center">
-            <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
-              <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
-            </svg>
-            La date de fin est requise
-          </p>
-        </div>
-  
-        <!-- Type d'événement -->
-        <div>
-          <div class="relative flex items-center bg-gray-800 rounded-md border border-gray-700 focus-within:border-blue-400 transition-all duration-200 p-3">
-            <svg class="w-5 h-5 text-blue-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/>
-            </svg>
-            <select 
-              formControlName="typeEvent" 
-              class="w-full bg-transparent text-gray-100 outline-none text-sm appearance-none pr-6 cursor-pointer"
-            >
-              <option value="" disabled selected>Sélectionnez le type d'événement</option>
-              <option *ngFor="let type of typeEventOptions" [value]="type">{{ type }}</option>
-            </select>
-            <div class="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none">
-              <svg class="w-4 h-4 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
-              </svg>
-            </div>
-          </div>
-          <p *ngIf="eventForm.get('typeEvent')?.invalid && eventForm.get('typeEvent')?.touched" 
-             class="text-red-400 text-xs mt-1 flex items-center">
-            <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
-              <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
-            </svg>
-            Le type d'événement est requis
-          </p>
-        </div>
-  
-        <!-- Colombophile ID (caché) -->
-        <input type="hidden" formControlName="colombophileId" />
-  
-        <!-- Boutons -->
-        <div class="flex justify-end gap-3 pt-2">
-          <button 
-            type="button" 
-            (click)="closePigeonModal()" 
-            class="px-6 py-2 bg-gray-700 text-white rounded-md font-semibold hover:bg-gray-600 transition-all duration-200"
-          >
-            Annuler
-          </button>
-          <button 
-            type="submit" 
-            class="px-6 py-2 bg-gradient-to-br from-blue-300/90 to-blue-400/80 rounded-md font-semibold text-gray-900 hover:from-blue-300 hover:to-blue-400 transition-all duration-200 shadow-md shadow-blue-300/10 hover:shadow-blue-300/20"
-            [disabled]="!eventForm.valid"
-          >
-            Ajouter
-          </button>
-        </div>
-      </form>
-    </div>
+    </form>
   </div>
+</div>

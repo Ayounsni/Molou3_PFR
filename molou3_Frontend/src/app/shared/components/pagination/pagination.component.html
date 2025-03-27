@@ -1,45 +1,58 @@
 <div class="mt-8 flex justify-center items-center gap-3" *ngIf="totalPages > 1">
-    <!-- Bouton Précédent -->
-    <button 
-      class="w-9 h-9 rounded-full bg-gradient-to-br from-gray-100 to-gray-200 text-gray-700 hover:from-gray-200 hover:to-gray-300 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 shadow-md hover:shadow-lg flex items-center justify-center"
-      (click)="previousPage()"
-      [disabled]="currentPage === 1"
-      title="Page précédente">
-      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
-      </svg>
-    </button>
-  
-    <!-- Numéros de pages -->
-    <div class="flex items-center gap-2">
-      <ng-container *ngFor="let page of totalPagesArray">
-        <button 
-          class="w-9 h-9 rounded-full transition-all duration-300 font-semibold text-sm relative overflow-hidden group"
-          [class.bg-gradient-to-br]="currentPage === page"
-          [class.from-blue-500]="currentPage === page"
-          [class.to-blue-600]="currentPage === page"
-          [class.text-white]="currentPage === page"
-          [class.shadow-lg]="currentPage === page"
-          [class.bg-white]="currentPage !== page"
-          [class.text-gray-700]="currentPage !== page"
-          [class.hover:bg-gray-100]="currentPage !== page"
-          [class.border]="currentPage !== page"
-          [class.border-gray-200]="currentPage !== page"
-          (click)="setPage(page)">
-          <span class="relative z-10">{{ page }}</span>
-          <span *ngIf="currentPage !== page" class="absolute inset-0 bg-blue-500 opacity-0 group-hover:opacity-10 transition-opacity duration-300"></span>
-        </button>
-      </ng-container>
-    </div>
-  
-    <!-- Bouton Suivant -->
-    <button 
-      class="w-9 h-9 rounded-full bg-gradient-to-br from-gray-100 to-gray-200 text-gray-700 hover:from-gray-200 hover:to-gray-300 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 shadow-md hover:shadow-lg flex items-center justify-center"
-      (click)="nextPage()"
-      [disabled]="currentPage === totalPages"
-      title="Page suivante">
-      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-      </svg>
-    </button>
+  <button
+    class="w-9 h-9 rounded-full bg-gradient-to-br from-gray-100 to-gray-200 text-gray-700 hover:from-gray-200 hover:to-gray-300 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 shadow-md hover:shadow-lg flex items-center justify-center"
+    (click)="previousPage()"
+    [disabled]="currentPage === 1"
+    title="Page précédente"
+  >
+    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+        d="M15 19l-7-7 7-7"
+      />
+    </svg>
+  </button>
+
+  <div class="flex items-center gap-2">
+    <ng-container *ngFor="let page of totalPagesArray">
+      <button
+        class="w-9 h-9 rounded-full transition-all duration-300 font-semibold text-sm relative overflow-hidden group"
+        [class.bg-gradient-to-br]="currentPage === page"
+        [class.from-blue-500]="currentPage === page"
+        [class.to-blue-600]="currentPage === page"
+        [class.text-white]="currentPage === page"
+        [class.shadow-lg]="currentPage === page"
+        [class.bg-white]="currentPage !== page"
+        [class.text-gray-700]="currentPage !== page"
+        [class.hover:bg-gray-100]="currentPage !== page"
+        [class.border]="currentPage !== page"
+        [class.border-gray-200]="currentPage !== page"
+        (click)="setPage(page)"
+      >
+        <span class="relative z-10">{{ page }}</span>
+        <span
+          *ngIf="currentPage !== page"
+          class="absolute inset-0 bg-blue-500 opacity-0 group-hover:opacity-10 transition-opacity duration-300"
+        ></span>
+      </button>
+    </ng-container>
   </div>
+
+  <button
+    class="w-9 h-9 rounded-full bg-gradient-to-br from-gray-100 to-gray-200 text-gray-700 hover:from-gray-200 hover:to-gray-300 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 shadow-md hover:shadow-lg flex items-center justify-center"
+    (click)="nextPage()"
+    [disabled]="currentPage === totalPages"
+    title="Page suivante"
+  >
+    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+        d="M9 5l7 7-7 7"
+      />
+    </svg>
+  </button>
+</div>

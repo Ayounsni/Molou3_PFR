@@ -273,7 +273,7 @@ export class PigeonAllComponent implements OnInit {
         next: (marketplace) => {
           this.notificationService.showNotification('Pigeon mis en vente avec succès', 'success');
           this.closeSellModal();
-          this.loadPigeons(); // Rafraîchir la liste si nécessaire
+          this.loadPigeons(); 
         },
         error: (error) => {
           this.notificationService.showNotification('Erreur lors de la mise en vente', 'error');

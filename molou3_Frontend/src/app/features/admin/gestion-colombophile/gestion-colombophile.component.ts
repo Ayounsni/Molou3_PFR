@@ -19,8 +19,8 @@ import { NotificationComponent } from "../../../shared/components/notification/n
 export class GestionColombophileComponent implements OnInit {
   bg = 'assets/bg99.jpg';
   colombophiles: Colombophile[] = [];
-  currentPage: number = 1; // Commencer à 1
-  pageSize: number = 5;    // Taille de page
+  currentPage: number = 1; 
+  pageSize: number = 5;    
   totalPages: number = 0;
   totalElements: number = 0;
   isLastPage: boolean = false;
@@ -41,9 +41,8 @@ export class GestionColombophileComponent implements OnInit {
         this.totalPages = pageData.totalPages;
         this.totalElements = pageData.totalElements;
         this.isLastPage = pageData.last;
-        this.currentPage = pageData.pageNumber + 1; // Ajuster pour commencer à 1
+        this.currentPage = pageData.pageNumber + 1; 
 
-        // Si aucun colombophile et page > 1, revenir à la page précédente
         if (this.colombophiles.length === 0 && this.currentPage > 1) {
           this.currentPage--;
           this.loadColombophiles();
@@ -60,7 +59,7 @@ export class GestionColombophileComponent implements OnInit {
     const updateDTO = { enabled: !colombophile.enabled };
     const originalEnabled = colombophile.enabled;
 
-    colombophile.enabled = !colombophile.enabled; // Mise à jour optimiste
+    colombophile.enabled = !colombophile.enabled; 
 
     this.authService.updateColombophile(colombophile.id, updateDTO).subscribe({
       next: (response) => {
@@ -72,9 +71,9 @@ export class GestionColombophileComponent implements OnInit {
       },
       error: (err) => {
         console.error('Erreur lors de la mise à jour du statut:', err);
-        colombophile.enabled = originalEnabled; // Revenir à l’état initial
+        colombophile.enabled = originalEnabled; 
         this.errorMessage = 'Erreur lors de la mise à jour du statut.';
-        this.notificationService.showNotification(this.errorMessage, 'error'); // Notification erreur
+        this.notificationService.showNotification(this.errorMessage, 'error'); 
       }
     });
   }

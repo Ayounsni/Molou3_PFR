@@ -2,7 +2,6 @@
 <app-notification></app-notification>
 <div class="ml-70 bg-[#dddddd] flex justify-center items-center min-h-screen">
   <div class="bg-[#F8F8F8] min-h-screen w-10/12">
-    <!-- Image avec effet sombre -->
     <div class="relative">
       <img [attr.src]="bg" alt="bg" class="w-full h-72 object-cover brightness-50" />
       <div class="absolute inset-0 flex items-center justify-center">
@@ -10,7 +9,6 @@
       </div>
     </div>
     <div class="px-8 py-5 space-y-8">
-      <!-- Sélecteur d'édition -->
       <div class="flex justify-between items-center">
         <div class="flex items-center gap-4">
           <label class="text-gray-700 font-medium">Sélectionner une édition :</label>
@@ -26,10 +24,8 @@
           </select>
         </div>
       </div>
-      <!-- Titre dynamique -->
       <h2 class="text-2xl font-bold text-gray-800 mb-3 text-center">Programme Annuel {{ selectedEdition?.annee || '' }}</h2>
 
-      <!-- Bouton de publication/dépublication -->
       <div class="flex justify-end">
         <button *ngIf="etapeCompetitions.length !== 0"
         (click)="togglePublish()"
@@ -46,7 +42,6 @@
       </button>
       </div>
 
-      <!-- Tableau des résultats -->
       <div class="bg-white rounded-xl shadow-lg border border-gray-100 overflow-hidden">
         <table class="w-full">
           <thead class="bg-gray-100">

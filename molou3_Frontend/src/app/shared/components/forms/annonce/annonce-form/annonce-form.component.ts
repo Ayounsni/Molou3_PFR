@@ -13,11 +13,11 @@ import { AnnonceService } from '../../../../../core/services/annonce.service';
   styleUrl: './annonce-form.component.css'
 })
 export class AnnonceFormComponent {
-    @Input() annonce: Annonce | null = null; // Edition à modifier (si en mode édition)
-    @Input() currentUser: User | null = null; // Utilisateur connecté
-    @Input() showModal: boolean = false; // Contrôle la visibilité du modal
-    @Output() closeModal = new EventEmitter<void>(); // Événement pour fermer le modal
-    @Output() editionSaved = new EventEmitter<Annonce>(); // Événement pour émettre l'édition sauvegardée
+    @Input() annonce: Annonce | null = null; 
+    @Input() currentUser: User | null = null; 
+    @Input() showModal: boolean = false; 
+    @Output() closeModal = new EventEmitter<void>(); 
+    @Output() editionSaved = new EventEmitter<Annonce>(); 
   
     annonceForm!: FormGroup;
     isEditMode: boolean = false;

@@ -30,7 +30,6 @@ export class AnnonceService {
     );
   }
 
-  // Créer une nouvelle annonces
   createAnnonce(data: any): Observable<Annonce> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     return this.http.post<Annonce>(this.apiUrl, data, { headers }).pipe(
@@ -40,7 +39,6 @@ export class AnnonceService {
     );
   }
 
-  // Mettre à jour une annonces
   updateAnnonce(id: number, data: any): Observable<Annonce> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     return this.http.put<Annonce>(`${this.apiUrl}/${id}`, data, { headers }).pipe(
@@ -50,7 +48,6 @@ export class AnnonceService {
     );
   }
 
-  // Supprimer une annonces
   deleteAnnonce(id: number): Observable<string> {
     return this.http.delete<string>(`${this.apiUrl}/${id}`, { responseType: 'text' as 'json' }).pipe(
       catchError(error => {

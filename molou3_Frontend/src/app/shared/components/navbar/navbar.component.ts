@@ -20,7 +20,7 @@ export class NavbarComponent {
   admin = 'assets/admin.png';
   colombophile = 'assets/user1.jpg';
   association = 'assets/assoc.jpg'
-  isDropdownOpen: string | null = null; // Gérer plusieurs dropdowns avec un identifiant
+  isDropdownOpen: string | null = null; 
   isProfileDropdownOpen = false;
   currentUser: User | null = null;
   isMobileMenuOpen = false;

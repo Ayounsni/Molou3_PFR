@@ -7,7 +7,6 @@ import { RegisterComponent } from './features/auth/register/register.component';
 import { LoginComponent } from './features/auth/login/login.component';
 import { AdminDashboardComponent } from './features/admin/admin-dashboard/admin-dashboard.component';
 import { AssociationDashboardComponent } from './features/association/association-dashboard/association-dashboard.component';
-import { ColombophileDashboardComponent } from './features/colombophile/colombophile-dashboard/colombophile-dashboard.component';
 import { AuthGuard } from './core/guards/auth.guard';
 import { LoggedInGuard } from './core/guards/logged-in.guard';
 import { ProfileComponent } from './features/auth/profile/profile.component';
@@ -118,14 +117,10 @@ export const routes: Routes = [
         data: { roles: ['ROLE_COLOMBOPHILE'] },
         children: [
           {
-            path: 'dashboard',
-            component: ColombophileDashboardComponent
-          },
-          {
             path: 'pigeon',
             component: PigeonComponent,
             children: [
-              { path: '', redirectTo: 'all', pathMatch: 'full' }, // Redirection par défaut vers "disponible"
+              { path: '', redirectTo: 'all', pathMatch: 'full' }, 
               { path: 'disponible', component: PigeonDisponibleComponent },
               { path: 'perdu', component: PigeonPerduComponent },
               { path: 'vendu', component: PigeonVenduComponent },

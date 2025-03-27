@@ -20,8 +20,8 @@ export type StatusInscription = 'PENDING' | 'APPROVED' | 'REJECTED';
 export class VerificationAssociationsComponent implements OnInit {
   bg = 'assets/bg89.jpg';
   associations: Association[] = [];
-  currentPage: number = 1; // Commencer à 1
-  pageSize: number = 5;    // Taille de page
+  currentPage: number = 1; 
+  pageSize: number = 5;    
   totalPages: number = 0;
   totalElements: number = 0;
   isLastPage: boolean = false;
@@ -43,7 +43,7 @@ export class VerificationAssociationsComponent implements OnInit {
         this.totalPages = pageData.totalPages;
         this.totalElements = pageData.totalElements;
         this.isLastPage = pageData.last;
-        this.currentPage = pageData.pageNumber + 1; // Ajuster pour commencer à 1
+        this.currentPage = pageData.pageNumber + 1; 
       },
       error: (err) => {
         console.error('Erreur lors du chargement des associations:', err);
@@ -84,7 +84,7 @@ export class VerificationAssociationsComponent implements OnInit {
         console.error('Erreur lors de la mise à jour du statut:', err);
         this.errorMessage = 'Erreur lors de la mise à jour du statut.';
         this.notificationService.showNotification(this.errorMessage, 'error');
-        association.statusInscription = originalStatus; // Restauration en cas d’erreur
+        association.statusInscription = originalStatus; 
       }
     });
   }

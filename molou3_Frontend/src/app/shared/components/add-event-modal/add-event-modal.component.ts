@@ -10,7 +10,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 export class AddEventModalComponent implements OnInit {
   @Input() dateStr!: string;
   @Input() currentUser: any = null;
-  @Input() errorMessage: string | null = null; // Reçu du parent
+  @Input() errorMessage: string | null = null; 
   @Output() saveEvent = new EventEmitter<any>();
   @Output() closeModal = new EventEmitter<void>();
 
@@ -38,14 +38,13 @@ export class AddEventModalComponent implements OnInit {
 
   onSubmit() {
     if (this.eventForm.valid) {
-      this.saveEvent.emit(this.eventForm.value); // Émet les données au parent
+      this.saveEvent.emit(this.eventForm.value); 
     } else {
-      this.errorMessage = 'Veuillez remplir tous les champs requis.'; // Erreur locale
+      this.errorMessage = 'Veuillez remplir tous les champs requis.'; 
     }
-    // Ne ferme pas le modal ici
   }
 
   closePigeonModal() {
-    this.closeModal.emit(); // Ferme le modal uniquement via le bouton "Annuler" ou succès
+    this.closeModal.emit(); 
   }
 }

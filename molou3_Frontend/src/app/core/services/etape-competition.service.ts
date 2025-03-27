@@ -13,7 +13,6 @@ export class EtapeCompetitionService {
 
   constructor(private http: HttpClient) {}
 
-  // Créer une nouvelle étape de compétition
   createEtapeCompetition(data: any): Observable<EtapeCompetition> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     return this.http.post<EtapeCompetition>(this.apiUrl, data, { headers }).pipe(
@@ -23,14 +22,13 @@ export class EtapeCompetitionService {
     );
   }
 
-  // Mettre à jour une étape de compétition
   updateEtapeCompetition(id: number, data: any, classementFile?: File): Observable<EtapeCompetition> {
     const formData = new FormData();
     if (data) {
       formData.append('updateDTO', new Blob([JSON.stringify(data)], { type: 'application/json' }));
     }
     if (classementFile) {
-      formData.append('classementFile', classementFile); // Nom ajusté pour plus de clarté, à vérifier côté backend
+      formData.append('classementFile', classementFile); 
     }
     return this.http.put<EtapeCompetition>(`${this.apiUrl}/${id}`, formData).pipe(
       catchError(error => {
@@ -39,7 +37,6 @@ export class EtapeCompetitionService {
     );
   }
 
-  // Supprimer une étape de compétition
   deleteEtapeCompetition(id: number): Observable<string> {
     return this.http.delete<string>(`${this.apiUrl}/${id}`, { responseType: 'text' as 'json' }).pipe(
       catchError(error => {

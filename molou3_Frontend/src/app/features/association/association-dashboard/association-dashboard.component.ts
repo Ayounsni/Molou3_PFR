@@ -1,18 +1,16 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService} from '../../../core/services/auth.service'; // Assure-toi du bon chemin
+import { AuthService} from '../../../core/services/auth.service'; 
 import { Association } from '../../../shared/models/association.model';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms'; // Pour ngModel
-import { SidebarComponent } from '../../../shared/components/sidebar/sidebar.component';
+import { FormsModule } from '@angular/forms'; 
 import { PaginationComponent } from '../../../shared/components/pagination/pagination.component';
 import { PageDTO } from '../../../shared/models/dtos/page.model';
 import { RouterLink } from '@angular/router';
-import { FooterComponent } from "../../../shared/components/footer/footer.component";
 
 @Component({
   selector: 'app-association-dashboard',
   standalone: true,
-  imports: [CommonModule, FormsModule, PaginationComponent, RouterLink, FooterComponent],
+  imports: [CommonModule, FormsModule, PaginationComponent, RouterLink],
   templateUrl: './association-dashboard.component.html',
   styleUrls: ['./association-dashboard.component.css']
 })
@@ -21,8 +19,8 @@ export class AssociationDashboardComponent implements OnInit {
   verified = 'assets/verified.png';
   association = 'assets/assoc.jpg'
   associations: Association[] = [];
-  currentPage = 0; // Commence à 0 pour le backend
-  pageSize = 4; // Correspond à la valeur par défaut du backend
+  currentPage = 0; 
+  pageSize = 4; 
   totalPages = 0;
   totalElements = 0;
   isLastPage = false;
@@ -32,7 +30,7 @@ export class AssociationDashboardComponent implements OnInit {
   constructor(private authService: AuthService) {}
 
   ngOnInit() {
-    this.loadAssociations(); // Charge toutes les associations au démarrage
+    this.loadAssociations();
   }
 
   loadAssociations(page: number = 0) {
@@ -60,19 +58,15 @@ export class AssociationDashboardComponent implements OnInit {
     }
   }
 
-  /**
-   * Effectue la recherche des associations
-   */
+
   searchAssociations() {
     const searchCriteria = {
       nomAssociation: this.searchNomAssociation || null,
       ville: this.searchVille || null
     };
-    console.log('Critères envoyés au backend :', searchCriteria); // Ajout pour débogage
     this.authService.searchAssociations(searchCriteria).subscribe({
       next: (associations: Association[]) => {
         this.associations = associations;
-        console.log('Résultats reçus :', associations); // Ajout pour débogage
         this.totalPages = 1;
         this.currentPage = 0;
         this.totalElements = associations.length;
@@ -84,9 +78,6 @@ export class AssociationDashboardComponent implements OnInit {
     });
   }
 
-  /**
-   * Gère les changements dans les champs de recherche (temps réel)
-   */
   onSearchChange() {
     if (this.searchNomAssociation || this.searchVille) {
       this.searchAssociations();

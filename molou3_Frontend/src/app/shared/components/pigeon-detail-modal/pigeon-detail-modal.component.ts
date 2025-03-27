@@ -11,10 +11,10 @@ import { Pigeon } from '../../models/pigeon.model';
   styleUrls: ['./pigeon-detail-modal.component.css']
 })
 export class PigeonDetailModalComponent {
-  @Input() showModal: boolean = false; // Contrôle la visibilité du modal
-  @Input() pigeon: Pigeon | null = null; // Le pigeon à afficher
-  @Input() defaultImage: string = 'assets/pardefaut.webp'; // Image par défaut
-  @Output() closeModal = new EventEmitter<void>(); // Événement pour fermer le modal
+  @Input() showModal: boolean = false; 
+  @Input() pigeon: Pigeon | null = null;
+  @Input() defaultImage: string = 'assets/pardefaut.webp'; 
+  @Output() closeModal = new EventEmitter<void>(); 
 
   close(): void {
     this.closeModal.emit();

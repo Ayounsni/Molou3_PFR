@@ -6,14 +6,14 @@ import { Store } from '@ngrx/store';
 import { AppState } from '../../../../store/app.state';
 import { selectCurrentUser } from '../../../../store/auth/auth.selectors';
 import { ProgrammeEditionService } from '../../../../core/services/programme-edition.service';
-import { CompetitionService } from '../../../../core/services/competition.service'; // Service à créer
+import { CompetitionService } from '../../../../core/services/competition.service'; 
 import { NotificationService } from '../../../../core/services/notification.service';
 import { ProgrammeEdition } from '../../../../shared/models/programme-edition.model';
 import { User } from '../../../../shared/models/user.model';
 import { Competition } from '../../../../shared/models/competition.model';
 import { NotificationComponent } from '../../../../shared/components/notification/notification.component';
 import { DeleteConfirmationModalComponent } from '../../../../shared/components/delete-confirmation-modal/delete-confirmation-modal.component';
-import { CompetitionFormComponent } from '../../../../shared/components/forms/programme/competition-form/competition-form.component'; // À créer
+import { CompetitionFormComponent } from '../../../../shared/components/forms/programme/competition-form/competition-form.component';
 
 @Component({
   selector: 'app-competition',
@@ -77,7 +77,6 @@ export class CompetitionComponent implements OnInit {
           String(edition.association?.id) === String(this.currentUser!.id)
         );
         this.editions.sort((a, b) => a.annee - b.annee);
-        // Sélection automatique de la première édition si disponible
         if (this.editions.length > 0 && this.editions[0].id !== undefined) {
           this.selectedEditionId = this.editions[0].id as number;
           this.onEditionChange();

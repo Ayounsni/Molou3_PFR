@@ -25,9 +25,9 @@ export class SellModifyModalComponent {
 
   ngOnChanges(): void {
     if (this.showModal && this.marketplace) {
-      this.sellPrice = this.marketplace.prix; // Pré-remplir avec le prix actuel si modification
+      this.sellPrice = this.marketplace.prix; 
     } else {
-      this.sellPrice = null; // Réinitialiser pour une vente
+      this.sellPrice = null; 
       this.errorMessage = null;
     }
   }

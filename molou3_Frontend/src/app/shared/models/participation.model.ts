@@ -9,7 +9,7 @@ export interface Participation {
   competition?: Competition;
   pigeon?: Pigeon;
   classement?: number;
-  tempsVol?: string; // Duration traduit en string (ex: "PT2H30M")
+  tempsVol?: string; 
   statusParticipation?: StatusParticipation;
   dateParticipation: string | Date;
 }

@@ -18,8 +18,8 @@ import { NotificationComponent } from "../../../shared/components/notification/n
 export class GestionAssociationComponent implements OnInit {
   bg = 'assets/bg66.jpg';
   associations: Association[] = [];
-  currentPage: number = 1; // Commencer à 1 comme dans PigeonAllComponent
-  pageSize: number = 5;    // Taille de page initiale
+  currentPage: number = 1; 
+  pageSize: number = 5;    
   totalPages: number = 0;
   totalElements: number = 0;
   isLastPage: boolean = false;
@@ -40,9 +40,8 @@ export class GestionAssociationComponent implements OnInit {
         this.totalPages = pageData.totalPages;
         this.totalElements = pageData.totalElements;
         this.isLastPage = pageData.last;
-        this.currentPage = pageData.pageNumber + 1; // Ajuster pour commencer à 1
+        this.currentPage = pageData.pageNumber + 1; 
 
-        // Si aucune association et page > 1, revenir à la page précédente
         if (this.associations.length === 0 && this.currentPage > 1) {
           this.currentPage--;
           this.loadAssociations();
@@ -76,8 +75,8 @@ export class GestionAssociationComponent implements OnInit {
           console.error('Détails de l\'erreur:', err.error);
         }
         this.errorMessage = 'Erreur lors de la mise à jour du statut.';
-        this.notificationService.showNotification(this.errorMessage, 'error'); // Ajout notification
-        association.enabled = originalEnabled; // Restauration en cas d’erreur
+        this.notificationService.showNotification(this.errorMessage, 'error'); 
+        association.enabled = originalEnabled; 
       }
     });
   }

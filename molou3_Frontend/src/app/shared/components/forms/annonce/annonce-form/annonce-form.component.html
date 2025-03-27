@@ -5,7 +5,6 @@
   <div
     class="bg-gray-900 rounded-xl shadow-xl w-full max-w-xl relative border border-gray-700"
   >
-    <!-- En-tête -->
     <div
       class="px-6 py-5 border-b border-gray-800 flex justify-between items-center"
     >
@@ -34,13 +33,11 @@
       </button>
     </div>
 
-    <!-- Formulaire -->
     <form
       [formGroup]="annonceForm"
       (ngSubmit)="onSubmitEdition()"
       class="p-6 space-y-4"
     >
-      <!-- Message d'erreur -->
       <div
         *ngIf="errorMessage"
         class="bg-red-500/20 border text-sm border-red-500 text-red-100 p-3 rounded-md flex items-center"
@@ -55,7 +52,6 @@
         {{ errorMessage }}
       </div>
 
-      <!-- Champ Année -->
       <div>
         <div
           class="flex items-center bg-gray-800 rounded-md border border-gray-700 focus-within:border-blue-400 transition-all duration-200 p-3"
@@ -98,7 +94,6 @@
         </p>
       </div>
 
-      <!-- Champ Description -->
       <div>
         <div
           class="bg-gray-800 rounded-md border border-gray-700 focus-within:border-blue-400 transition-all duration-200 p-3"
@@ -133,7 +128,6 @@
         </p>
       </div>
 
-      <!-- Boutons -->
       <div class="flex justify-end gap-3 pt-2">
         <button
           type="button"

@@ -19,7 +19,6 @@ export class ProfileDetailComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    // Récupérer l’ID depuis les paramètres de la route
     this.route.parent?.paramMap.subscribe(params => {
       const id = params.get('id');
       if (id) {

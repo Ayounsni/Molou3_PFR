@@ -21,19 +21,17 @@ export class AuthGuard implements CanActivate {
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
     const expectedRoles = route.data['roles'] as string[];
 
-    // Vérification synchrone du token
     if (!this.authService.getToken()) {
       this.router.navigate(['/login']);
       return of(false);
     }
 
-    // Déclenche le checkLogin si nécessaire
     this.store.dispatch(AuthActions.checkLogin());
 
     return this.store.select(selectCurrentUser).pipe(
-      filter(currentUser => currentUser !== null), // Attend que l'utilisateur soit chargé
-      take(1), // Prend la première valeur émise
-      timeout(5000), // Timeout après 5 secondes
+      filter(currentUser => currentUser !== null), 
+      take(1), 
+      timeout(5000), 
       map(currentUser => {
         const userRole = currentUser!.role?.roleName;
 

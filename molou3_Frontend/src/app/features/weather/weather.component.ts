@@ -19,8 +19,8 @@ registerLocaleData(localeFr, 'fr');
   selector: 'app-weather',
   imports: [FooterComponent,CommonModule,FormsModule],
   providers: [
-    DatePipe, // Fournir DatePipe
-    { provide: LOCALE_ID, useValue: 'fr' } // Configurer la locale française
+    DatePipe, 
+    { provide: LOCALE_ID, useValue: 'fr' }
   ],
   templateUrl: './weather.component.html',
   styleUrl: './weather.component.css'

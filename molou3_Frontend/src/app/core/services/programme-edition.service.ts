@@ -14,7 +14,6 @@ export class ProgrammeEditionService {
 
   constructor(private http: HttpClient) {}
 
-  // Récupérer toutes les éditions avec pagination
   getAllProgrammeEditions(page: number = 0, size: number = 3, associationId?: number): Observable<PageDTO<ProgrammeEdition>> {
     let params = new HttpParams()
       .set('page', page.toString())
@@ -31,7 +30,6 @@ export class ProgrammeEditionService {
     );
   }
 
-  // Créer une nouvelle édition
   createProgrammeEdition(data: any): Observable<ProgrammeEdition> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     return this.http.post<ProgrammeEdition>(this.apiUrl, data, { headers }).pipe(
@@ -41,7 +39,6 @@ export class ProgrammeEditionService {
     );
   }
 
-  // Mettre à jour une édition
   updateProgrammeEdition(id: number, data: any): Observable<ProgrammeEdition> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     return this.http.put<ProgrammeEdition>(`${this.apiUrl}/${id}`, data, { headers }).pipe(
@@ -51,7 +48,6 @@ export class ProgrammeEditionService {
     );
   }
 
-  // Supprimer une édition
   deleteProgrammeEdition(id: number): Observable<string> {
     return this.http.delete<string>(`${this.apiUrl}/${id}`).pipe(
       catchError(error => {

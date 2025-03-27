@@ -37,9 +37,9 @@ export class RegisterComponent {
   fileError: string | null = null;
   uploadedFiles: { [key: string]: File | undefined } = {};
 
-    searchResults: any[] = []; // Pour stocker les suggestions de villes
-    showSuggestions = false; // Pour afficher ou masquer les suggestions
-    private searchTerms = new Subject<string>(); // Pour gérer les entrées de l'utilisateur
+    searchResults: any[] = []; 
+    showSuggestions = false; 
+    private searchTerms = new Subject<string>(); 
 
   registerForm: FormGroup;
 
@@ -74,9 +74,9 @@ export class RegisterComponent {
     this.registeredUser$ = this.store.select(selectRegisteredUser);
 
         this.searchTerms.pipe(
-          debounceTime(300), // Attendre 300ms avant d'envoyer la requête
-          distinctUntilChanged(), // Ne pas envoyer si la valeur n'a pas changé
-          switchMap(query => this.weatherService.getAutocomplete(query)) // Appeler l'API
+          debounceTime(300), 
+          distinctUntilChanged(),
+          switchMap(query => this.weatherService.getAutocomplete(query)) 
         ).subscribe({
           next: (results) => {
             this.searchResults = results;
@@ -157,11 +157,11 @@ export class RegisterComponent {
       this.registerForm.get('responsable')?.setValidators(Validators.required);
       this.registerForm.get('dateCreation')?.setValidators([Validators.required, notInFuture]);
       this.registerForm.get('preuveLegalePath')?.setValidators(Validators.required);
-      this.registerForm.get('roleId')?.setValue(2); // Exemple : rôle "association"
+      this.registerForm.get('roleId')?.setValue(2);
     } else {
       this.registerForm.get('niveauExperience')?.setValidators(Validators.required);
       this.registerForm.get('dateNaissance')?.setValidators([Validators.required, notTodayOrFuture]);
-      this.registerForm.get('roleId')?.setValue(1); // Exemple : rôle "colombophile"
+      this.registerForm.get('roleId')?.setValue(1); 
     }
     this.registerForm.get('email')?.setValidators([Validators.required, Validators.email]);
     this.registerForm.get('email')?.setAsyncValidators([uniqueEmailValidator(this.authService)]);

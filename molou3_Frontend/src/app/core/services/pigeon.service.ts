@@ -1,4 +1,3 @@
-// src/app/core/services/pigeon.service.ts
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
@@ -15,7 +14,6 @@ export class PigeonService {
 
   constructor(private http: HttpClient) {}
 
-  // Récupérer tous les pigeons avec pagination et filtrage par colombophileId
   getAllPigeons(page: number = 0, size: number = 6, colombophileId?: number): Observable<PageDTO<Pigeon>> {
     let params = new HttpParams()
       .set('page', page.toString())
@@ -39,7 +37,6 @@ export class PigeonService {
     );
   }
 
-  // Mettre à jour un pigeon (adapté au même style)
   updatePigeon(id: number, data: any, photoFile?: File): Observable<Pigeon> {
     const formData = new FormData();
     if (data) {
@@ -53,7 +50,6 @@ export class PigeonService {
     );
   }
 
-  // Supprimer un pigeon
   deletePigeon(id: number): Observable<string> {
     return this.http.delete<string>(`${this.apiUrl}/${id}`, { responseType: 'text' as 'json' }).pipe(
       catchError(error => {
@@ -62,7 +58,6 @@ export class PigeonService {
     );
   }
 
-  // Récupérer un pigeon par ID
   getPigeonById(id: number): Observable<Pigeon> {
     return this.http.get<Pigeon>(`${this.apiUrl}/${id}`).pipe(
       catchError(error => throwError(() => error.error || 'Erreur lors de la récupération du pigeon'))

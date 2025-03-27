@@ -68,7 +68,7 @@ export class PigeonFavorisComponent implements OnInit {
         this.pigeons = pageData.content.filter(p => p.estFavori === true);
         this.filteredPigeons = [...this.pigeons];
         this.totalElements = this.pigeons.length;
-        this.totalPages = Math.ceil(pageData.totalElements / this.pageSize); // Approximation
+        this.totalPages = Math.ceil(pageData.totalElements / this.pageSize); 
         this.isLastPage = this.currentPage >= this.totalPages;
 
         if (this.pigeons.length === 0 && this.currentPage > 1) {
@@ -111,7 +111,6 @@ export class PigeonFavorisComponent implements OnInit {
         const index = this.pigeons.findIndex(p => p.id === pigeon.id);
         if (index !== -1) {
           this.pigeons[index] = response;
-          // Si le pigeon n'est plus favori, on le retire de la liste
           if (!response.estFavori) {
             this.pigeons.splice(index, 1);
             this.totalElements--;

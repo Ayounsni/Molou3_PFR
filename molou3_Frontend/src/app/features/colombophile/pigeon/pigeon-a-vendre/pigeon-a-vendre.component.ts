@@ -34,12 +34,10 @@ export class PigeonAVendreComponent implements OnInit {
   selectedPigeonIdForMenu: number | null = null;
   image: string = 'assets/pardefaut.webp';
 
-  // Propriétés pour le modal de confirmation
   showDeleteConfirmation: boolean = false;
   actionType: 'retirer' | 'vendu' | null = null;
   marketplaceIdToAction: number | null = null;
 
-  // Propriétés pour le modal de modification
   showSellModal: boolean = false;
   selectedMarketplace: Marketplace | null = null;
 
@@ -53,7 +51,6 @@ export class PigeonAVendreComponent implements OnInit {
     this.loadCurrentUser();
   }
 
-  /** Charge l'utilisateur actuel depuis le store */
   loadCurrentUser(): void {
     this.store.select(selectCurrentUser).subscribe(user => {
       this.currentUser = user;
@@ -64,7 +61,6 @@ export class PigeonAVendreComponent implements OnInit {
     });
   }
 
-  /** Charge les marketplaces et filtre pour l'utilisateur actuel */
   loadMarketplaces(): void {
     this.marketplaceService.getAllMarketplaces().subscribe({
       next: (marketplaces) => {
@@ -80,7 +76,6 @@ export class PigeonAVendreComponent implements OnInit {
     });
   }
 
-  /** Gère l'affichage du menu contextuel */
   toggleMenu(event: Event): void {
     event.stopPropagation();
     this.menuVisible = !this.menuVisible;
@@ -89,21 +84,18 @@ export class PigeonAVendreComponent implements OnInit {
     this.selectedPigeonIdForMenu = pigeonId ? +pigeonId : null;
   }
 
-  /** Ouvre le modal de confirmation pour retirer */
   openRetirerConfirmation(marketplaceId: number): void {
     this.actionType = 'retirer';
     this.marketplaceIdToAction = marketplaceId;
     this.showDeleteConfirmation = true;
   }
 
-  /** Ouvre le modal de confirmation pour vendu */
   openVenduConfirmation(marketplaceId: number): void {
     this.actionType = 'vendu';
     this.marketplaceIdToAction = marketplaceId;
     this.showDeleteConfirmation = true;
   }
 
-  /** Confirme l'action après la confirmation du modal */
   confirmAction(): void {
     if (this.actionType === 'retirer' && this.marketplaceIdToAction !== null) {
       this.retirerDuMarketplace(this.marketplaceIdToAction);
@@ -113,14 +105,12 @@ export class PigeonAVendreComponent implements OnInit {
     this.closeDeleteConfirmation();
   }
 
-  /** Ferme le modal de confirmation */
   closeDeleteConfirmation(): void {
     this.showDeleteConfirmation = false;
     this.actionType = null;
     this.marketplaceIdToAction = null;
   }
 
-  /** Retire un pigeon du marketplace */
   retirerDuMarketplace(marketplaceId: number): void {
     this.marketplaceService.deleteMarketplace(marketplaceId).subscribe({
       next: () => {
@@ -133,7 +123,6 @@ export class PigeonAVendreComponent implements OnInit {
     });
   }
 
-  /** Marque un pigeon comme vendu */
   marquerCommeVendu(marketplaceId: number): void {
     this.marketplaceService.updateMarketplace(marketplaceId, { statusVente: 'VENDU' }).subscribe({
       next: (updatedMarketplace) => {
@@ -148,7 +137,6 @@ export class PigeonAVendreComponent implements OnInit {
     });
   }
 
-  /** Ouvre le modal pour modifier le prix du pigeon */
   modifierPigeon(pigeon: Pigeon): void {
     const marketplace = this.marketplaces.find(m => m.pigeon?.id === pigeon.id);
     this.menuVisible = false;
@@ -158,7 +146,6 @@ export class PigeonAVendreComponent implements OnInit {
     }
   }
 
-  /** Gère la soumission du modal de modification */
   onSubmitSellModify(price: number): void {
     if (this.selectedMarketplace) {
       this.marketplaceService.updateMarketplace(this.selectedMarketplace.id!, { prix: price }).subscribe({
@@ -177,7 +164,6 @@ export class PigeonAVendreComponent implements OnInit {
     }
   }
 
-  /** Ferme le modal de modification */
   closeSellModal(): void {
     this.showSellModal = false;
     this.selectedMarketplace = null;

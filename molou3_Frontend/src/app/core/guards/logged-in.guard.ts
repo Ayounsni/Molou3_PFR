@@ -11,21 +11,20 @@ export const LoggedInGuard: CanActivateFn = (route, state) => {
   const router = inject(Router);
   const store = inject(Store<AppState>);
 
-  // Vérifie d'abord le token dans le localStorage
   if (authService.getToken()) {
     return store.select(selectCurrentUser).pipe(
-      filter(currentUser => currentUser !== null), // Attend que l'utilisateur soit chargé
-      take(1), // Prend la première valeur émise
+      filter(currentUser => currentUser !== null), 
+      take(1), 
       map(currentUser => {
         if (currentUser) {
           return router.createUrlTree([getDashboardPath(currentUser.role?.roleName)]);
         }
-        return router.createUrlTree(['/']); // Fallback si user non chargé
+        return router.createUrlTree(['/']); 
       })
     );
   }
 
-  return true; // Permet l'accès si aucun token n'est trouvé
+  return true; 
 };
 
 function getDashboardPath(role?: string): string {

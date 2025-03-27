@@ -1,25 +1,22 @@
-<!-- Sidebar -->
 <div
   class="fixed inset-y-0 left-0 w-70 bg-gray-800 text-white transform transition-transform duration-300 ease-in-out"
 >
-  <!-- Logo et titre -->
   <div class="py-3.5 px-6 border-b border-gray-700">
     <div>
       <img [attr.src]="logo" alt="Logo" class="w-36" />
     </div>
   </div>
 
-  <!-- Menu -->
   <nav class="p-4 space-y-4">
-    <!-- Affichage conditionnel pour ROLE_ADMIN -->
-    <div *ngIf="currentUser && currentUser.role?.roleName === 'ROLE_ADMIN'" class="space-y-4">
-      <!-- Section Dashboard -->
+    <div
+      *ngIf="currentUser && currentUser.role?.roleName === 'ROLE_ADMIN'"
+      class="space-y-4"
+    >
       <div class="space-y-2">
         <div class="px-3 py-2">
           <h2 class="text-lg font-semibold text-blue-400">Dashboard</h2>
           <p class="text-xs text-gray-400">Tableau de bord administrateur</p>
         </div>
-        <!-- Bouton Consulter Dashboard -->
         <a
           routerLink="/admin/dashboard"
           class="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-700/50 transition-colors duration-200 group"
@@ -41,14 +38,12 @@
         </a>
       </div>
 
-      <!-- Section Utilisateurs -->
       <div class="space-y-2">
         <div class="px-3 py-2">
           <h2 class="text-lg font-semibold text-blue-400">Utilisateurs</h2>
           <p class="text-xs text-gray-400">Gestion des utilisateurs</p>
         </div>
 
-        <!-- Sous-menus -->
         <a
           routerLink="/admin/gestion-association"
           class="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-700/50 transition-colors duration-200 group"
@@ -110,7 +105,6 @@
         </a>
       </div>
 
-      <!-- Section Marketplace -->
       <div class="space-y-2">
         <div class="px-3 py-2">
           <h2 class="text-lg font-semibold text-blue-400">Marketplace</h2>
@@ -139,16 +133,16 @@
       </div>
     </div>
 
-    <!-- Affichage conditionnel pour ROLE_ASSOCIATION -->
-    <div *ngIf="currentUser && currentUser.role?.roleName === 'ROLE_ASSOCIATION'" class="space-y-4">
-      <!-- Section Programme Annuel -->
+    <div
+      *ngIf="currentUser && currentUser.role?.roleName === 'ROLE_ASSOCIATION'"
+      class="space-y-4"
+    >
       <div class="space-y-2">
         <div class="px-3 py-2">
           <h2 class="text-lg font-semibold text-blue-400">Programme Annuel</h2>
           <p class="text-xs text-gray-400">Gestion du programme annuel</p>
         </div>
 
-        <!-- Sous-menus -->
         <a
           routerLink="/association/edition"
           class="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-700/50 transition-colors duration-200 group"
@@ -230,7 +224,6 @@
         </a>
       </div>
 
-      <!-- Section Annonce -->
       <div class="space-y-2">
         <div class="px-3 py-2">
           <h2 class="text-lg font-semibold text-blue-400">Annonce</h2>
@@ -259,16 +252,16 @@
       </div>
     </div>
 
-    <!-- Affichage conditionnel pour ROLE_COLOMBOPHILE -->
-    <div *ngIf="currentUser && currentUser.role?.roleName === 'ROLE_COLOMBOPHILE'" class="space-y-4">
-      <!-- Section Pigeon -->
+    <div
+      *ngIf="currentUser && currentUser.role?.roleName === 'ROLE_COLOMBOPHILE'"
+      class="space-y-4"
+    >
       <div class="space-y-2">
         <div class="px-3 py-2">
           <h2 class="text-lg font-semibold text-blue-400">Pigeon</h2>
           <p class="text-xs text-gray-400">Gestion des pigeons</p>
         </div>
 
-        <!-- Sous-menus -->
         <a
           routerLink="/colombophile/pigeon"
           class="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-700/50 transition-colors duration-200 group"
@@ -330,7 +323,6 @@
         </a>
       </div>
 
-      <!-- Section Calendrier -->
       <div class="space-y-2">
         <div class="px-3 py-2">
           <h2 class="text-lg font-semibold text-blue-400">Calendrier</h2>
@@ -358,7 +350,6 @@
         </a>
       </div>
 
-      <!-- Section Participation -->
       <div class="space-y-2">
         <div class="px-3 py-2">
           <h2 class="text-lg font-semibold text-blue-400">Participation</h2>
@@ -387,25 +378,37 @@
     </div>
   </nav>
 
-  <!-- Profil en bas -->
   <div class="absolute bottom-0 left-0 w-full p-4 border-t border-gray-700">
     <div class="flex items-center gap-3">
       <img
-        [src]="currentUser?.photoUrl || (currentUser?.role?.roleName === 'ROLE_ASSOCIATION' ? association : (currentUser?.role?.roleName === 'ROLE_ADMIN' ? admin : colombophile))"
+        [src]="
+          currentUser?.photoUrl ||
+          (currentUser?.role?.roleName === 'ROLE_ASSOCIATION'
+            ? association
+            : currentUser?.role?.roleName === 'ROLE_ADMIN'
+            ? admin
+            : colombophile)
+        "
         alt="Avatar"
         class="w-10 h-10 bg-white rounded-full border-2 border-blue-400/20"
       />
       <div>
         <p class="text-sm font-medium">
-          {{ 
-            currentUser?.role?.roleName === 'ROLE_ASSOCIATION' ? (currentUser?.nomAssociation || 'Association') : 
-            (currentUser?.role?.roleName === 'ROLE_ADMIN' ? (currentUser?.nomComplet || 'ADMIN') : (currentUser?.nomComplet || 'Colombophile')) 
+          {{
+            currentUser?.role?.roleName === "ROLE_ASSOCIATION"
+              ? currentUser?.nomAssociation || "Association"
+              : currentUser?.role?.roleName === "ROLE_ADMIN"
+              ? currentUser?.nomComplet || "ADMIN"
+              : currentUser?.nomComplet || "Colombophile"
           }}
         </p>
         <p class="text-xs text-gray-400">
-          {{ 
-            currentUser?.role?.roleName === 'ROLE_ASSOCIATION' ? 'Association' : 
-            (currentUser?.role?.roleName === 'ROLE_ADMIN' ? 'Administrateur' : 'Colombophile') 
+          {{
+            currentUser?.role?.roleName === "ROLE_ASSOCIATION"
+              ? "Association"
+              : currentUser?.role?.roleName === "ROLE_ADMIN"
+              ? "Administrateur"
+              : "Colombophile"
           }}
         </p>
       </div>

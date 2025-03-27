@@ -2,20 +2,20 @@
 <app-notification></app-notification>
 <div class="ml-70 bg-[#f5f5f5] flex justify-center items-center min-h-screen">
   <div class="bg-white min-h-screen w-10/12">
-    <!-- En-tête avec image de fond -->
     <div class="relative">
       <img [src]="bg" alt="bg" class="w-full h-72 object-cover brightness-50" />
-      <div class="absolute inset-0 flex items-center justify-center bg-black/20">
-        <h1 class="text-white text-5xl font-bold drop-shadow-lg">Gestion des Pigeons</h1>
+      <div
+        class="absolute inset-0 flex items-center justify-center bg-black/20"
+      >
+        <h1 class="text-white text-5xl font-bold drop-shadow-lg">
+          Gestion des Pigeons
+        </h1>
       </div>
     </div>
 
-    <!-- Contenu principal -->
     <div class="px-8 py-5 space-y-8">
-      <!-- Boutons de filtrage par statut avec navigation -->
       <div class="border-b border-gray-700 mb-8">
         <div class="flex space-x-6">
-          <!-- Bouton All -->
           <button
             [routerLink]="['/colombophile/pigeon/all']"
             class="relative px-4 py-3 font-semibold group transition-all duration-300"
@@ -29,9 +29,11 @@
               class="text-xs ml-2 px-2 py-1 rounded-full transition-colors duration-300"
               [ngClass]="{
                 'bg-blue-400 text-gray-900': isRouteActive('all'),
-                'bg-gray-600 text-gray-300 group-hover:bg-blue-400 group-hover:text-gray-900': !isRouteActive('all')
+                'bg-gray-600 text-gray-300 group-hover:bg-blue-400 group-hover:text-gray-900':
+                  !isRouteActive('all')
               }"
-            >{{ allCount }}</span>
+              >{{ allCount }}</span
+            >
             <div
               class="absolute bottom-0 left-0 w-full h-1 bg-blue-400 rounded-t transition-all duration-300"
               [ngClass]="{
@@ -43,12 +45,12 @@
               class="absolute inset-0 rounded-t-lg transition-opacity duration-300"
               [ngClass]="{
                 'bg-blue-400/10': isRouteActive('all'),
-                'opacity-0 group-hover:opacity-100 group-hover:bg-blue-400/10': !isRouteActive('all')
+                'opacity-0 group-hover:opacity-100 group-hover:bg-blue-400/10':
+                  !isRouteActive('all')
               }"
             ></div>
           </button>
 
-          <!-- Bouton Disponible -->
           <button
             [routerLink]="['/colombophile/pigeon/disponible']"
             class="relative px-4 py-3 font-semibold group transition-all duration-300"
@@ -62,9 +64,11 @@
               class="text-xs ml-2 px-2 py-1 rounded-full transition-colors duration-300"
               [ngClass]="{
                 'bg-blue-400 text-gray-900': isRouteActive('disponible'),
-                'bg-gray-600 text-gray-300 group-hover:bg-blue-400 group-hover:text-gray-900': !isRouteActive('disponible')
+                'bg-gray-600 text-gray-300 group-hover:bg-blue-400 group-hover:text-gray-900':
+                  !isRouteActive('disponible')
               }"
-            >{{ disponibleCount }}</span>
+              >{{ disponibleCount }}</span
+            >
             <div
               class="absolute bottom-0 left-0 w-full h-1 bg-blue-400 rounded-t transition-all duration-300"
               [ngClass]="{
@@ -76,12 +80,12 @@
               class="absolute inset-0 rounded-t-lg transition-opacity duration-300"
               [ngClass]="{
                 'bg-blue-400/10': isRouteActive('disponible'),
-                'opacity-0 group-hover:opacity-100 group-hover:bg-blue-400/10': !isRouteActive('disponible')
+                'opacity-0 group-hover:opacity-100 group-hover:bg-blue-400/10':
+                  !isRouteActive('disponible')
               }"
             ></div>
           </button>
 
-          <!-- Bouton Perdu -->
           <button
             [routerLink]="['/colombophile/pigeon/perdu']"
             class="relative px-4 py-3 font-semibold group transition-all duration-300"
@@ -95,9 +99,11 @@
               class="text-xs ml-2 px-2 py-1 rounded-full transition-colors duration-300"
               [ngClass]="{
                 'bg-blue-400 text-gray-900': isRouteActive('perdu'),
-                'bg-gray-600 text-gray-300 group-hover:bg-blue-400 group-hover:text-gray-900': !isRouteActive('perdu')
+                'bg-gray-600 text-gray-300 group-hover:bg-blue-400 group-hover:text-gray-900':
+                  !isRouteActive('perdu')
               }"
-            >{{ perduCount }}</span>
+              >{{ perduCount }}</span
+            >
             <div
               class="absolute bottom-0 left-0 w-full h-1 bg-blue-400 rounded-t transition-all duration-300"
               [ngClass]="{
@@ -109,12 +115,12 @@
               class="absolute inset-0 rounded-t-lg transition-opacity duration-300"
               [ngClass]="{
                 'bg-blue-400/10': isRouteActive('perdu'),
-                'opacity-0 group-hover:opacity-100 group-hover:bg-blue-400/10': !isRouteActive('perdu')
+                'opacity-0 group-hover:opacity-100 group-hover:bg-blue-400/10':
+                  !isRouteActive('perdu')
               }"
             ></div>
           </button>
 
-          <!-- Bouton Vendu -->
           <button
             [routerLink]="['/colombophile/pigeon/vendu']"
             class="relative px-4 py-3 font-semibold group transition-all duration-300"
@@ -128,9 +134,11 @@
               class="text-xs ml-2 px-2 py-1 rounded-full transition-colors duration-300"
               [ngClass]="{
                 'bg-blue-400 text-gray-900': isRouteActive('vendu'),
-                'bg-gray-600 text-gray-300 group-hover:bg-blue-400 group-hover:text-gray-900': !isRouteActive('vendu')
+                'bg-gray-600 text-gray-300 group-hover:bg-blue-400 group-hover:text-gray-900':
+                  !isRouteActive('vendu')
               }"
-            >{{ venduCount }}</span>
+              >{{ venduCount }}</span
+            >
             <div
               class="absolute bottom-0 left-0 w-full h-1 bg-blue-400 rounded-t transition-all duration-300"
               [ngClass]="{
@@ -142,14 +150,14 @@
               class="absolute inset-0 rounded-t-lg transition-opacity duration-300"
               [ngClass]="{
                 'bg-blue-400/10': isRouteActive('vendu'),
-                'opacity-0 group-hover:opacity-100 group-hover:bg-blue-400/10': !isRouteActive('vendu')
+                'opacity-0 group-hover:opacity-100 group-hover:bg-blue-400/10':
+                  !isRouteActive('vendu')
               }"
             ></div>
           </button>
         </div>
       </div>
 
-      <!-- Zone pour les composants enfants -->
       <div class="px-2 mt-3 pb-4">
         <router-outlet></router-outlet>
       </div>

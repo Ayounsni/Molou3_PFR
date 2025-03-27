@@ -4,96 +4,176 @@
   <div class="bg-white min-h-screen w-10/12 shadow-sm">
     <div class="relative">
       <img [src]="bg" alt="bg" class="w-full h-40 object-cover brightness-50" />
-      <div class="absolute inset-0 flex items-center justify-center bg-black/10">
-        <h1 class="text-white text-5xl font-bold drop-shadow-lg font-['Poppins']">Gestion Association</h1>
+      <div
+        class="absolute inset-0 flex items-center justify-center bg-black/10"
+      >
+        <h1
+          class="text-white text-5xl font-bold drop-shadow-lg font-['Poppins']"
+        >
+          Gestion Association
+        </h1>
       </div>
     </div>
 
     <div class="px-8 py-6 space-y-8">
-      <div class="bg-white rounded-xl shadow-lg border border-gray-100 overflow-hidden">
+      <div
+        class="bg-white rounded-xl shadow-lg border border-gray-100 overflow-hidden"
+      >
         <table class="w-full">
           <thead class="bg-gray-100">
             <tr>
-              <th class="px-6 py-4 text-left text-sm font-semibold text-gray-700 uppercase">Logo</th>
-              <th class="px-6 py-4 text-left text-sm font-semibold text-gray-700 uppercase">E-mail</th>
-              <th class="px-6 py-4 text-left text-sm font-semibold text-gray-700 uppercase">Date de Création</th>
-              <th class="px-6 py-4 text-left text-sm font-semibold text-gray-700 uppercase">Ville</th>
-              <th class="px-6 py-4 text-left text-sm font-semibold text-gray-700 uppercase">Statut</th>
-              <th class="px-6 py-4 text-left text-sm font-semibold text-gray-700 uppercase">Actions</th>
+              <th
+                class="px-6 py-4 text-left text-sm font-semibold text-gray-700 uppercase"
+              >
+                Logo
+              </th>
+              <th
+                class="px-6 py-4 text-left text-sm font-semibold text-gray-700 uppercase"
+              >
+                E-mail
+              </th>
+              <th
+                class="px-6 py-4 text-left text-sm font-semibold text-gray-700 uppercase"
+              >
+                Date de Création
+              </th>
+              <th
+                class="px-6 py-4 text-left text-sm font-semibold text-gray-700 uppercase"
+              >
+                Ville
+              </th>
+              <th
+                class="px-6 py-4 text-left text-sm font-semibold text-gray-700 uppercase"
+              >
+                Statut
+              </th>
+              <th
+                class="px-6 py-4 text-left text-sm font-semibold text-gray-700 uppercase"
+              >
+                Actions
+              </th>
             </tr>
           </thead>
           <tbody class="divide-y divide-gray-100">
-            <tr *ngFor="let association of associations" class="hover:bg-gray-50 transition-colors">
+            <tr
+              *ngFor="let association of associations"
+              class="hover:bg-gray-50 transition-colors"
+            >
               <td class="px-6 py-4">
-                <img [src]="association.photoUrl || 'assets/default-association.jpg'" alt="Photo" class="w-12 h-12 rounded-full object-cover">
+                <img
+                  [src]="
+                    association.photoUrl || 'assets/default-association.jpg'
+                  "
+                  alt="Photo"
+                  class="w-12 h-12 rounded-full object-cover"
+                />
               </td>
-              <td class="px-6 py-4 text-sm text-gray-800 font-medium">{{ association.email }}</td>
-              <td class="px-6 py-4 text-base text-gray-600">{{ association.dateCreation | date:'mediumDate' }}</td>
+              <td class="px-6 py-4 text-sm text-gray-800 font-medium">
+                {{ association.email }}
+              </td>
+              <td class="px-6 py-4 text-base text-gray-600">
+                {{ association.dateCreation | date : "mediumDate" }}
+              </td>
               <td class="px-6 py-4 text-sm text-gray-600">
                 <div class="flex items-center">
-                  <svg class="w-5 h-5 mr-2 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                  <svg
+                    class="w-5 h-5 mr-2 text-gray-400"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="1.5"
+                      d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+                    />
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="1.5"
+                      d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
+                    />
                   </svg>
                   {{ association.ville }}
                 </div>
               </td>
               <td class="px-6 py-4">
-                <span 
+                <span
                   class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium"
                   [ngClass]="{
                     'bg-green-100 text-green-800': association.enabled,
                     'bg-red-100 text-red-800': !association.enabled
                   }"
                 >
-                  <span 
+                  <span
                     class="w-2 h-2 rounded-full mr-2"
                     [ngClass]="{
                       'bg-green-500': association.enabled,
                       'bg-red-500': !association.enabled
                     }"
                   ></span>
-                  {{ association.enabled ? 'Actif' : 'Suspendu' }}
+                  {{ association.enabled ? "Actif" : "Suspendu" }}
                 </span>
               </td>
               <td class="px-6 py-4">
-                <button 
+                <button
                   (click)="toggleAssociationStatus(association)"
                   class="inline-flex items-center justify-center px-2.5 py-2 w-36 border rounded-lg transition-all duration-200"
                   [ngClass]="{
-                    'border-red-200 text-red-600 hover:bg-red-50 hover:shadow-sm': association.enabled,
-                    'border-green-200 text-green-600 hover:bg-green-50 hover:shadow-sm': !association.enabled
+                    'border-red-200 text-red-600 hover:bg-red-50 hover:shadow-sm':
+                      association.enabled,
+                    'border-green-200 text-green-600 hover:bg-green-50 hover:shadow-sm':
+                      !association.enabled
                   }"
                 >
-                  <svg 
+                  <svg
                     *ngIf="association.enabled"
                     class="w-4 h-4 mr-2"
-                    fill="currentColor" 
+                    fill="currentColor"
                     viewBox="0 0 16 16"
                   >
-                    <path d="M15 8a6.97 6.97 0 0 0-1.71-4.584l-9.874 9.875A7 7 0 0 0 15 8M2.71 12.584l9.874-9.875a7 7 0 0 0-9.874 9.874ZM16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0"/>
+                    <path
+                      d="M15 8a6.97 6.97 0 0 0-1.71-4.584l-9.874 9.875A7 7 0 0 0 15 8M2.71 12.584l9.874-9.875a7 7 0 0 0-9.874 9.874ZM16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0"
+                    />
                   </svg>
-                  <svg 
+                  <svg
                     *ngIf="!association.enabled"
-                    xmlns="http://www.w3.org/2000/svg" 
+                    xmlns="http://www.w3.org/2000/svg"
                     class="w-4 h-4 mr-2"
-                    fill="currentColor" 
+                    fill="currentColor"
                     viewBox="0 0 16 16"
                   >
-                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
-                    <path d="m10.97 4.97-.02.022-3.473 4.425-2.093-2.094a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05"/>
+                    <path
+                      d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"
+                    />
+                    <path
+                      d="m10.97 4.97-.02.022-3.473 4.425-2.093-2.094a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05"
+                    />
                   </svg>
-                  {{ association.enabled ? 'Suspendre' : 'Réactiver' }}
+                  {{ association.enabled ? "Suspendre" : "Réactiver" }}
                 </button>
               </td>
             </tr>
             <tr *ngIf="associations.length === 0" class="bg-gray-50">
               <td colspan="6" class="px-6 py-12 text-center">
                 <div class="flex flex-col items-center justify-center">
-                  <svg class="w-14 h-14 text-gray-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                  <svg
+                    class="w-14 h-14 text-gray-400 mb-4"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="1.5"
+                      d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                    />
                   </svg>
-                  <h3 class="text-lg font-semibold text-gray-700">Aucune association disponible</h3>
+                  <h3 class="text-lg font-semibold text-gray-700">
+                    Aucune association disponible
+                  </h3>
                   <p class="text-sm text-gray-500 mt-1 max-w-md">
                     Il semble qu'aucune association n'ait été ajoutée.
                   </p>
@@ -103,7 +183,6 @@
           </tbody>
         </table>
       </div>
-      <!-- Ajout de la pagination ici -->
       <app-pagination
         [currentPage]="currentPage"
         [totalPages]="totalPages"

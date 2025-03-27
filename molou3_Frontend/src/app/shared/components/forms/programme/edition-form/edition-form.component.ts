@@ -15,11 +15,11 @@ import { NotificationService } from '../../../../../core/services/notification.s
   styleUrls: ['./edition-form.component.css']
 })
 export class EditionFormComponent {
-  @Input() edition: ProgrammeEdition | null = null; // Edition à modifier (si en mode édition)
-  @Input() currentUser: User | null = null; // Utilisateur connecté
-  @Input() showModal: boolean = false; // Contrôle la visibilité du modal
-  @Output() closeModal = new EventEmitter<void>(); // Événement pour fermer le modal
-  @Output() editionSaved = new EventEmitter<ProgrammeEdition>(); // Événement pour émettre l'édition sauvegardée
+  @Input() edition: ProgrammeEdition | null = null;
+  @Input() currentUser: User | null = null; 
+  @Input() showModal: boolean = false; 
+  @Output() closeModal = new EventEmitter<void>(); 
+  @Output() editionSaved = new EventEmitter<ProgrammeEdition>(); 
 
   editionForm!: FormGroup;
   isEditMode: boolean = false;

@@ -21,7 +21,7 @@ import { User } from '../../../shared/models/user.model';
 export class PigeonComponent implements OnInit, OnDestroy {
   bg = 'assets/bg100.jpg';
 
-  allCount = 0; // Nouveau compteur pour tous les pigeons
+  allCount = 0; 
   disponibleCount = 0;
   perduCount = 0;
   venduCount = 0;

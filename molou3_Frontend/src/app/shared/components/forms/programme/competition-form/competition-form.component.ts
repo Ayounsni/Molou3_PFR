@@ -28,13 +28,13 @@ export class CompetitionFormComponent implements OnChanges {
   competitionForm: FormGroup;
   pdfClassementFile: File | undefined = undefined;
   selectedEtapes: any[] = [];
-  searchResults: any[] = []; // Pour stocker les suggestions de villes
-  showSuggestions = false; // Pour afficher ou masquer les suggestions
-  private searchTerms = new Subject<string>(); // Pour gérer les entrées de l'utilisateur
+  searchResults: any[] = []; 
+  showSuggestions = false; 
+  private searchTerms = new Subject<string>(); 
 
   constructor(
     private fb: FormBuilder,
-    private weatherService: WeatherService // Injectez le service
+    private weatherService: WeatherService 
   ) {
     this.competitionForm = this.fb.group({
       ville: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(50)]],
@@ -48,8 +48,8 @@ export class CompetitionFormComponent implements OnChanges {
 
     this.searchTerms.pipe(
       debounceTime(300), 
-      distinctUntilChanged(), // Ne pas envoyer si la valeur n'a pas changé
-      switchMap(query => this.weatherService.getAutocomplete(query)) // Appeler l'API
+      distinctUntilChanged(), 
+      switchMap(query => this.weatherService.getAutocomplete(query)) 
     ).subscribe({
       next: (results) => {
         this.searchResults = results;
@@ -115,7 +115,6 @@ export class CompetitionFormComponent implements OnChanges {
     this.closeModal.emit();
   }
 
-  // Gérer l'entrée dans le champ "ville"
   onVilleInput(): void {
     const query = this.competitionForm.get('ville')?.value;
     if (query && query.length > 2) {
@@ -127,11 +126,10 @@ export class CompetitionFormComponent implements OnChanges {
   }
 
   selectCity(city: any): void {
-    this.competitionForm.patchValue({ ville: city.name }); // Mettre seulement la région
+    this.competitionForm.patchValue({ ville: city.name }); 
     this.showSuggestions = false;
   }
 
-  // Fermer les suggestions si clic en dehors
   @HostListener('document:click', ['$event'])
   onClickOutside(event: Event): void {
     if (!(event.target as HTMLElement).closest('.ville-container')) {
