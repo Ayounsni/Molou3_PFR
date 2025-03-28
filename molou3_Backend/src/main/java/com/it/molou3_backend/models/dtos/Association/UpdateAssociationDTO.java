@@ -45,5 +45,6 @@ public class UpdateAssociationDTO {
     @Enumerated(EnumType.STRING)
     private StatusInscription statusInscription;
 
+
     private String preuveLegalePath;
 }

@@ -35,7 +35,7 @@ public class ResponseColombophileDTO {
 
     private String nomComplet;
 
-    private boolean enabled;
+    private Boolean enabled;
 
     private NiveauExperience niveauExperience;
 

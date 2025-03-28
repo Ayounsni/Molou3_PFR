@@ -41,7 +41,7 @@ public class ResponseAssociationDTO {
 
     private String preuveLegalePath;
 
-    private boolean enabled;
+    private Boolean enabled;
 
     private List<EmbeddableAnnonceDTO> annonces;
 

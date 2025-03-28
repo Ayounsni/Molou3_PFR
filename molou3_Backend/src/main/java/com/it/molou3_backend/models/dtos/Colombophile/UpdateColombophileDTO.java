@@ -31,7 +31,7 @@ public class UpdateColombophileDTO {
 
     private String description;
 
-    private boolean enabled;
+    private Boolean enabled;
 
     private String nomComplet;
 
