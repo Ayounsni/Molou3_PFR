@@ -71,27 +71,35 @@ export class CalendarComponent implements OnInit {
   }
 
   loadEvents(): void {
-    this.agendaEventService.getAllAgendaEvents().subscribe({
-      next: (events) => {
-        this.calendarEvents = events.map(event => ({
-          id: event.id?.toString(),
-          title: event.typeEvent,
-          start: event.dateDebut,
-          end: event.dateFin,
-          backgroundColor: this.getEventColor(event.typeEvent),
-          borderColor: this.getEventColor(event.typeEvent),
-          extendedProps: {
-            description: event.description,
-            typeEvent: event.typeEvent,
-            colombophileId: event.colombophile?.id
-          }
-        }));
-        this.calendarOptions.events = this.calendarEvents;
-      },
-      error: (error) => {
-        console.error('Erreur lors du chargement des événements', error);
-      }
-    });
+    if (this.currentUser && this.currentUser.id) {
+      this.agendaEventService.getAllAgendaEvents().subscribe({
+        next: (events) => {
+          const userEvents = events.filter(event => 
+            String(event.colombophile?.id) === String(this.currentUser!.id)
+          );
+  
+          this.calendarEvents = userEvents.map(event => ({
+            id: event.id?.toString(),
+            title: event.typeEvent,
+            start: event.dateDebut,
+            end: event.dateFin,
+            backgroundColor: this.getEventColor(event.typeEvent),
+            borderColor: this.getEventColor(event.typeEvent),
+            extendedProps: {
+              description: event.description,
+              typeEvent: event.typeEvent,
+              colombophileId: event.colombophile?.id
+            }
+          }));
+          this.calendarOptions.events = this.calendarEvents;
+        },
+        error: (error) => {
+          console.error('Erreur lors du chargement des événements', error);
+        }
+      });
+    } else {
+      console.error('Utilisateur actuel non défini');
+    }
   }
 
   handleDateClick(arg: any): void {
